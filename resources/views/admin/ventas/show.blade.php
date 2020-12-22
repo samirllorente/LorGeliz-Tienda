@@ -11,7 +11,7 @@
 @section('content')
 
 
-<div id="index" class="row">
+<div id="factura_venta" class="row">
 
     <div class="col-12">
         <div class="card">
@@ -40,26 +40,55 @@
                         <tr>
                             <th>ID</th>
                             <th>Fecha</th>
-                            <th>Valor</th>
-                            <th>Factura</th>
                             <th>Cliente</th>
+                            <th>Factura</th>
+                            <th>Valor</th>
+                            <th>Saldo</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
-                            <th colspan="6"></th>
+                            <th colspan="9"></th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <tr>
-                            <td> {{ $venta->id }} </td>
-                            <td> {{ date('d/m/Y', strtotime($venta->fecha)) }} </td>
-                            <td> ${{ floatval($venta->valor) }}</td>
-                            <td> {{ ($venta->prefijo) }}{{ ($venta->consecutivo) }}</td>
-                            <td> {{ $venta->nombres }}</td>
-                            <td> <a class="btn btn-primary" href="" title="ver pedido"><i class="fas fa-eye"></i></a></td>
-                            <td> <a class="btn btn-success" href="" title="imprimir"><i class="fas fa-print"></i></a></td>
+                            <td>{{ $venta->id }}</td>
+                            <td>{{ date('d/m/Y', strtotime($venta->fecha)) }}</td>
+                            <td><a href="{{ route('cliente.show', $venta->cliente)}}">{{ $venta->nombres }} {{ $venta->apellidos}}</a></td>
+                            <td>{{ ($venta->prefijo) }}{{ ($venta->consecutivo) }}</td>
+                            <td>${{ floatval($venta->valor) }}</td>
+                            <td>${{ floatval($venta->saldo) }}</td>
+                            <td>
+                                @if ($venta->estado == 1)
+                                {{ "Pagada" }}
+                                @endif
+                                @if ($venta->estado == 2)
+                                {{ "Con saldo" }}
+                                @endif
+                                @if ($venta->estado == 3)
+                                {{ "Anulada" }}
+                                @endif
+                            </td>
+                            @if ($venta->estado == 2)
+                            <td>
+                                <form action="{{ route('venta.pagar', $venta->id)}}" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-primary" title="registrar pago"><i class="fas fa-money-bill-wave"></i></button>
+                                </form>
+                            </td>
+                            @endif
+                            <td><a href="" class="btn btn-success" title="imprimir factura" 
+                                    v-on:click.prevent="facturaVenta({{$venta->id}})">
+                                    <i class="fas fa-print"></i>
+                                </a>
+                            </td>
+                            <td><a href="{{ route('pedidos.show-id', $venta->pedido->id)}}" class="btn btn-info"
+                                    title="ver pedido"><i class="fas fa-shopping-cart"></i></a>
+                            </td>
 
                         </tr>
-
+                        
                     </tbody>
                 </table>
                

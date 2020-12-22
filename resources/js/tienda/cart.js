@@ -3,67 +3,39 @@
 const product = new Vue({
     el: '#carrito',
     data: {
-        precio: 0,
-        cantidad: 0,
-        totalproducto: 0,
-        arrayproducto: [],
-        clicks: 0,
-        minus: 0,
-        total: 0,
-        codigo: 0
+        carrito: 0,
+        arrayProductos: []
     }, 
 
     methods: {
-        
-        aumentar(cantidad, precio, codigo){
-            if (this.clicks_add == 0) {
-                this.codigo = codigo;
-            }
 
-            if (this.codigo != codigo) {
-                this.clicks_add = 0;
-                this.codigo = codigo;
-            }
-            
-            this.clicks_add = this.clicks_add + 1;
-            this.cantidad = cantidad + this.clicks_add;
-            this.precio = precio;
-            this.totalproducto = this.cantidad * this.precio;
-            
-            this.arrayproducto[codigo] = this.totalproducto;
-        },
-
-        disminuir(cantidad, precio, codigo){
-            this.minus = this.minus + 1;
-            this.cantidad = cantidad - this.minus;
-            this.precio = precio;
-            this.totalproducto = this.cantidad * this.precio;
-            
-            this.arrayproducto[codigo] = this.totalproducto;
-        },
-
-        comprobar(codigo){
+        remove(producto){
            
-            if (this.clicks_add == 0) {
-                if (this.minus == 0) {
-                    for (let i = 0; i < this.arrayproducto.length; i++) {
-                        this.arrayproducto[i] = 0;
-                    }
-                    this.arrayproducto[codigo] = 0;
-                }  
-            }
-            
-            return this.arrayproducto[codigo];
-            
+            let url = '/lorgeliz_tienda/public/cart/remove/'+producto;
+    
+            axios.delete(url).then(response => {
+                location.reload();
+            });
         },
+        
+        limpiarCarrito(carrito){
+            this.carrito = carrito;
+            let url = '/lorgeliz_tienda/public/cart/delete/'+carrito;
+    
+            axios.delete(url).then(response => {
 
-        totalcarrito(cantidad){
-            this.total = cantidad;
+                swal(
+                    'Haz limpiado tu carrito!',
+                    'Tu carrito de compras está vacío!',
+                    'success'
+                )
+                window.location.href = `/lorgeliz_tienda/public/`;
+            });
         }
     },
 
     mounted(){
-       
+        
     }
 
 });

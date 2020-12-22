@@ -9,8 +9,9 @@
 
 @section('content')
 
+<div class="super_container_inner">
 <div id="product_cart">
-    <div class="super_container_inner">
+    {{--<div class="super_container_inner">--}}
         <div class="super_overlay"></div>
     
         <!-- Home -->
@@ -21,10 +22,15 @@
                     <div class="home_title">Página del Producto </div>
                     <div class="breadcrumbs d-flex flex-column align-items-center justify-content-center">
                         <ul class="d-flex flex-row align-items-start justify-content-start text-center">
-                        <li><a href="{{ route('mi.cuenta')}}">Inicio</a></li>
-                            <li><a href="category.html">{{ $producto->tipo->subcategoria->categoria->nombre }}</a></li>
-                            <li><a href="subcategory.html">{{ $producto->tipo->subcategoria->nombre }}</a></li>
-                            <li>New Products</li>
+                        <li><a href="{{ route('home')}}">Inicio</a></li>
+                            <li><a href="../categorias?ref=<?= $producto->tipo->subcategoria->categoria->nombre; ?>">{{ $producto->tipo->subcategoria->categoria->nombre }}</a></li>
+                            <li><a href="../categorias?ref=<?= $producto->tipo->subcategoria->id; ?>">{{ $producto->tipo->subcategoria->nombre }}</a></li>
+                            @if ($producto->estado == 1)
+                            <li><a href="../categorias?ref=nuevos">Nuevos Productos</a></li>
+                            @endif 
+                            @if ($producto->estado == 2)
+                            <li><a href="../categorias?ref=ofertas">Ofertas</a></li>
+                            @endif 
                         </ul>
                     </div>
                 </div>
@@ -40,19 +46,18 @@
                     <!-- Product Image -->
                     <div class="col-lg-6">
                         <div class="product_image_slider_container">
-                            <span class="badge-new"><b> Nuevo</b></span>
-                            <span class="badge-offer"><b> - 50%</b></span>
+                            @if ($producto->estado==1)<span class="badge-new"><b>Nuevo</b></span>@endif 
+                            @if ($producto->porcentaje_descuento>0)<span class="badge-offer">
+                            <b> - {{$producto->porcentaje_descuento}}%</b></span>@endif 
                             <div id="slider" class="flexslider">
                                 <ul class="slides">
-
                                     @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
                                     ->where('imageable_id', $producto->cop)->pluck('url', 'id') as $id => $imagen) 
                                     <li>
                                         <img src="{{ url('storage/' . $imagen) }}" alt="" >
+                                        {{--<img src="{{ $imagen }}" alt="">--}}
                                     </li>   
-                                    
                                     @endforeach
-    
                                 </ul>
                             </div>
                             <div class="carousel_container">
@@ -64,6 +69,7 @@
                                         <li>
                                             <div>
                                                 <img src="{{ url('storage/' . $imagen) }}" alt="" >
+                                                {{--<img src="{{ $imagen }}" alt="">--}}
                                             </div>     
                                         </li>   
                                         @endforeach
@@ -81,40 +87,37 @@
                     <!-- Product Info -->
                     <div class="col-lg-6 product_col">
                     <div class="product_info info" id="{{ $producto->id}}">
-                            <div class="product_name">{{ $producto->nombre }}</div>
-                            <div class="product_category">In <a href="category.html">Category</a></div>
+                            <div class="product_name">{{ $producto->nombre }} - {{ $producto->colores }}</div>
+                            <div class="product_category">En <a href="../categorias?ref=<?= $producto->tipo->id; ?>">{{$producto->tipo->nombre}}</a></div>
     
-                    <div class="product_price">${{ floatval($producto->precio_actual)}}<del class="price-old"> $1980.00</del></div>
-    
-                            <div class="product_text">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec consequat lorem.
-                                    Maecenas elementum at diam consequat bibendum. Mauris iaculis fringilla ex, sit amet
-                                    semper libero facilisis sit amet. Nunc ut aliquet metus. Praesent pulvinar justo sed
-                                    velit tempus bibendum. Quisque dictum lorem id mi viverra, in auctor justo laoreet. Nam
-                                    at massa malesuada, ullamcorper metus vel, consequat risus. Phasellus ultricies velit
-                                    vel accumsan porta.</p>
-                            </div>
+                            <div class="product_price">${{ floatval($producto->precio_actual)}}<del class="price-old"> ${{ floatval($producto->precio_anterior)}}</del></div>
     
                             <div class="product_text">
-                            <span style="color: black; font-weight: bold;" value="{{ $producto->cop}}" class="producto">Cantidad</span>
-                                <input class="form-number form-control" type="number" id="cantidad" name="cantidad"
-                                    value="1" step="1" min="0" placeholder="" v-model="cantidad">
+                                <p>{!! $producto->descripcion_corta !!}</p>
                             </div>
-                           
+    
                             <div class="product_text">
                                 <span style="color: black; font-weight: bold;">Talla</span>
-                                <select name="talla" id="talla" class="form-control" v-model="talla">
+                                <select name="talla" id="talla" class="form-control" v-model="talla" @change="setStock()"   @click="change()">
                                     <option value="0" selected>Seleccione una talla</option>
-                                    <option v-for="talla in arrayTallas" :key="talla.id" :value="talla.id" v-text="talla.nombre"></option>
+                                    <option v-for="talla in arrayTallas" :key="talla.id" :value="talla.id" v-text="select ? talla.nombre : talla.nombre  + ' unidades disponibles: ' + talla.stock"></option>
                                 </select>
                             </div>
 
+                            <div class="product_text">
+                                <span style="color: black; font-weight: bold;" value="{{ $producto->cop}}" class="producto">Cantidad</span>
+                                <input class="form-number form-control" type="number" id="cantidad" name="cantidad"
+                                    value="1" step="1" min="0" v-model="cantidad">
+                                    <span style="color: rgb(243, 61, 61); font-weight: bold;" v-text="stock >= cantidad ? '' : 'Puedes agregar máximo ' + stock + ' unidades a tu carrito!'" 
+                                    ></span>
+                            </div>
+                           
                             <div class="product_buttons">
                                 <div class="text-right d-flex flex-row align-items-start justify-content-start">
                                     <div
-                                        class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
+                                        class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center" id="cart" v-on:click.prevent="getCarrito()">
                                         <div>
-                                            <div id="cart" v-on:click.prevent="getCarrito()"><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
+                                            <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
                                                 <div>+</div>
                                             </div>
                                         </div>
@@ -155,16 +158,7 @@
                             <p>varios colores</p>
     
                             <p>En stock.<br>
-                                • Este reloj cronógrafo deportivo es bueno para cualquier regalo: el reloj tiene una función
-                                de calendario: fecha, agujas luminiscentes del cronómetro<br>
-                                • Material de la pulsera de acero inoxidable: longitud: 19 cm, ancho: 22 mm<br>
-                                • Diámetro de la carcasa: 42,5 mm, altura de la carcasa: 11 mm; Impermeable 30 M - Peso: 108
-                                gramos<br>
-                                • Embalaje entregado en una elegante caja de regalo<br>
-                                • Producto &nbsp;desde: 4 de enero de 2018<br>
-                                • Valoración media de los clientes: Sé el primero en opinar sobre este producto<br>
-                                • Clasificación en los más vendidos : nº43.429 en Relojes (Ver el Top 100 en Relojes)<br>
-                                n.° 22647 en Relojes &gt; Hombre &gt; Relojes de pulsera
+                                <p>{!!$producto->descripcion_larga!!}</p>
                             </p>
                         </div>
     
@@ -172,21 +166,7 @@
                     <div class="tab-pane fade" id="especificaciones">
                         <h3>Especificaciones</h3>
                         <ol>
-                            <li>Color: JHH</li>
-                            <li>Información Del Reloj</li>
-                            <li>Marca&nbsp;&nbsp; &nbsp;JEDIR</li>
-                            <li>Referencia del fabricante&nbsp;&nbsp; &nbsp;2011G</li>
-                            <li>Forma del producto&nbsp;&nbsp; &nbsp;Redondo</li>
-                            <li>Visualización﻿&nbsp;&nbsp; &nbsp;Cronógrafo</li>
-                            <li>Grosor de la caja﻿&nbsp;&nbsp; &nbsp;11 milímetros</li>
-                            <li>Anchura de la correa&nbsp;&nbsp; &nbsp;22 milímetros</li>
-                            <li>Peso&nbsp;&nbsp; &nbsp;95 gramos</li>
-                            <li>Movimiento&nbsp;&nbsp; &nbsp;cuarzo</li>
-                            <li>Detalles del producto</li>
-                            <li>Color: JHH</li>
-                            <li>Peso del producto: 95,3 g</li>
-                            <li>Referencia del fabricante: 2011G</li>
-                            <li>ASIN: B07868NYGM</li>
+                            {!!$producto->especificaciones!!}
                         </ol>
                     </div>
                     <div class="tab-pane fade" id="datosinteres">
@@ -196,9 +176,7 @@
     
             </div>
     
-    
         </div>
-    
     
         <!-- Boxes -->
     
@@ -211,8 +189,8 @@
                                 <div class="box_image"><img src="{{ asset('asset/images/boxes_1.png') }}" alt=""></div>
                             </div>
                             <div class="box_content">
-                                <div class="box_title">Size Guide</div>
-                                <div class="box_text">Phasellus sit amet nunc eros sed nec tellus.</div>
+                                <div class="box_title">Guía de Tamaños</div>
+                                <div class="box_text">Conoce las tallas de nuestros productos.</div>
                             </div>
                         </div>
                     </div>
@@ -222,8 +200,8 @@
                                 <div class="box_image"><img src="{{ asset('asset/images/boxes_2.png') }}" alt=""></div>
                             </div>
                             <div class="box_content">
-                                <div class="box_title">Shipping</div>
-                                <div class="box_text">Phasellus sit amet nunc eros sed nec tellus.</div>
+                                <div class="box_title">Envío</div>
+                                <div class="box_text">Envío gratis por pedidos desde $.</div>
                             </div>
                         </div>
                     </div>

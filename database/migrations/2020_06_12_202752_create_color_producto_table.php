@@ -19,9 +19,10 @@ class CreateColorProductoTable extends Migration
             $table->foreign('color_id')->references('id')->on('color');
             $table->unsignedInteger('producto_id');
             $table->foreign('producto_id')->references('id')->on('producto');
-            $table->integer('visitas');
+            $table->integer('visitas')->default(0);
             $table->string('slug');
-            $table->string('slider_principal');
+            $table->enum('activo', ['Si','No']);
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }

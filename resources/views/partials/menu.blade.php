@@ -4,24 +4,23 @@
 	<!-- Search -->
 	<div class="menu_search">
 		<form action="#" id="menu_search_form" class="menu_search_form">
-			<input type="text" class="search_input" placeholder="Search Item" required="required">
+			<input type="text" class="search_input" placeholder="Buscar" required="required">
 			<button class="menu_search_button"><img src="{{asset('asset/images/search.png')}}" alt=""></button>
 		</form>
 	</div>
 	<!-- Navigation -->
-	<div class="menu_nav">
+	<div class="menu_nav" id="menu">
 		<ul>
-			<li><a href="#">Mujeres</a></li>
-			<li><a href="#">Hombres</a></li>
-			<li><a href="#">Niños</a></li>
-			
+			<li><a href="" v-on:click.prevent="redirect('Mujeres')">Mujeres</a></li>
+			<li><a href="" v-on:click.prevent="redirect('Hombres')">Hombres</a></li>
+			<li><a href="" v-on:click.prevent="redirect('Niños')">Niños</a></li>	
 		</ul>
 	</div>
 	<!-- Contact Info -->
 	<div class="menu_contact">
 		<div class="menu_phone d-flex flex-row align-items-center justify-content-start">
 			<div><div><img src="{{asset('asset/images/phone.svg')}} " alt="https://www.flaticon.com/authors/freepik"></div></div>
-			<div>+1 912-252-7350</div>
+			<div>+57 313-864-5929</div>
 		</div>
 		<div class="menu_social">
 			<ul class="menu_social_list d-flex flex-row align-items-start justify-content-start">

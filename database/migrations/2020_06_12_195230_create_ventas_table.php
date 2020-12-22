@@ -19,6 +19,8 @@ class CreateVentasTable extends Migration
             $table->unsignedInteger('factura_id');
             $table->foreign('factura_id')->references('id')->on('facturas');
             $table->decimal('valor');
+            $table->decimal('saldo');
+            $table->enum('estado', ['1','2','3']);
             $table->unsignedInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->timestamps();

@@ -16,47 +16,9 @@
 <link rel="stylesheet" href="{{ asset('adminlte/plugins/ekko-lightbox/ekko-lightbox.css') }}">
 @endsection
 
-@section('scripts')
-
-<!-- Select2 -->
-<script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
-
-<script src="{{ asset('adminlte/ckeditor/ckeditor.js') }}"></script>
-
-<!-- Ekko Lightbox -->
-<script src="{{ asset('adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
-
-<script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('#category_id').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        });
-
-        //uso de lightbox
-        $(document).on('click', '[data-toggle="lightbox"]', function (event) {
-            event.preventDefault();
-            $(this).ekkoLightbox({
-                alwaysShowClose: true
-            });
-        });
-
-
-
-    });
-</script>
-
-@endsection
-
-
 @section('content')
 
-
-<div id="product">
-
+<div id="productos">
 
 <form action="" method="POST" enctype="multipart/form-data">
         @csrf
@@ -83,7 +45,6 @@
                                     <label>Visitas</label>
                                     <input class="form-control" type="number" id="visitas" name="visitas" readonly
                                         value="">
-
 
                                 </div>
                                 <!-- /.form-group -->
@@ -223,7 +184,7 @@
 
                             </div>
 
-                            <div class="col-md-6">
+                            {{--<div class="col-md-6">
                                 <div class="form-group">
                                     <label>Color</label>
                                     <select name="color" id="color" class="form-control" disabled>
@@ -240,7 +201,7 @@
                                     {{ $errors->first('color') }}
                                 </small>
                                 @endif
-                            </div>
+                            </div>--}}
 
                         </div>
                         <!-- /.row -->
@@ -324,9 +285,9 @@
                                     </div>
 
                                     <br>
-                                    <div class="progress">
-                                        <div id="barraprogreso" class="progress-bar" role="progressbar" v-bind:style=""
-                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div id="barraprogreso" class="progress-bar" role="progressbar"                           
+                                    v-bind:style="{width: porcentajededescuento+'%'}"
+                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">@{{ porcentajededescuento }}%
                                     </div>
                                 </div>
                                 <!-- /.form-group -->
@@ -411,7 +372,7 @@
                                     <label>Datos de interes:</label>
 
                                     <textarea class="form-control ckeditor" name="datos_de_interes"
-                                        id="datos_de_interes" rows="5">
+                                        id="datos_de_interes" rows="5" readonly>
                                     </textarea>
 
                                 </div>
@@ -478,20 +439,18 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-
-                            @foreach (\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                            ->where('imageable_id', $producto->cop)->pluck('url', 'id') as $id => $imagen)
-                            <div id="idimagen-{{$id}}" class="col-sm-2">
-                                <a href="{{ url('storage/' . $imagen)}}" data-toggle="lightbox" data-title="Id:{{ $id }}"
-                                    data-gallery="gallery">
-                                    <img style="width:150px; height:150px;" src="{{ url('storage/' . $imagen) }}"
-                                    class="img-fluid mb-2" />
-                                </a>
-                                <br>
-                                <a href="{{ $imagen }}" v-on:click.prevent="eliminarimagen({{$id}})">
-                                    <i class="fas fa-trash-alt" style="color:red"></i> Id:{{ $id }}
-                                </a>
-                            </div>
+                            @foreach ($producto->colorproductos as $product)
+                                @foreach (\App\Imagene::where('imageable_type', 'App\ColorProducto')
+                                ->where('imageable_id', $product->id)->pluck('url', 'id')->take(1) as $id => $imagen)
+                                <div id="idimagen-{{$id}}" class="col-sm-2">
+                                    <a href="{{ url('storage/' . $imagen)}}" data-toggle="lightbox" data-title="Id:{{ $id }}"
+                                        data-gallery="gallery">
+                                        <img style="width:150px; height:150px;" src="{{ url('storage/' . $imagen) }}"
+                                        class="img-fluid mb-2" />
+                                    </a>
+                                    <br>
+                                </div>
+                                @endforeach
                             @endforeach
 
                         </div>
@@ -510,18 +469,19 @@
                                 <div class="form-group">
 
                                     <label>Estado</label>
-                                    <select name="estado" id="estado" class="form-control " style="width: 100%;">
-                                        @foreach (\App\Producto::groupBy('estado')->pluck('estado') as $estado)
-                                        <option value="{{ $estado }}">
+                                    <select name="estado" id="estado" class="form-control " style="width: 100%;" disabled>
+                                        @foreach($estados as $estado)
+                                        <option @if ($producto->estado == $estado)
+                                            selected
+                                            @endif value="{{$estado}}">
                                             @if ($estado == 1)
-                                            {{"Nuevo"}}
+                                            {{ "nuevo" }} 
                                             @else
                                             {{"En oferta"}}
                                             @endif
                                         </option>
                                         @endforeach
                                     </select>
-
                                 </div>
                                 <!-- /.form-group -->
 
@@ -562,7 +522,7 @@
                                 <div class="form-group">
 
                                     <a class="btn btn-danger" href="{{route('product.index')}}">Cancelar</a>
-                                    <a class="btn btn-primary float-right" href="{{route('product.edit', $producto->slug)}}">Editar</a>
+                                    <a class="btn btn-primary float-right" href="{{ route('product.edit', $producto->id)}}">Editar</a>
 
                                 </div>
                                 <!-- /.form-group -->
@@ -589,5 +549,42 @@
 
     </form>
 </div>
+
+@endsection
+
+@section('scripts')
+
+<!-- Select2 -->
+<script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+
+<script src="{{ asset('adminlte/ckeditor/ckeditor.js') }}"></script>
+
+<!-- Ekko Lightbox -->
+<script src="{{ asset('adminlte/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
+
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('#category_id').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        });
+
+        //uso de lightbox
+        $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
+        });
+
+    });
+
+    window.data = {
+        editar: 'No',
+    }
+</script>
 
 @endsection

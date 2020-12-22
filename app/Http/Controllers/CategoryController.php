@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Categoria;
-
-
-use Illuminate\Http\Request;
 use App\Http\Requests\CategoriaRequest;
+use Illuminate\Http\Request;
+
 
 class CategoryController extends Controller
 {
@@ -122,7 +122,7 @@ class CategoryController extends Controller
 
         catch (\Exception $exception){
 
-            session()->flash('message', ['warning', ("Ha ocurrido un error al eliminar la categoría")]);
+            session()->flash('message', ['warning', ("No puedes eliminar la categoría porque está en uso")]);
 
             return redirect()->route('category.index');
         }

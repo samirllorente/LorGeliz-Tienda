@@ -10,8 +10,7 @@
 
 @section('content')
 
-
-<div id="index" class="row">
+<div id="listventas" class="row">
 
     <div class="col-12">
         <div class="card">
@@ -21,9 +20,26 @@
                 <div class="card-tools">
 
                     <form>
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="nombre" class="form-control float-right" placeholder="Buscar"
-                            value="{{ request()->get('nombre') }}">
+                        
+                        <div class="input-group input-group-sm" style="width: 270px;">
+                            <div class="input-group-append">
+                                <a href="" class="btn btn-success mx-2" v-on:click.prevent="pdfListadoVentas()">
+                                    <i class="fas fa-print"></i>
+                                </a>
+                            </div>
+
+                            <select name="estado" id="estado" class="form-control float-right" style="width: 45px;">
+                                <option value="">estado</option>
+                                <option value="1">pagadas</option>
+                                <option value="2">con saldo</option>
+                            </select>
+
+                            <div class="input-group-append pr-1">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+
+                            <input type="text" name="busqueda" class="form-control float-right" placeholder="Buscar"
+                            value="{{ request()->get('busqueda') }}">
 
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -40,9 +56,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Fecha</th>
-                            <th>Valor</th>
                             <th>Cliente</th>
-                            <th colspan="5"></th>
+                            <th>Valor</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                            <th colspan="8"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,10 +70,33 @@
                         <tr>
                             <td> {{ $venta->id }} </td>
                             <td> {{ date('d/m/Y', strtotime($venta->fecha)) }} </td>
-                            <td> ${{ floatval($venta->valor) }}</td>
                             <td> <a href="{{ route('cliente.show', $venta->cliente)}}">{{ $venta->nombres }}</a></td>
-                            <td> <a class="btn btn-primary" href="{{ route('venta.show', $venta->id)}}"><i class="fas fa-eye"></i></a></td>
-
+                            <td> ${{ floatval($venta->valor) }}</td>
+                            <td>
+                                @if ($venta->estado == 1)
+                                <span class="badge badge-success">
+                                {{ "Pagada" }}
+                                </span>
+                                @endif
+                                @if ($venta->estado == 2)
+                                <span class="badge badge-warning">
+                                {{ "Con saldo" }} 
+                                </span>
+                                @endif
+                                @if ($venta->estado == 3)
+                                <span class="badge badge-danger">
+                                {{ "Anulada" }}
+                                </span>
+                                @endif
+                            </td>
+                            <td> <a class="btn btn-primary" href="{{ route('venta.show', $venta->id)}}" title="ver venta"><i class="fas fa-eye"></i></a></td>
+                            <td><a href="{{ route('pedidos.show-id', $venta->pedido->id)}}" class="btn btn-success" title="ver pedido"><i class="fas fa-shopping-cart"></i></a></td>
+                            <td><form action="{{ route('venta.anular', $venta->id)}}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-danger" title="anular venta"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
 

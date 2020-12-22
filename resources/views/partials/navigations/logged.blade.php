@@ -1,6 +1,5 @@
 
-
-    <li class="nav-item dropdown">
+    <li class="nav-item dropdown d-flex flex-row align-items-center justify-content-start">
 
         <a id="navbarDropdown"
         class="nav-link dropdown-toggle"
@@ -10,17 +9,15 @@
         aria-expanded="false"
         >
         
-        <img src="{{  auth()->user() ? url('storage/' . auth()->user()->imagene->url) : asset('asset/images/user.svg') }}" alt="https://www.flaticon.com/authors/freepik" class="rounded-circle" style="width: 34px">
-        
+        <img src="{{  auth()->user() ? url('storage/' . auth()->user()->imagene->url) : asset('asset/images/user.svg') }}" alt="user image" class="rounded-circle" style="width: 34px">
         
         <span class="caret"></span>
-        
         
       </a>
       
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
     
-      <a class="dropdown-item" href="{{ route('mi.cuenta') }}">
+      <a class="dropdown-item" href="{{ route('users.cuenta') }}">
         {{ __("Mi cuenta") }}
       </a>
     

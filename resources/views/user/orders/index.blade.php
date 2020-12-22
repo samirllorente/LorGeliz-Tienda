@@ -6,7 +6,7 @@
 @endsection
 
 @section('breadcumb')
-<li class="breadcrumb-item">Mis pedidos</li>
+<li class="breadcrumb-item"><a href="{{ route('pedidos.index')}}">Mis pedidos</a></li>
 @endsection
 
 
@@ -15,6 +15,7 @@
 <div id="venta_cliente">
     <div class="content">
         <div class="container">
+            @if (count($pedidos) > 0)
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -25,7 +26,7 @@
                                 <form>
                                     <div class="input-group input-group-sm" style="width: 150px;">
                                         <input type="text" name="keyword" class="form-control float-right"
-                                            placeholder="buscar" value="{{ request()->get('keyword') }}">
+                                            placeholder="buscar por id" value="{{ request()->get('keyword') }}">
 
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-success"><i
@@ -50,34 +51,34 @@
                                 </thead>
                                 <tbody>
 
-                                    @foreach ($ventas as $venta)
+                                    @foreach ($pedidos as $pedido)
 
                                     <tr>
-                                        <td>{{ $venta->id }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($venta->fecha)) }}</td>
-                                        <td>{{ $venta->prefijo }}{{ $venta->consecutivo }}</td>
+                                        <td>{{ $pedido->id }}</td>
+                                        <td>{{ date('d/m/Y', strtotime($pedido->fecha)) }}</td>
+                                        <td>{{ $pedido->prefijo }}{{ $pedido->consecutivo }}</td>
                                         <td><span class="badge badge-success">
-                                            @if ($venta->estado == 1 )
+                                            @if ($pedido->estado == 1 )
                                             {{ "pendiente" }}
                                             @endif
-                                            @if ($venta->estado == 2)
+                                            @if ($pedido->estado == 2)
                                             {{ "en proceso"}}
                                             @endif
-                                            @if ($venta->estado == 3)
+                                            @if ($pedido->estado == 3)
                                             {{ "enviado"}}
                                             @endif
-                                            @if ($venta->estado == 4)
+                                            @if ($pedido->estado == 4)
                                             {{ "entregado"}}
                                             @endif
                                             </span>
                                         </td>
-                                        <td>${{ floatval($venta->valor) }}</td>
-                                        <td><a href="{{ route('show.pedido', $venta->id)}}"
+                                        <td>${{ floatval($pedido->valor) }}</td>
+                                        <td><a href="{{ route('pedidos.show', $pedido->id)}}"
                                         class="btn btn-primary" title="ver pedido">
                                         <i class="fas fa-eye"></i></a>
                                         </td>
                                         <td><a href=""
-                                            class="btn btn-success" title="descargar factura" v-on:click.prevent="pdfVenta({{$venta->id}})">
+                                            class="btn btn-success" title="descargar factura" v-on:click.prevent="pdfVenta({{$pedido->id}})">
                                             <i class="fas fa-download"></i></a>
                                         </td>
 
@@ -87,7 +88,7 @@
                                     
                                 </tbody>
                             </table>
-                            {{ $ventas->appends($_GET)->links() }}
+                            {{ $pedidos->appends($_GET)->links() }}
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -96,6 +97,11 @@
             </div>
             <!-- /.row -->
         </div>
+        @else
+        <div class="alert alert-info pt-5 col-md-7 text-center m-auto">
+            <h4 class="alert-heading">{{ __("No se encontraron resultados") }}</h4>
+        </div>
+        @endif
 
     </div>
 </div>

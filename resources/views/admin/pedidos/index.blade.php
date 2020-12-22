@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<div id="print_venta">
+<div id="imprimir_pedidos">
     <div class="content">
         <div class="container">
             <div class="row">
@@ -20,13 +20,15 @@
     
                             <div class="card-tools">
                                 <form>
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="keyword" class="form-control float-right"
-                                            placeholder="buscar" value="{{ request()->get('keyword') }}">
-    
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" name="busqueda" class="form-control float-right" placeholder="Buscar"
+                                        value="{{ request()->get('busqueda') }}">
+
                                         <div class="input-group-append">
-                                            <button type="submit" class="btn btn-success"><i
-                                                    class="fas fa-search"></i></button>
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <a href="" class="btn btn-success mx-1" v-on:click.prevent="pdfInformePedidos()"><i class="fas fa-print"></i></a>
                                         </div>
                                     </div>
                                 </form>
@@ -42,34 +44,39 @@
                                         <th scope="col">Cliente</th>
                                         <th scope="col">Estado</th>
                                         <th scope="col">Valor</th>
+                                        <th scope="col">Venta</th>
                                         <th scope="col" colspan="3">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
     
-                                    @foreach ($ventas as $venta)
+                                    @foreach ($pedidos as $pedido)
     
                                     <tr>
-                                        <td>{{ $venta->id }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($venta->fecha)) }}</td>
-                                        <td>{{ $venta->nombres }}</td>
+                                        <td>{{ $pedido->id }}</td>
+                                        <td>{{ date('d/m/Y H:i', strtotime($pedido->fecha)) }}</td>
+                                        <td><a href="{{ route('cliente.show', $pedido->cliente)}}"
+                                            title="ver cliente">{{ $pedido->nombres }} {{ $pedido->apellidos }}</a>
+                                        </td>
                                         <td><span class="badge badge-success">
-                                            @if ($venta->estado == 1 )
+                                            @if ($pedido->estado == 1 )
                                             {{ "pendiente" }}
                                             @endif
-                                            @if ($venta->estado == 2)
+                                            @if ($pedido->estado == 2)
                                             {{ "en proceso"}}
                                             @endif
-                                            @if ($venta->estado == 3)
+                                            @if ($pedido->estado == 3)
                                             {{ "enviado"}}
                                             @endif
-                                            @if ($venta->estado == 4)
+                                            @if ($pedido->estado == 4)
                                             {{ "entregado"}}
                                             @endif
                                             </span>
                                         </td>
-                                        <td>${{ floatval($venta->valor) }}</td>
-                                        <td><a href="{{ route('mostrar.pedido', $venta->id)}}"
+                                        <td>${{ floatval($pedido->valor) }}</td>
+                                        <td><a href="{{ route('venta.show', $pedido->venta)}}"
+                                           title="ver venta">{{ $pedido->venta}}</a></td>
+                                        <td><a href="{{ route('pedidos.show-id', $pedido->id)}}"
                                         class="btn btn-primary" title="ver pedido">
                                          <i class="fas fa-eye"></i></a>
                                         </td>
@@ -77,18 +84,18 @@
                                             class="btn btn-warning" title="cambiar estado"
                                             data-toggle="modal"
                                             data-target="#modalEstado"
-                                            data-id="{{$venta['id']}}">
+                                            data-id="{{$pedido['id']}}">
                                             <i class="fas fa-pen"></i></a>
                                         </td>
-                                        <td><a class="btn btn-success" href="" v-on:click.prevent="pdfVenta({{$venta->id}})"> <i class="fa fa-print"></i></a></td>
+                                        <td><a class="btn btn-success" href="" v-on:click.prevent="imprimir({{ $pedido->id}})" title="imprimir"><i class="fa fa-print"></i></a>
+                                        </td>
                                     </tr>
                                     
                                     @endforeach
                                     
-                                    
                                 </tbody>
                             </table>
-                            {{ $ventas->appends($_GET)->links() }}
+                            {{ $pedidos->appends($_GET)->links() }}
                         </div>
                         <!-- /.card-body -->
                     </div>

@@ -20,17 +20,16 @@ class ColorProducto extends Model
         
         static::creating(function(ColorProducto $colorproducto) {
 
-
             $nombre = request()->nombre;
             $id = request()->color;
 
-            $color = Color::pluck('nombre')->where('id', $id)->first();
-
+            $color = Color::where('id', $id)->first();
+            
             $slug = \Str::slug($nombre);
             
             //$count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
             
-            $colorproducto->slug = "{$slug}-{$color}";
+            $colorproducto->slug = "{$slug}-{$color['nombre']}";
           
         });
 

@@ -56,6 +56,7 @@
                             <button type="submit" class="btn btn-success">
                                 {{ __('Ingresar') }}
                             </button>
+                            <a href="{{ route('register') }}" class="text-primary">Registrarme</a>
                         </div>
                     </div>
                     <div class="text-center text-secondary">

@@ -1829,6 +1829,40 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Category.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      categorias: '',
+      array: []
+    };
+  },
+  methods: {
+    getproductos: function getproductos() {}
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -1857,74 +1891,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductsCategory.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductsCategory.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      categoria: '',
-      arrayProductos: []
-    };
-  },
-  methods: {
-    getproductos: function getproductos() {
-      var _this = this;
-
-      var url = '/lorgeliz_tienda/public/categorias/productos';
-      axios.get(url).then(function (response) {
-        // var respuesta= response.data;
-        //me.arrayVenta = respuesta.ventas.data;
-        _this.arrayProductos = response.data;
-        console.log(_this.arrayProductos);
-      });
-    }
-  },
-  mounted: function mounted() {
-    this.getproductos();
   }
 });
 
@@ -2420,6 +2386,36 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=template&id=33972369&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Category.vue?vue&type=template&id=33972369& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.arrayProductos, function(producto) {
+      return _c("div", { key: producto.cop })
+    }),
+    0
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -2461,30 +2457,6 @@ var staticRenderFns = [
     ])
   }
 ]
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductsCategory.vue?vue&type=template&id=6370cfed&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ProductsCategory.vue?vue&type=template&id=6370cfed& ***!
-  \*******************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div")
-}
-var staticRenderFns = []
 render._withStripped = true
 
 
@@ -14615,6 +14587,49 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "./resources/js/admin/factura_venta.js":
+/*!*********************************************!*\
+  !*** ./resources/js/admin/factura_venta.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var product = new Vue({
+  el: '#factura_venta',
+  data: {
+    venta: 0
+  },
+  methods: {
+    facturaVenta: function facturaVenta(id) {
+      window.open('/lorgeliz_tienda/public/admin/ventas/factura/' + id + ',' + '_blank');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/imprimir_pedidos.js":
+/*!************************************************!*\
+  !*** ./resources/js/admin/imprimir_pedidos.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var product = new Vue({
+  el: '#imprimir_pedidos',
+  data: {},
+  methods: {
+    pdfInformePedidos: function pdfInformePedidos() {
+      window.open('/lorgeliz_tienda/public/admin/pedidos/listado/pdf');
+    },
+    imprimir: function imprimir(id) {
+      window.open('/lorgeliz_tienda/public/admin/pedidos/pedido/pdf/' + id + ',' + '_blank');
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/admin/informe-clientes.js":
 /*!************************************************!*\
   !*** ./resources/js/admin/informe-clientes.js ***!
@@ -14672,6 +14687,162 @@ var product = new Vue({
 
 /***/ }),
 
+/***/ "./resources/js/admin/inventarios.js":
+/*!*******************************************!*\
+  !*** ./resources/js/admin/inventarios.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var inventarios = new Vue({
+  el: '#inventarios',
+  data: {},
+  methods: {
+    pdfInventarios: function pdfInventarios() {
+      window.open('/lorgeliz_tienda/public/admin/stock/listado');
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/listadoclientes.js":
+/*!***********************************************!*\
+  !*** ./resources/js/admin/listadoclientes.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var listsales = new Vue({
+  el: '#listclientes',
+  data: {},
+  methods: {
+    pdfListadoClientes: function pdfListadoClientes() {
+      window.open('/lorgeliz_tienda/public/admin/clientes/listado');
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/listadodevoluciones.js":
+/*!***************************************************!*\
+  !*** ./resources/js/admin/listadodevoluciones.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var listsales = new Vue({
+  el: '#listdevolucion',
+  data: {},
+  methods: {
+    pdfListadoVentas: function pdfListadoVentas() {
+      window.open('/lorgeliz_tienda/public/admin/devoluciones/listado');
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/listadopagos.js":
+/*!********************************************!*\
+  !*** ./resources/js/admin/listadopagos.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var payments = new Vue({
+  el: '#payments',
+  data: {},
+  methods: {
+    pdfListPagos: function pdfListPagos() {
+      window.open('/lorgeliz_tienda/public/admin/payments/list');
+    },
+    imprimirPago: function imprimirPago(id) {
+      window.open('/lorgeliz_tienda/public/admin/payments/payment/' + id + ',' + '_blank');
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/listadoventas.js":
+/*!*********************************************!*\
+  !*** ./resources/js/admin/listadoventas.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var listsales = new Vue({
+  el: '#listventas',
+  data: {},
+  methods: {
+    pdfListadoVentas: function pdfListadoVentas() {
+      window.open('/lorgeliz_tienda/public/admin/ventas/listado');
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./resources/js/admin/notifications.js":
+/*!*********************************************!*\
+  !*** ./resources/js/admin/notifications.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var app = new Vue({
+  el: '#notification',
+  data: {
+    notifications: [],
+    arrayNotificationsVentas: []
+  },
+  computed: {
+    listar: function listar() {//this.arrayNotificationsVentas = Object.values(this.notifications[0]);
+      //if (this.notifications == '') {
+      //return this.arrayNotificationsVentas = [];
+      //}
+      //else{
+      // this.arrayNotificationsVentas = Object.values(this.notifications[0]);
+      //if (this.arrayNotificationsVentas.length > 3) {
+      //return Object.values(this.arrayNotificationsVentas[4]);
+      //} else {
+      // return Object.values(this.arrayNotificationsVentas[0]);
+      //}
+      // }
+    }
+  },
+  methods: {
+    readNotification: function readNotification(id, ruta) {
+      var url = '/lorgeliz_tienda/public/admin/notification/read/' + id;
+      axios.put(url).then(function (response) {
+        window.location.href = ruta;
+      });
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/lorgeliz_tienda/public/admin/notification/get').then(function (response) {
+      _this.notifications = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    });
+    var userId = $('meta[name="userId"]').attr('content');
+    Echo["private"]('App.User.' + userId).notification(function (notification) {
+      $this.notifications.unshift(notification);
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/admin/print-ventas-show.js":
 /*!*************************************************!*\
   !*** ./resources/js/admin/print-ventas-show.js ***!
@@ -14691,25 +14862,6 @@ var product = new Vue({
   },
   mounted: function mounted() {
     this.mes = data.datos.ventames;
-  }
-});
-
-/***/ }),
-
-/***/ "./resources/js/admin/print_venta.js":
-/*!*******************************************!*\
-  !*** ./resources/js/admin/print_venta.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var product = new Vue({
-  el: '#print_venta',
-  data: {},
-  methods: {
-    pdfVenta: function pdfVenta(id) {
-      window.open('/lorgeliz_tienda/public/admin/ventas/pdf/' + id + ',' + '_blank');
-    }
   }
 });
 
@@ -14797,6 +14949,75 @@ __webpack_require__(/*! ./comun */ "./resources/js/comun.js");
 
 /***/ }),
 
+/***/ "./resources/js/components/Category.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Category.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Category_vue_vue_type_template_id_33972369___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Category.vue?vue&type=template&id=33972369& */ "./resources/js/components/Category.vue?vue&type=template&id=33972369&");
+/* harmony import */ var _Category_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Category.vue?vue&type=script&lang=js& */ "./resources/js/components/Category.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Category_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Category_vue_vue_type_template_id_33972369___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Category_vue_vue_type_template_id_33972369___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Category.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Category.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Category.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Category.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Category.vue?vue&type=template&id=33972369&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/Category.vue?vue&type=template&id=33972369& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_template_id_33972369___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Category.vue?vue&type=template&id=33972369& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Category.vue?vue&type=template&id=33972369&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_template_id_33972369___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Category_vue_vue_type_template_id_33972369___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -14866,75 +15087,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ProductsCategory.vue":
-/*!******************************************************!*\
-  !*** ./resources/js/components/ProductsCategory.vue ***!
-  \******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ProductsCategory_vue_vue_type_template_id_6370cfed___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductsCategory.vue?vue&type=template&id=6370cfed& */ "./resources/js/components/ProductsCategory.vue?vue&type=template&id=6370cfed&");
-/* harmony import */ var _ProductsCategory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductsCategory.vue?vue&type=script&lang=js& */ "./resources/js/components/ProductsCategory.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _ProductsCategory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ProductsCategory_vue_vue_type_template_id_6370cfed___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ProductsCategory_vue_vue_type_template_id_6370cfed___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/ProductsCategory.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/ProductsCategory.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/components/ProductsCategory.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductsCategory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductsCategory.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductsCategory.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductsCategory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/ProductsCategory.vue?vue&type=template&id=6370cfed&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/components/ProductsCategory.vue?vue&type=template&id=6370cfed& ***!
-  \*************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductsCategory_vue_vue_type_template_id_6370cfed___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ProductsCategory.vue?vue&type=template&id=6370cfed& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ProductsCategory.vue?vue&type=template&id=6370cfed&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductsCategory_vue_vue_type_template_id_6370cfed___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductsCategory_vue_vue_type_template_id_6370cfed___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
 /***/ "./resources/js/comun.js":
 /*!*******************************!*\
   !*** ./resources/js/comun.js ***!
@@ -14944,7 +15096,7 @@ __webpack_require__.r(__webpack_exports__);
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-Vue.component('products-category', __webpack_require__(/*! ./components/ProductsCategory.vue */ "./resources/js/components/ProductsCategory.vue")["default"]);
+Vue.component('category', __webpack_require__(/*! ./components/Category.vue */ "./resources/js/components/Category.vue")["default"]);
 
 if (document.getElementById('app')) {
   var app = new Vue({
@@ -14956,8 +15108,24 @@ if (document.getElementById('product_cart')) {
   __webpack_require__(/*! ./tienda/product */ "./resources/js/tienda/product.js");
 }
 
-if (document.getElementById('print_venta')) {
-  __webpack_require__(/*! ./admin/print_venta */ "./resources/js/admin/print_venta.js");
+if (document.getElementById('inicio')) {
+  __webpack_require__(/*! ./tienda/index */ "./resources/js/tienda/index.js");
+}
+
+if (document.getElementById('menu')) {
+  __webpack_require__(/*! ./tienda/getCategory */ "./resources/js/tienda/getCategory.js");
+}
+
+if (document.getElementById('clientNotification')) {
+  __webpack_require__(/*! ./tienda/notifications */ "./resources/js/tienda/notifications.js");
+}
+
+if (document.getElementById('notification')) {
+  __webpack_require__(/*! ./admin/notifications */ "./resources/js/admin/notifications.js");
+}
+
+if (document.getElementById('imprimir_pedidos')) {
+  __webpack_require__(/*! ./admin/imprimir_pedidos */ "./resources/js/admin/imprimir_pedidos.js");
 }
 
 if (document.getElementById('productos')) {
@@ -14965,7 +15133,7 @@ if (document.getElementById('productos')) {
 }
 
 if (document.getElementById('venta_cliente')) {
-  __webpack_require__(/*! ./tienda/venta_cliente */ "./resources/js/tienda/venta_cliente.js");
+  __webpack_require__(/*! ./tienda/facturacliente */ "./resources/js/tienda/facturacliente.js");
 }
 
 if (document.getElementById('carrito')) {
@@ -15000,6 +15168,34 @@ if (document.getElementById('infventashow')) {
   __webpack_require__(/*! ./admin/print-ventas-show */ "./resources/js/admin/print-ventas-show.js");
 }
 
+if (document.getElementById('listventas')) {
+  __webpack_require__(/*! ./admin/listadoventas */ "./resources/js/admin/listadoventas.js");
+}
+
+if (document.getElementById('listdevolucion')) {
+  __webpack_require__(/*! ./admin/listadodevoluciones */ "./resources/js/admin/listadodevoluciones.js");
+}
+
+if (document.getElementById('listclientes')) {
+  __webpack_require__(/*! ./admin/listadoclientes */ "./resources/js/admin/listadoclientes.js");
+}
+
+if (document.getElementById('inventarios')) {
+  __webpack_require__(/*! ./admin/inventarios */ "./resources/js/admin/inventarios.js");
+}
+
+if (document.getElementById('payments')) {
+  __webpack_require__(/*! ./admin/listadopagos */ "./resources/js/admin/listadopagos.js");
+}
+
+if (document.getElementById('user_cart')) {
+  __webpack_require__(/*! ./tienda/userCart */ "./resources/js/tienda/userCart.js");
+}
+
+if (document.getElementById('factura_venta')) {
+  __webpack_require__(/*! ./admin/factura_venta */ "./resources/js/admin/factura_venta.js");
+}
+
 /***/ }),
 
 /***/ "./resources/js/tienda/cart.js":
@@ -15012,54 +15208,23 @@ if (document.getElementById('infventashow')) {
 var product = new Vue({
   el: '#carrito',
   data: {
-    precio: 0,
-    cantidad: 0,
-    totalproducto: 0,
-    arrayproducto: [],
-    clicks: 0,
-    minus: 0,
-    total: 0,
-    codigo: 0
+    carrito: 0,
+    arrayProductos: []
   },
   methods: {
-    aumentar: function aumentar(cantidad, precio, codigo) {
-      if (this.clicks_add == 0) {
-        this.codigo = codigo;
-      }
-
-      if (this.codigo != codigo) {
-        this.clicks_add = 0;
-        this.codigo = codigo;
-      }
-
-      this.clicks_add = this.clicks_add + 1;
-      this.cantidad = cantidad + this.clicks_add;
-      this.precio = precio;
-      this.totalproducto = this.cantidad * this.precio;
-      this.arrayproducto[codigo] = this.totalproducto;
+    remove: function remove(producto) {
+      var url = '/lorgeliz_tienda/public/cart/remove/' + producto;
+      axios["delete"](url).then(function (response) {
+        location.reload();
+      });
     },
-    disminuir: function disminuir(cantidad, precio, codigo) {
-      this.minus = this.minus + 1;
-      this.cantidad = cantidad - this.minus;
-      this.precio = precio;
-      this.totalproducto = this.cantidad * this.precio;
-      this.arrayproducto[codigo] = this.totalproducto;
-    },
-    comprobar: function comprobar(codigo) {
-      if (this.clicks_add == 0) {
-        if (this.minus == 0) {
-          for (var i = 0; i < this.arrayproducto.length; i++) {
-            this.arrayproducto[i] = 0;
-          }
-
-          this.arrayproducto[codigo] = 0;
-        }
-      }
-
-      return this.arrayproducto[codigo];
-    },
-    totalcarrito: function totalcarrito(cantidad) {
-      this.total = cantidad;
+    limpiarCarrito: function limpiarCarrito(carrito) {
+      this.carrito = carrito;
+      var url = '/lorgeliz_tienda/public/cart/delete/' + carrito;
+      axios["delete"](url).then(function (response) {
+        swal('Haz limpiado tu carrito!', 'Tu carrito de compras está vacío!', 'success');
+        window.location.href = "/lorgeliz_tienda/public/";
+      });
     }
   },
   mounted: function mounted() {}
@@ -15077,21 +15242,244 @@ var product = new Vue({
 var checkout = new Vue({
   el: '#categoria',
   data: {
-    categoria: '',
-    arrayProductos: []
+    active: '',
+    arrayProductos: [],
+    criterio: '',
+    genero: '',
+    pagination: {
+      'total': 0,
+      'current_page': 0,
+      'per_page': 0,
+      'last_page': 0,
+      'from': 0,
+      'to': 0
+    },
+    offset: 3,
+    listar: 1,
+    value: 0,
+    tipo: '',
+    estado: 0
+  },
+  computed: {
+    isActived: function isActived() {
+      return this.pagination.current_page;
+    },
+    //Calcula los elementos de la paginación
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+
+      var from = this.pagination.current_page - this.offset;
+
+      if (from < 1) {
+        from = 1;
+      }
+
+      var to = from + this.offset * 2;
+
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+
+      var pagesArray = [];
+
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+
+      return pagesArray;
+    }
   },
   methods: {
-    getproductos: function getproductos() {
+    getproductos: function getproductos(page) {
       var _this = this;
 
-      var url = '/lorgeliz_tienda/public/categorias/productos';
+      this.listar = 7;
+      var url = '/lorgeliz_tienda/public/categorias/productos?page=' + page;
       axios.get(url).then(function (response) {
-        _this.arrayProductos = response.data.productos;
+        var respuesta = response.data;
+        _this.arrayProductos = respuesta.productos.data;
+        _this.pagination = respuesta.pagination;
+        _this.active = 0;
       });
+    },
+    getProductByState: function getProductByState(page, estado) {
+      var _this2 = this;
+
+      this.listar = 6;
+      this.estado = estado;
+      var url = '/lorgeliz_tienda/public/categorias/productos/estado?page=' + page + '&estado=' + this.estado;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        _this2.arrayProductos = respuesta.productos.data;
+        _this2.pagination = respuesta.pagination;
+      });
+    },
+    saleProductos: function saleProductos(page) {
+      var _this3 = this;
+
+      this.listar = 5;
+      var url = '/lorgeliz_tienda/public/categorias/productos/vendidos?page=' + page;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        _this3.arrayProductos = respuesta.productos.data;
+        _this3.pagination = respuesta.pagination;
+      });
+    },
+    hotProducts: function hotProducts(page) {
+      var _this4 = this;
+
+      this.listar = 4;
+      var url = '/lorgeliz_tienda/public/categorias/productos/vistos?page=' + page;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        _this4.arrayProductos = respuesta.productos.data;
+        _this4.pagination = respuesta.pagination;
+      });
+    },
+    getProductsByOrder: function getProductsByOrder(page, orden) {
+      var _this5 = this;
+
+      this.listar = 3;
+      this.orden = orden;
+
+      if (orden == 1) {
+        this.criterio = 'precio_actual';
+      } else {
+        this.criterio = 'nombre';
+      }
+
+      var url = '/lorgeliz_tienda/public/categorias/productos/orden?page=' + page + '&criterio=' + this.criterio;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        _this5.arrayProductos = respuesta.productos.data;
+        _this5.pagination = respuesta.pagination;
+      });
+    },
+    getProductByTipo: function getProductByTipo(page, tipo) {
+      var _this6 = this;
+
+      this.listar = 2;
+      this.tipo = tipo;
+      var url = '/lorgeliz_tienda/public/categorias/productos/tipo?page=' + page + '&tipo=' + this.tipo;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        _this6.arrayProductos = respuesta.productos.data;
+        _this6.pagination = respuesta.pagination;
+      });
+    },
+    getProductByGenre: function getProductByGenre(page, value) {
+      var _this7 = this;
+
+      this.listar = 1;
+      this.value = value;
+
+      if (this.value == 1) {
+        this.genero = 'hombres';
+      }
+
+      if (this.value == 2) {
+        this.genero = 'mujeres';
+      }
+
+      if (this.value == 3) {
+        this.genero = 'niños';
+      }
+
+      var url = '/lorgeliz_tienda/public/categorias/productos/genero?page=' + page + '&genero=' + this.genero;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        _this7.arrayProductos = respuesta.productos.data;
+        _this7.pagination = respuesta.pagination;
+      });
+    },
+    getQueryParam: function getQueryParam(param) {
+      location.search.substr(1).split("&").some(function (item) {
+        // returns first occurence and stops
+        return item.split("=")[0] == param && (param = item.split("=")[1]);
+      });
+      return param;
+    },
+    cambiarPagina: function cambiarPagina(page) {
+      //Actualiza la página actual
+      this.pagination.current_page = page; //Envia la petición para visualizar la data de esa página
+
+      if (this.listar == 1) {
+        this.getProductByGenre(page, this.value);
+      }
+
+      if (this.listar == 2) {
+        this.getProductByTipo(page, this.tipo);
+      }
+
+      if (this.listar == 3) {
+        this.getProductsByOrder(page, this.orden);
+      }
+
+      if (this.listar == 4) {
+        this.hotProducts(page);
+      }
+
+      if (this.listar == 5) {
+        this.saleProductos(page);
+      }
+
+      if (this.listar == 6) {
+        this.getProductByState(page, this.estado);
+      }
+
+      if (this.listar == 7) {
+        this.getproductos(page);
+      }
     }
   },
   mounted: function mounted() {
-    this.getproductos();
+    //this.getproductos();
+    var categoria = this.getQueryParam('ref');
+
+    if (categoria == "Hombres") {
+      this.getProductByGenre(1, 1);
+    }
+
+    if (categoria == "Mujeres") {
+      this.getProductByGenre(1, 2);
+    }
+
+    if (categoria == "Niños") {
+      this.getProductByGenre(1, 3);
+    }
+
+    if (categoria == "nuevos") {
+      this.getProductByState(1, 1);
+    }
+
+    if (categoria == "ofertas") {
+      this.getProductByState(1, 2);
+    }
+
+    if (!isNaN(categoria)) {
+      if (categoria == 1) {
+        this.getProductByTipo(1, "camisetas");
+      }
+
+      if (categoria == 2) {
+        this.getProductByTipo(1, "vestidos");
+      }
+
+      if (categoria == 3) {
+        this.getProductByTipo(1, "zapatos");
+      }
+
+      if (categoria == 4) {
+        this.getProductByTipo(1, "blusas");
+      }
+
+      if (categoria == 5) {
+        this.getProductByTipo(1, "abrigos");
+      }
+    }
   }
 });
 
@@ -15110,22 +15498,123 @@ var checkout = new Vue({
     carrito: '',
     total: ''
   },
+  methods: {},
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./resources/js/tienda/facturacliente.js":
+/*!***********************************************!*\
+  !*** ./resources/js/tienda/facturacliente.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var product = new Vue({
+  el: '#venta_cliente',
+  data: {},
   methods: {
-    registrarventa: function registrarventa() {
-      var url = '/lorgeliz_tienda/public/admin/ventas/store';
-      axios.post(url, {
-        'carrito': this.carrito,
-        'total': this.total
-      }).then(function (response) {
-        swal('Pedido recibido!', 'Hemos recibido tu pedido. En breve empezaremos a alistarlo y nos pondremos en contacto contigo!', 'success');
-      })["catch"](function (error) {
-        console.log(error);
+    pdfVenta: function pdfVenta(id) {
+      window.open('/lorgeliz_tienda/public/pedidos/factura/' + id + ',' + '_blank');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/tienda/getCategory.js":
+/*!********************************************!*\
+  !*** ./resources/js/tienda/getCategory.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var menu = new Vue({
+  el: '#menu',
+  data: {
+    categoria: ''
+  },
+  methods: {
+    redirect: function redirect(name) {
+      this.categoria = name;
+      window.location.href = "/lorgeliz_tienda/public/categorias?ref=" + this.categoria;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/tienda/index.js":
+/*!**************************************!*\
+  !*** ./resources/js/tienda/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var user_cart = new Vue({
+  el: '#inicio',
+  data: {
+    productoSlider: [],
+    productoNuevo: [],
+    productoPopular: [],
+    productoVendido: [],
+    productoOferta: []
+  },
+  methods: {
+    getProductos: function getProductos() {
+      var _this = this;
+
+      var url = '/lorgeliz_tienda/public/index';
+      axios.get(url).then(function (response) {
+        _this.productoSlider = response.data.slider;
+        _this.productoNuevo = response.data.nuevos;
+        _this.productoPopular = response.data.populares;
+        _this.productoVendido = response.data.vendidos;
+        _this.productoOferta = response.data.ofertas;
       });
     }
   },
-  mounted: function mounted() {
-    this.carrito = data.datos.carrito;
-    this.total = data.datos.total;
+  created: function created() {
+    this.getProductos();
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/tienda/notifications.js":
+/*!**********************************************!*\
+  !*** ./resources/js/tienda/notifications.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var app = new Vue({
+  el: '#clientNotification',
+  data: {
+    notifications: []
+  },
+  computed: {},
+  methods: {
+    readNotification: function readNotification(id, ruta) {
+      var url = '/lorgeliz_tienda/public/notification/client/read/' + id;
+      axios.put(url).then(function (response) {
+        window.location.href = ruta;
+      });
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/lorgeliz_tienda/public/notification/client').then(function (response) {
+      _this.notifications = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    });
+    var clienteId = $('meta[name="clienteId"]').attr('content');
+    Echo["private"]('App.Cliente.' + clienteId).notification(function (notification) {
+      $this.notifications.unshift(notification);
+    });
   }
 });
 
@@ -15144,19 +15633,8 @@ var checkout = new Vue({
     devolucion: ''
   },
   methods: {
-    getdevolucion: function getdevolucion(producto, venta) {
-      var _this = this;
-
-      var url = '/lorgeliz_tienda/public/devoluciones/producto?producto=' + producto + '&venta=' + venta;
-      axios.get(url).then(function (response) {
-        _this.devolucion = response.data.devolucion;
-      });
-
-      if (this.devolucion > 0) {
-        swal('Acción cancelada!', 'Ya haz solicitado!', 'success');
-      } else {
-        return false;
-      }
+    imprimir: function imprimir(id) {
+      window.open('/lorgeliz_tienda/public/pedidos/show/pdf/' + id + ',' + '_blank');
     }
   },
   mounted: function mounted() {}
@@ -15183,16 +15661,30 @@ var product = new Vue({
     cantidad: '',
     producto: '',
     carrito: ''
-  }, _defineProperty(_data, "cantidad", ''), _defineProperty(_data, "talla", 0), _defineProperty(_data, "arrayTallas", []), _defineProperty(_data, "arrayCarrito", []), _data),
+  }, _defineProperty(_data, "cantidad", ''), _defineProperty(_data, "talla", 0), _defineProperty(_data, "arrayTallas", []), _defineProperty(_data, "arrayCarrito", []), _defineProperty(_data, "stock", 0), _defineProperty(_data, "select", true), _data),
   methods: {
     setVisitas: function setVisitas() {
-      var url = '/lorgeliz_tienda/public/admin/productos/visitas/update/' + this.producto;
+      var url = '/lorgeliz_tienda/public/productos/visitas/update/' + this.producto;
       axios.put(url).then(function (response) {});
+    },
+    change: function change() {
+      this.select = !this.select;
+    },
+    setStock: function setStock() {
+      if (this.talla != 0) {
+        for (var i = 0; i < this.arrayTallas.length; i++) {
+          if (this.arrayTallas[i].id == this.talla) {
+            this.stock = this.arrayTallas[i].stock;
+          }
+        }
+      } else {
+        this.stock = 0;
+      }
     },
     getTallas: function getTallas() {
       var _this = this;
 
-      var url = '/lorgeliz_tienda/public/admin/tallas/productos/' + this.producto;
+      var url = '/lorgeliz_tienda/public/tallas/productos/' + this.producto;
       axios.get(url).then(function (response) {
         _this.arrayTallas = response.data.tallas;
       });
@@ -15201,35 +15693,68 @@ var product = new Vue({
       var _this2 = this;
 
       var url = '/lorgeliz_tienda/public/cart/buscarCarrito';
-      axios.get(url).then(function (response) {
-        _this2.arrayCarrito = response.data.carrito;
 
-        if (_this2.arrayCarrito[0] != null) {
-          _this2.carrito = _this2.arrayCarrito[0].id;
-          var _url = '/lorgeliz_tienda/public/cart/updateCart';
-          axios.post(_url, {
-            'producto': _this2.producto,
-            'talla': _this2.talla,
-            'cantidad': _this2.cantidad,
-            'carrito': _this2.carrito
-          }).then(function (response) {
-            swal('Producto agregado al carrito!', 'Haz agregado este producto a tu carrito', 'success');
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        } else {
-          var _url2 = '/lorgeliz_tienda/public/cart/add_product';
-          axios.post(_url2, {
-            'producto': _this2.producto,
-            'talla': _this2.talla,
-            'cantidad': _this2.cantidad
-          }).then(function (response) {
-            swal('Producto agregado al carrito!', 'Haz agregado este producto a tu carrito', 'success');
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        }
-      });
+      if (this.cantidad != '' && this.talla != '') {
+        axios.get(url).then(function (response) {
+          _this2.arrayCarrito = response.data.carrito;
+
+          if (_this2.arrayCarrito[0] != null) {
+            _this2.carrito = _this2.arrayCarrito[0].id;
+            var _url = '/lorgeliz_tienda/public/cart/updateCart';
+
+            for (var i = 0; i < _this2.arrayTallas.length; i++) {
+              if (_this2.arrayTallas[i].id == _this2.talla) {
+                if (_this2.cantidad <= _this2.arrayTallas[i].stock) {
+                  axios.post(_url, {
+                    'producto': _this2.producto,
+                    'talla': _this2.talla,
+                    'cantidad': _this2.cantidad,
+                    'carrito': _this2.carrito
+                  }).then(function (response) {
+                    if (response.data.data == 'error') {
+                      var unidades = parseInt(response.data.carrito);
+                      var actual = parseInt(response.data.stock);
+                      var restantes = actual - unidades;
+
+                      if (restantes == 0) {
+                        swal('Producto agotado!', 'No puedes agregar más unidades de este producto a tu carrito!', 'error');
+                      } else {
+                        swal('Producto con stock limitado!', 'Puedes agregar a tu carrito sólo ' + restantes + ' unidad(es) más de este producto', 'error');
+                      }
+                    } else {
+                      swal('Producto agregado al carrito!', 'Haz agregado este producto a tu carrito', 'success');
+                    }
+                  })["catch"](function (error) {
+                    console.log(error);
+                  });
+                } else {
+                  swal('No se puede agregar el producto al carrito!', 'La cantidad debe ser máximo ' + _this2.arrayTallas[i].stock, 'error');
+                }
+              }
+            }
+          } else {
+            var _url2 = '/lorgeliz_tienda/public/cart/store';
+
+            for (var _i = 0; _i < _this2.arrayTallas.length; _i++) {
+              if (_this2.arrayTallas[_i].id == _this2.talla) {
+                if (_this2.cantidad <= _this2.arrayTallas[_i].stock) {
+                  axios.post(_url2, {
+                    'producto': _this2.producto,
+                    'talla': _this2.talla,
+                    'cantidad': _this2.cantidad
+                  }).then(function (response) {
+                    swal('Producto agregado al carrito!', 'Haz agregado este producto a tu carrito', 'success');
+                  })["catch"](function (error) {
+                    console.log(error);
+                  });
+                } else {
+                  swal('No se puede agregar el producto al carrito!', 'La cantidad debe ser máximo ' + _this2.arrayTallas[_i].stock, 'error');
+                }
+              }
+            }
+          }
+        });
+      }
     }
   },
   mounted: function mounted() {
@@ -15241,20 +15766,30 @@ var product = new Vue({
 
 /***/ }),
 
-/***/ "./resources/js/tienda/venta_cliente.js":
-/*!**********************************************!*\
-  !*** ./resources/js/tienda/venta_cliente.js ***!
-  \**********************************************/
+/***/ "./resources/js/tienda/userCart.js":
+/*!*****************************************!*\
+  !*** ./resources/js/tienda/userCart.js ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var product = new Vue({
-  el: '#venta_cliente',
-  data: {},
+var user_cart = new Vue({
+  el: '#user_cart',
+  data: {
+    productos: 0
+  },
   methods: {
-    pdfVenta: function pdfVenta(id) {
-      window.open('/lorgeliz_tienda/public/pedidos/pdf/' + id + ',' + '_blank');
+    carritoUser: function carritoUser() {
+      var _this = this;
+
+      var url = '/lorgeliz_tienda/public/cart/products';
+      axios.get(url).then(function (response) {
+        _this.productos = response.data;
+      });
     }
+  },
+  created: function created() {
+    this.carritoUser();
   }
 });
 

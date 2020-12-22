@@ -20,16 +20,14 @@
                             <div class="card-tools">
                                 <form>
                                     <div class="input-group input-group-sm">
-                                        <input type="date" name="fecha_de" id="fecha_de" required
-                                            class="form-control mx-1">
-                                        <input type="date" name="fecha_a" id="fecha_a" required
-                                            class="form-control mx-1">
+                                        <input type="text" name="busqueda" class="form-control float-right" placeholder="Buscar"
+                                        value="{{ request()->get('busqueda') }}">
 
                                         <div class="input-group-append">
-                                            <a href="" class="btn btn-warning mx-1" v-on:click.prevent="pdfInformeVentas()"><i class="fas fa-print"></i></a>
-                                            <button type="submit" class="btn btn-success">
-                                                <i class="fas fa-search"></i>
-                                            </button>
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <a href="" class="btn btn-success mx-1" v-on:click.prevent="pdfInformeVentas()"><i class="fas fa-print"></i></a>
                                         </div>
                                     </div>
                                 </form>
@@ -111,6 +109,5 @@
 
     </div>
 </div>
-
 
 @endsection

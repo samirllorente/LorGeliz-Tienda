@@ -1,4 +1,3 @@
-
 @extends('layouts.account')
 
 @section('title')
@@ -23,15 +22,23 @@
 
                             <div class="card-tools">
                                 <form>
-                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="keyword" class="form-control float-right"
-                                            placeholder="buscar" value="{{ request()->get('keyword') }}">
+                                    <div class="input-group input-group-sm" style="width: 180px;">
+
+                                        <div class="input-group-append">
+                                            <a href="" class="btn btn-info mx-1"
+                                                v-on:click.prevent="imprimir({{ $productos[0]->pedido }})"
+                                                title="imprimir pedido"><i class="fas fa-print"></i></a>
+                                        </div>
+
+                                        <input type="text" name="busqueda" class="form-control float-right"
+                                            placeholder="buscar" value="{{ request()->get('busqueda') }}">
 
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-success">
                                                 <i class="fas fa-search"></i>
                                             </button>
                                         </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -56,29 +63,31 @@
                                     @foreach ($productos as $producto)
 
                                     <tr>
-                                        <td>{{ $producto->nombre }}</td>
                                         <td>
-                                            @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                                                ->where('imageable_id', $producto->cop)->pluck('url', 'id')->take(1) as $id => $imagen)    
-                                                <img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
-                                            @endforeach
+                                            <a href="{{ route('producto.show',$producto->slug)}}" style="color: black">{{ $producto->nombre }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('producto.show',$producto->slug)}}">
+                                                <img src="{{ url('storage/' . $producto->imagen) }}" alt=""
+                                                    style="height: 50px; width: 50px;" class="rounded-circle">
+                                            </a>
                                         </td>
                                         <td>{{ $producto->talla }}</td>
-                                        <td>{{ $producto->color  }}</td>
+                                        <td>{{ $producto->color }}</td>
                                         <td id="cant{{$producto->referencia}}">{{ $producto->cantidad }}</td>
                                         <td>${{ floatval($producto->precio_actual) }}</td>
                                         <td>${{ floatval($producto->precio_actual * $producto->cantidad) }}</td>
-                                        <td><a href=""
-                                        class="btn btn-success" title="solicitar cambio" id="{{$producto->referencia}}"><i class="fas fa-check"></i></a></td>
+                                        <td><a href="" class="btn btn-success" title="solicitar cambio"
+                                                id="{{$producto->referencia}}"><i class="fas fa-check"></i></a></td>
                                         <form action="" name="form">
-                                            <input type="hidden" name="venta" id="venta{{$producto->referencia}}" value="{{ $producto->venta}}"/>
+                                            <input type="hidden" name="venta" id="venta{{$producto->referencia}}"
+                                                value="{{ $producto->venta}}" />
                                         </form>
-                                        
+
                                     </tr>
-                                        
+
                                     @endforeach
-                                    
-                                    
+
                                 </tbody>
 
                                 <tfoot>
@@ -89,7 +98,7 @@
 
                                 </tfoot>
                             </table>
-                           {{-- {{ $productos->appends($_GET)->links() }} --}} 
+                            {{-- {{ $productos->appends($_GET)->links() }} --}}
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -101,70 +110,65 @@
 
     </div>
 </div>
-    
+
 
 @endsection
 
 @section('scripts')
 
-    <script>
-        $(document).ready(function () {
-         
-            $.ajaxSetup({
+<script>
+    $(document).ready(function () {
 
-                headers: {
-                    'X-CSRF-TOKEN': $("input[name= _token]").val()
-                }
-            });
+        $.ajaxSetup({
 
-            
-            $(".btn-success").click(function (e) { 
-                e.preventDefault();
+            headers: {
+                'X-CSRF-TOKEN': $("input[name= _token]").val()
+            }
+        });
 
-                let ref = parseInt($(this).attr('id'));
-                let venta = parseInt($('#venta' + ref).val());
-                let cantidad = parseInt($('#cant' + ref).html());
 
-                $.ajax({    
-                    type: "POST",
-                    url: "{{ route('devolucion.store') }}",
-                    data: {
-                        ref: ref,
-                        venta: venta,
-                        cantidad: cantidad
-                    },
-                    dataType: 'json',
-                    success: function (response) {
+        $(".btn-success").click(function (e) {
+            e.preventDefault();
 
-                        let devolucion = response.data;
-                        
-                        if (devolucion > 0) {
-                            swal(
-                                'Solicitud denegada!',
-                                'Solicitaste el cambio de este producto antes!',
-                                'error'
-                            )
-                        }
-                        else{
-                            swal(
-                                'Producto enviado para cambio!',
-                                'Haz solicitado el cambio de este producto!',
-                                'success'
-                            )
-                        }
+            let ref = parseInt($(this).attr('id'));
+            let venta = parseInt($('#venta' + ref).val());
+            let cantidad = parseInt($('#cant' + ref).html());
 
+            $.ajax({
+                type: "POST",
+                url: "{{ route('devolucion.store') }}",
+                data: {
+                    ref: ref,
+                    venta: venta,
+                    cantidad: cantidad
+                },
+                dataType: 'json',
+                success: function (response) {
+
+                    let devolucion = response.data;
+
+                    if (devolucion > 0) {
+                        swal(
+                            'Solicitud denegada!',
+                            'Solicitaste el cambio de este producto antes!',
+                            'error'
+                        )
+                    } else {
+                        swal(
+                            'Producto enviado para cambio!',
+                            'Haz solicitado el cambio de este producto!',
+                            'success'
+                        )
                     }
 
-                });
-                
-            });
+                }
 
+            });
 
         });
 
-    </script> 
+    });
+
+</script>
 
 @endsection
-
-
-

@@ -11,9 +11,9 @@
 
 
 @section('content')
-
     <div class="content">
         <div class="container">
+            @if (count($productos) > 0)
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -23,8 +23,8 @@
                             <div class="card-tools">
                                 <form>
                                     <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="keyword" class="form-control float-right"
-                                            placeholder="buscar" value="{{ request()->get('keyword') }}">
+                                        <input type="text" name="busqueda" class="form-control float-right"
+                                            placeholder="buscar" value="{{ request()->get('busqueda') }}">
 
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-success">
@@ -56,16 +56,13 @@
 
                                     <tr>
                                         <td>{{ date('d/m/Y', strtotime($producto->fecha)) }}</td>
-                                        <td><a href="{{ route('show.pedido', $producto->venta)}}"
-                                                class="">{{ $producto->venta }}</a>
+                                        <td><a href="{{ route('pedidos.show', $producto->pedido)}}"
+                                                class="">{{ $producto->pedido }}</a>
                                         </td>
                                         <td>{{ $producto->nombre }}</td>
                                         <td>
                                             <a href="{{ route('producto.show', $producto->slug) }}">
-                                            @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                                            ->where('imageable_id', $producto->cop)->pluck('url', 'id')->take(1) as $id => $imagen)    
-                                            <img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
-                                            @endforeach
+                                            <img src="{{ url('storage/' . $producto->imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
                                             </a>
                                         </td>
                                         <td>{{ $producto->talla }}</td>
@@ -89,10 +86,7 @@
                                     </tr>
                                         
                                     @endforeach
-                                    
-                                    
                                 </tbody>
-
                             </table>
                            {{ $productos->appends($_GET)->links() }} 
                         </div>
@@ -102,6 +96,11 @@
                 </div>
             </div>
             <!-- /.row -->
+            @else
+            <div class="alert alert-info pt-5 col-md-7 text-center m-auto">
+                <h4 class="alert-heading">{{ __("Aún no has realizado devoluciones de productos") }}</h4>
+            </div>
+            @endif
         </div>
 
     </div>

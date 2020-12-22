@@ -2,10 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Imagene;
+use App\User;
+use App\Http\Requests\UserRequest;
+use App\Rules\StrengthPassword;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
+
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +30,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::where('id', auth()->user()->id)->first();
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -66,9 +84,45 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request)
     {
-        //
+        
+
+        $user = auth()->user();
+        $user->username = request('usuario');
+        $user->nombres = request('nombres');
+        $user->apellidos = request('apellidos');
+        $user->direccion = request('direccion');
+        $user->telefono = request('telefono');
+
+        if (request('password')) {
+
+            $this->validate(request(), 
+             ['password' => ['confirmed', new StrengthPassword]]);
+             $user->password = bcrypt(request('password'));
+        }
+       
+        $user->save();
+
+        //if ($request->hasFile('imagen')) {
+
+            //$imagen = $request->file('imagen');
+
+            //$nombre = time().'_'.$imagen->getClientOriginalName();
+
+            //$path = Storage::disk('public')->putFileAs("imagenes/users/" . $user->id, $imagen, $nombre);
+           
+        //}
+
+        //$img = new Imagene();
+        //$img->url = $path;
+        //$img->imageable_type = 'App\User';
+        //$img->imageable_id = $user->id;
+
+        //$img->save();
+
+        session()->flash('message', ['success', ("Se han actualizado los datos")]);
+        return back();
     }
 
     /**

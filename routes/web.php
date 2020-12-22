@@ -12,36 +12,52 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/index', 'HomeController@productsIndex');
 Route::get('/categorias', 'HomeController@categorias')->name('categorias');
 
 Route::get('/checkout', 'HomeController@checkout')->name('checkout')->middleware('auth');
 Route::get('/categorias/productos', 'HomeController@getProductos')->name('categorias.productos');
-
+Route::get('/categorias/productos/estado', 'HomeController@getProductosByState')->name('productos.estados');
+Route::get('/categorias/productos/vendidos', 'HomeController@getProductosSales')->name('productos.sale');
+Route::get('/categorias/productos/vistos', 'HomeController@getProductosVisitas')->name('productos.view');
+Route::get('/categorias/productos/orden', 'HomeController@getProductsByOrder')->name('productos.orden');
+Route::get('/categorias/productos/tipo', 'HomeController@getProductsByTipo')->name('productos.tipo');
+Route::get('/categorias/productos/genero', 'HomeController@getProductsByGenre')->name('productos.genero');
 Route::get('/product/{slug}', 'HomeController@product')->name('producto.show');
 
-Route::get('/cuenta', 'AccountController@index')->name('mi.cuenta');
-Route::put('/update', 'AccountController@update')->name('cuenta.update');
+Route::get('/cuenta', 'UserController@index')->name('users.cuenta');
+Route::put('/update', 'UserController@update')->name('users.update');
+
+Route::get('/tallas/productos/{id}', 'TallaController@getProductoTallas')->name('talla.productos');
+Route::put('/productos/visitas/update/{id}', 'ProductController@setVisitas')->name('product.visitas');
+Route::get('/payments/epayco/response', 'PaymentController@response')->name('response');
+
+Route::group(['prefix' => '/stock'], function (){
+    Route::get('/verificar', 'StockController@verificarStock')->name('stock.verificar');
+});
 
 
 Route::group(['prefix' => '/pedidos'], function () {
 
-Route::get('/', 'OrdersController@index')->name('mis.pedidos');
-Route::get('/clientes', 'OrdersController@listarPedidos')->name('pedidos.clientes');
-Route::get('/pedido/{id}', 'OrdersController@mostrarPedido')->name('mostrar.pedido');
-Route::get('/pdf/{id}', 'OrdersController@pdfVenta')->name('venta.pdf');
-Route::put('/update', 'OrdersController@update')->name('pedido.update');
-Route::get('/{id}', 'OrdersController@show')->name('show.pedido');
+Route::get('/', 'OrdersController@index')->name('pedidos.index');
+Route::get('/show/pdf/{id}', 'OrdersController@showPdf')->name('pedidos.show.pdf');
+Route::get('/factura/{id}', 'OrdersController@facturas')->name('pedidos.factura');
+Route::get('/{id}', 'OrdersController@show')->name('pedidos.show');
 
 });
 
 
 Route::group(['prefix' => '/cart'], function () {
 
-    Route::get('/', 'HomeController@cart')->name('store.cart')->middleware('auth');
-    Route::post('/add_product', 'CarController@store')->name('cart.product');
-    Route::post('/updateCart', 'CarController@update')->name('cart.update');
-    Route::delete('/{carrito}/delete', 'CarController@delete')->name('cart.destroy');
-    Route::get('/buscarCarrito', 'CarController@buscarCarrito')->name('cart.buscarCarrito');
+    Route::get('/', 'CarController@index')->name('cart.index')->middleware('auth'); 
+    //Route::get('/user', 'CarController@getProductsUser')->name('cart.products');
+    Route::get('/products', 'CarController@userCart')->name('cart.user');
+    Route::post('/store', 'CarController@store')->name('cart.store')->middleware('auth');
+    Route::post('/updateCart', 'CarController@update')->name('cart.update')->middleware('auth');
+    Route::post('/setCantidad', 'CarController@updateProduct')->name('cart.updateProduct')->middleware('auth');
+    Route::delete('/remove/{producto}', 'CarController@remove')->name('cart.remove')->middleware('auth');
+    Route::delete('/delete/{carrito}', 'CarController@delete')->name('cart.destroy')->middleware('auth');
+    Route::get('/buscarCarrito', 'CarController@buscarCarrito')->name('cart.buscarCarrito')->middleware('auth');
     
 });
 
@@ -50,9 +66,17 @@ Route::group(['prefix' => '/devoluciones'], function () {
     Route::get('/', 'DevolucionController@index')->name('devolucion.index');
     Route::get('/producto', 'DevolucionController@devolucionProducto')->name('devolucion.producto');
     Route::post('/store', 'DevolucionController@store')->name('devolucion.store');
-    
 });
 
+Route::group(['prefix' => '/ventas'], function () {
+    Route::post('/epayco', 'VentaController@epayco_register')->name('venta.epayco');
+    Route::post('/store', 'VentaController@store')->name('venta.store');
+});
+
+Route::group(['prefix' => '/notification'], function () {
+    Route::get('/client', 'NotificationController@clientNotification')->name('notification.client');
+    Route::put('/client/read/{id}', 'NotificationController@readNotification')->name('notification.readClient');
+});
 
 Route::group(['prefix' => "/admin", "middleware" => [sprintf("role:%s", \App\Role::ADMIN)]], function() {
     Route::get('/', 'AdminController@index')->name('admin');
@@ -64,11 +88,18 @@ Route::group(['prefix' => "/admin", "middleware" => [sprintf("role:%s", \App\Rol
         
     });
 
+    Route::group(['prefix' => '/notification'], function () {
+        Route::get('/get', 'NotificationController@getNotification')->name('notification');
+        Route::put('/read/{id}', 'NotificationController@setRead')->name('notification.read');
+    });
+
     Route::group(['prefix' => '/informes'], function () {
         Route::get('/ventas', 'InformesController@informeVentas')->name('informes.ventas');
         Route::get('/ventas/listado/{mes}', 'InformesController@mostrarVentas')->name('listado.ventas');
         Route::get('/productos', 'InformesController@ventaProductos')->name('informes.productos');
         Route::get('/clientes', 'InformesController@informeClientes')->name('informes.clientes');
+        Route::get('/pagos', 'InformesController@informePagos')->name('informes.pagos');
+        Route::get('/pagos/listado/{mes}', 'InformesController@mostrarPagos')->name('listado.pagos');
         Route::get('/pdf/ventas', 'InformesController@pdfInformeVentas')->name('informes.ventaspdf');
         Route::get('/pdf/productos', 'InformesController@pdfInformeProductos')->name('informes.productospdf');
         Route::get('/pdf/clientes', 'InformesController@pdfInformeClientes')->name('informes.clientespdf');
@@ -78,9 +109,10 @@ Route::group(['prefix' => "/admin", "middleware" => [sprintf("role:%s", \App\Rol
 
     Route::group(['prefix' => '/devoluciones'], function () {
 
-        Route::get('/listar', 'DevolucionController@listarDevolucion')->name('devolucion.lista');
+        Route::get('/clientes', 'DevolucionController@listarDevolucion')->name('devolucion.lista');
+        Route::get('/listado', 'DevolucionController@pdfListarDevoluciones')->name('devolucion.listado');
         Route::put('/update', 'DevolucionController@update')->name('devolucion.update');
-        Route::get('/{id}', 'DevolucionController@mostrarDevolucion')->name('devolucion.show');
+        Route::get('/{id}', 'DevolucionController@show')->name('devolucion.show');
     });
     
     Route::group(['prefix' => '/categorias'], function () {
@@ -93,6 +125,13 @@ Route::group(['prefix' => "/admin", "middleware" => [sprintf("role:%s", \App\Rol
         Route::delete('/{categoria}/delete', 'CategoryController@destroy')->name('category.destroy');
         Route::get('/{categoria}', 'CategoryController@show')->name('category.show');
     
+    });
+
+    Route::group(['prefix' => '/payments'], function (){
+        Route::get('/', 'PaymentController@index')->name('payments.index');
+        Route::get('/payment/{id}', 'PaymentController@printPay')->name('payments.pdf');
+        Route::get('/list', 'PaymentController@pdfPagosReporte')->name('payments.list');
+        Route::get('/epayco/response', 'PaymentController@response')->name('response');
     });
     
     Route::group(['prefix' => '/subcategorias'], function () {
@@ -123,17 +162,22 @@ Route::group(['prefix' => "/admin", "middleware" => [sprintf("role:%s", \App\Rol
 
     Route::group(['prefix' => '/productos'], function () {
     
-        Route::get('/', 'ProductController@index')->name('product.index');
-        Route::get('/create', 'ProductController@create')->name('product.create');
-        Route::post('/', 'ProductController@store')->name('product.store');
-        Route::post('/newColor', 'ProductController@storeColor')->name('product.storeColor');
-        Route::get('/{slug}/edit', 'ProductController@edit')->name('product.edit');
-        Route::put('/{producto}/update', 'ProductController@update')->name('product.update');
-        Route::put('/visitas/update/{id}', 'ProductController@setVisitas')->name('product.visitas');
-        Route::delete('/{producto}/delete', 'ProductController@destroy')->name('product.destroy');
-        Route::delete('/eliminarimagen/{id}','ProductController@eliminarImagen')->name('product.eliminarimagen');
-        Route::get('/add_color/{slug}', 'ProductController@addColor')->name('product.color');
-        Route::get('/{producto}', 'ProductController@show')->name('product.show');
+        Route::get('/', 'ProductController@index')->name('product.index')->middleware('auth');
+        Route::get('/{id}/colores', 'ProductController@product')->name('product.colors')->middleware('auth');
+        Route::get('/color/{slug}', 'ProductController@showColor')->name('product.showColor')->middleware('auth');
+        Route::get('/create', 'ProductController@create')->name('product.create')->middleware('auth');
+        Route::post('/', 'ProductController@store')->name('product.store')->middleware('auth');
+        Route::post('/newColor', 'ProductController@storeColor')->name('product.storeColor')->middleware('auth');
+        Route::post('{id}/activate', 'ProductController@activate')->name('product.activate')->middleware('auth');
+        Route::get('/{id}/edit', 'ProductController@edit')->name('product.edit')->middleware('auth');
+        Route::get('/editar/{slug}', 'ProductController@editColor')->name('product.editColor')->middleware('auth');
+        Route::put('/{producto}/update', 'ProductController@update')->name('product.update')->middleware('auth');
+        Route::put('/update/{slug}', 'ProductController@updateColor')->name('product.updateColor')->middleware('auth');
+        Route::delete('{id}/delete', 'ProductController@destroy')->name('product.destroy')->middleware('auth');
+        Route::delete('/eliminarimagen/{id}','ProductController@eliminarImagen')->name('product.eliminarimagen')->middleware('auth');
+        Route::get('/add_color/{id}', 'ProductController@createColor')->name('product.color')->middleware('auth');
+       
+        Route::get('/{id}', 'ProductController@show')->name('product.show')->middleware('auth');
         
     });
     
@@ -149,41 +193,51 @@ Route::group(['prefix' => "/admin", "middleware" => [sprintf("role:%s", \App\Rol
         
     });
     
-
     Route::group(['prefix' => '/stock'], function (){
         Route::get('/', 'StockController@index')->name('stock.index');
+        Route::get('/listado', 'StockController@pdfInventarios')->name('stock.listadopdf');
         Route::post('/', 'StockController@store')->name('stock.store');
-
     });
 
     Route::group(['prefix' => '/tallas'], function (){
-        Route::get('/', 'TallaController@getTalla')->name('talla.get');
-        Route::get('/productos/{id}', 'TallaController@getProductoTallas')->name('talla.productos');
+        Route::get('/', 'TallaController@getTalla')->name('talla.get')->middleware('auth');
     });
 
     Route::group(['prefix' => '/ventas'], function () {
 
         Route::get('/', 'VentaController@index')->name('venta.index');
-        Route::post('/store', 'VentaController@store')->name('venta.store');
-        Route::get('/pdf/{id}', 'VentaController@pdfVenta')->name('venta.pdf');
+        Route::put('/anular/{venta}', 'VentaController@anular')->name('venta.anular');
+        Route::put('/pagar/{venta}', 'VentaController@registrarPago')->name('venta.pagar');
+        //Route::post('/epayco', 'VentaController@epayco_register')->name('venta.epayco');
+        //Route::post('/store', 'VentaController@store')->name('venta.store');
+        Route::get('/factura/{id}', 'VentaController@facturaVentaAdmin')->name('venta.factura');
+        Route::get('/listado','VentaController@listadoVentasPdf')->name('venta.listado');
         Route::get('/{venta}', 'VentaController@show')->name('venta.show');
         
     });
-        
+    
+    Route::group(['prefix' => '/pedidos'], function () {
+
+        Route::get('/clientes', 'OrdersController@listarPedidos')->name('pedidos.clientes');
+        Route::get('/pedido/pdf/{id}', 'OrdersController@imprimirPedido')->name('pedidos.imprimir');
+        Route::get('/pedido/{id}', 'OrdersController@showPedidoAdmin')->name('pedidos.show-id');
+        Route::get('/listado/pdf', 'OrdersController@reportePedidosPdf')->name('pedidos.reporte');
+        Route::put('/update', 'OrdersController@update')->name('pedido.update');
+    });
 
     Route::group(['prefix' => '/clientes'], function (){
         Route::get('/', 'ClienteController@index')->name('cliente.index');
+        Route::get('/listado', 'ClienteController@pdfListadoClientes')->name('cliente.listado');
         Route::get('/{id}', 'ClienteController@show')->name('cliente.show');
         Route::post('/send_message', 'ClienteController@sendMessage')->name('cliente.message');
     });
 
 });
 
-
 Route::get('cancelar/{ruta}', function($ruta) {
     session()->flash('message', ['danger', ("Acción cancelada")]);
     return redirect()->route($ruta);
 })->name('cancelar');
+
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');

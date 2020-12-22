@@ -17,12 +17,13 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){
+    public function index()
+    {
         return view('admin.dashboard.index');
     }
 
-    public function loadVentas(Request $request){
-        
+    public function loadVentas(Request $request)
+    {
         $anio=date('Y');
 
         $ventas=DB::table('ventas as v')
@@ -30,7 +31,16 @@ class DashboardController extends Controller
         DB::raw('YEAR(v.fecha) as anio'),
         DB::raw('SUM(v.valor) as total'))
         ->whereYear('v.fecha',$anio)
+        ->where('v.estado', '!=', '3')
         ->groupBy(DB::raw('MONTH(v.fecha)'),DB::raw('YEAR(v.fecha)'))
+        ->get();
+
+        $pagos=DB::table('pagos as p')
+        ->select(DB::raw('MONTH(p.fecha) as mes'),
+        DB::raw('YEAR(p.fecha) as anio'),
+        DB::raw('SUM(p.monto) as total'))
+        ->whereYear('p.fecha',$anio)
+        ->groupBy(DB::raw('MONTH(p.fecha)'),DB::raw('YEAR(p.fecha)'))
         ->get();
 
         $pedidos=DB::table('pedidos as p')
@@ -58,6 +68,6 @@ class DashboardController extends Controller
         ->get();
         
 
-        return ['ventas'=>$ventas, 'pedidos'=>$pedidos, 'clientes'=>$clientes, 'productos'=>$productos, 'anio'=>$anio];
+        return ['ventas'=>$ventas, 'pedidos'=>$pedidos, 'clientes'=>$clientes, 'productos'=>$productos, 'anio'=>$anio, 'pagos'=>$pagos];
     }
 }

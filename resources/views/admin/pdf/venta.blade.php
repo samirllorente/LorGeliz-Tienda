@@ -116,7 +116,7 @@
         @foreach ($users as $user)
         <header>
             <div id="logo">
-                <img src="/lorgeliz_tienda/public/img/lorgeliz2.jpg" alt="lorgeliz" id="imagen">
+                <img src="{{ url('storage/imagenes/logo/lorgeliz2.jpeg') }}" alt="lorgeliz" id="imagen">
             </div>
             <div id="datos">
                 <p id="encabezado">
@@ -141,9 +141,9 @@
                         <tr>
                             <th><p id="cliente">Sr(a). {{ $user->nombres}}<br>
                             {{ "identificacion"}}: {{$user->identificacion}}<br>
-                            Dirección: {{$user->direccion--}}<br>
-                            Teléfono: {{$user->telefono--}}<br>
-                            Email: {{$user->email--}}</</p></th>
+                            Dirección: {{$user->direccion}}<br>
+                            Teléfono: {{$user->telefono}}<br>
+                            Email: {{$user->email}}</</p></th>
                         </tr>
                     </tbody>
                 </table>
@@ -164,8 +164,14 @@
                     <tbody>
                         <tr>
                             <td>{{ $user->venta}}</td>
-                            <td>{{strftime('%Y-%m-%dT%H:%M:%S', strtotime($user->fecha))}}</td>
-                            <td>{{"CANCELADA"}}</td>
+                            <td>{{date('d/m/Y H:i:s', strtotime($user->fecha)) }}</td>
+                            <td>
+                                @if ($user->saldo == 0)
+                                {{"CANCELADA"}}
+                                @else
+                                {{"PENDIENTE"}}
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -187,7 +193,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($productos as $producto)--}}
+                        @foreach ($productos as $producto)
                         <tr>
                             <td>{{ $producto->cantidad }}</td>
                             <td>{{ $producto->nombre }}</td>
@@ -205,22 +211,28 @@
                             <th></th>
                             <th></th>
                             <th></th>
+                            <th></th>
+                            <th></th>
                             <th>SUBTOTAL</th>
-                            <td>$ {{ floatval($producto->valor)}}</td>
+                            <td>${{ floatval($producto->valor)}}</td>
                         </tr>
                         <tr>
+                            <th></th>
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             <th>Impuesto</th>
-                            <td>$ {{--$v->total*$v->impuesto--}}</td>
+                            <td>$0{{--$v->total*$v->impuesto--}}</td>
                         </tr>
                         <tr>
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th>TOTAL</th>
-                            <td>$ {{floatval($producto->valor)}}</td>
+                            <th></th>
+                            <th></th>       
+                            <th>TOTAL</th>      
+                            <td>${{floatval($producto->valor)}}</td>
                         </tr>
                        {{-- @endforeach--}}
                     </tfoot>

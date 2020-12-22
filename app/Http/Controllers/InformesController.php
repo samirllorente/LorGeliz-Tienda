@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Venta;
+use App\Cliente;
 use App\Producto;
 use App\ProductoReferencia;
-use App\Cliente;
+use App\Venta;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InformesController extends Controller
 {
@@ -22,32 +22,40 @@ class InformesController extends Controller
         $this->middleware('auth');
     }
 
-    public function informeVentas(Request $request){
+    public function informeVentas(Request $request)
+    {
+
+        $anio = date('Y');
+
+        $ventas=DB::table('ventas as v')
+        ->select(DB::raw('MONTH(v.fecha) as mes'),
+        DB::raw('YEAR(v.fecha) as anio'),
+        DB::raw('COUNT(v.id) as cantidad'),
+        DB::raw('SUM(v.valor) as total'))
+        ->whereYear('v.fecha',$anio)
+        ->where('v.estado', '!=', '3')
+        //->whereBetween('v.fecha',[$fecha_de, $fecha_a])
+        ->groupBy(DB::raw('MONTH(v.fecha)'),DB::raw('YEAR(v.fecha)'))
+        ->paginate(5);
+
+        return view('admin.informes.ventas.index',compact('ventas'));
+    }
+
+    public function mostrarVentas(Request $request,$mes)
+    {
 
         $fecha_de = $request->get('fecha_de');
         $fecha_a = $request->get('fecha_a');
 
         $anio = date('Y');
 
-        if ( $fecha_de =='' && $fecha_a =='') {
-
-            $ventas=DB::table('ventas as v')
-            ->select(DB::raw('MONTH(v.fecha) as mes'),
-            DB::raw('YEAR(v.fecha) as anio'),
-            DB::raw('COUNT(v.id) as cantidad'),
-            DB::raw('SUM(v.valor) as total'))
-            ->whereYear('v.fecha',$anio)
-            ->groupBy(DB::raw('MONTH(v.fecha)'),DB::raw('YEAR(v.fecha)'))
-           // ->whereBetween('v.fecha',[$fecha_de, $fecha_a])
-           ->paginate(5);
-
+        if ($fecha_de == '') {
+           $fecha_de = '01/01/'.$anio;
         }
-        
 
-        return view('admin.informes.ventas.index',compact('ventas'));
-    }
-
-    public function mostrarVentas($mes){
+        if ($fecha_a == '') {
+            $fecha_a = \Carbon\Carbon::now();
+        }
 
         $ventas=DB::table('ventas')
         ->join('producto_venta', 'ventas.id', '=', 'producto_venta.venta_id')
@@ -57,14 +65,16 @@ class InformesController extends Controller
         ->select('ventas.*','users.nombres', 'clientes.id as cliente', 'facturas.prefijo', 'facturas.consecutivo',
         DB::raw('SUM(producto_venta.cantidad) as cantidad'))
         ->whereMonth('ventas.fecha',$mes)
+        ->whereBetween('ventas.fecha',[$fecha_de, $fecha_a])
         ->groupBy('ventas.id')
+        ->orderBy('ventas.created_at', 'DESC')
         ->paginate(5);
 
         return view('admin.informes.ventas.show',compact('ventas'));
     }
 
-    public function ventaProductos(Request $request){
-
+    public function ventaProductos(Request $request)
+    {
         $fecha_de = $request->get('fecha_de');
         $fecha_a = $request->get('fecha_a');
 
@@ -88,8 +98,8 @@ class InformesController extends Controller
         return view('admin.informes.productos.index',compact('productos'));
     }
 
-    public function informeClientes(){
-
+    public function informeClientes()
+    {
         $clientes = DB::table('clientes')
         ->join('ventas', 'clientes.id', '=', 'ventas.cliente_id')
         ->join('users', 'clientes.user_id', '=', 'users.id')
@@ -100,10 +110,53 @@ class InformesController extends Controller
         ->orderBy('cantidad', 'DESC')
         ->paginate(5);
 
-        //return $clientes;
-
         return view('admin.informes.clientes.index',compact('clientes'));
 
+    }
+
+    public function informePagos(Request $request)
+    {
+
+        $anio = date('Y');
+
+        $pagos=DB::table('pagos as p')
+        ->select(DB::raw('MONTH(p.fecha) as mes'),
+        DB::raw('YEAR(p.fecha) as anio'),
+        DB::raw('COUNT(p.id) as cantidad'),
+        DB::raw('SUM(p.monto) as total'))
+        ->whereYear('p.fecha',$anio)
+        ->groupBy(DB::raw('MONTH(p.fecha)'),DB::raw('YEAR(p.fecha)'))
+        ->paginate(5);
+
+        return view('admin.informes.pagos.index',compact('pagos'));
+    }
+
+    public function mostrarPagos(Request $request,$mes)
+    {
+
+        $fecha_de = $request->get('fecha_de');
+        $fecha_a = $request->get('fecha_a');
+
+        $anio = date('Y');
+
+        if ($fecha_de == '') {
+           $fecha_de = '01/01/'.$anio;
+        }
+
+        if ($fecha_a == '') {
+            $fecha_a = \Carbon\Carbon::now();
+        }
+
+        $pagos=DB::table('pagos')
+        ->join('ventas', 'pagos.venta_id', '=', 'ventas.id')
+        ->select('pagos.*')
+        ->whereMonth('pagos.fecha',$mes)
+        ->whereBetween('pagos.fecha',[$fecha_de, $fecha_a])
+        ->groupBy('pagos.id')
+        ->orderBy('pagos.created_at', 'DESC')
+        ->paginate(5);
+
+        return view('admin.informes.pagos.show',compact('pagos'));
     }
     
     public function pdfInformeVentas(Request $request)
@@ -154,8 +207,8 @@ class InformesController extends Controller
         ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
         ->join('tallas', 'tallas.id', '=', 'producto_referencia.talla_id')
         ->join('producto_venta', 'producto_referencia.id', '=', 'producto_venta.producto_referencia_id')
-        ->select('color_producto.id as cop', 'productos.id as codigo', 'productos.nombre', 'colores.nombre as color',
-        'tallas.nombre as talla', DB::raw('SUM(producto_venta.cantidad) as cantidad')
+        ->select('color_producto.id as cop','productos.id as codigo','productos.nombre','colores.nombre as color',
+        'tallas.nombre as talla',DB::raw('SUM(producto_venta.cantidad) as cantidad')
         )->groupBy('producto_referencia.id')
         ->orderBy('cantidad', 'DESC')
         ->get();
@@ -194,8 +247,8 @@ class InformesController extends Controller
         return $pdf->download('clientes.pdf');
     }
 
-    public function pdfVentaShow(Request $request){
-
+    public function pdfVentaShow(Request $request)
+    {
         $ventas=DB::table('ventas')
         ->join('producto_venta', 'ventas.id', '=', 'producto_venta.venta_id')
         ->join('facturas', 'ventas.factura_id', '=', 'facturas.id')

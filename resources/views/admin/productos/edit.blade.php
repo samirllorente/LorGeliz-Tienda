@@ -22,7 +22,6 @@
 
 <div id="productos">
 
-
     <form action="{{ route('product.update', $producto)}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -193,7 +192,7 @@
 
                             </div>
 
-                            <div class="col-md-6">
+                            {{--<div class="col-md-6">
                                 <div class="form-group">
                                     <label>Color</label>
                                     <select name="color" id="color" class="form-control">
@@ -210,7 +209,7 @@
                                     {{ $errors->first('color') }}
                                 </small>
                                 @endif
-                            </div>
+                            </div>--}}
 
                         </div>
 
@@ -436,7 +435,7 @@
                 <!-- /.row -->
 
 
-                <div class="card card-warning">
+                {{--<div class="card card-warning">
                     <div class="card-header">
                         <h3 class="card-title">Imágenes</h3>
 
@@ -480,8 +479,6 @@
                 </div>
                 <!-- /.card -->
 
-
-
                 <div class="card card-primary">
                     <div class="card-header">
                         <div class="card-title">
@@ -508,7 +505,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div>--}}
 
                 <div class="card card-danger">
                     <div class="card-header">
@@ -523,16 +520,17 @@
 
                                     <label>Estado</label>
                                     <select name="estado" id="estado" class="form-control " style="width: 100%;">
-                                        @foreach (\App\Producto::groupBy('estado')->pluck('estado') as $estado)
-                                        <option {{ $producto->estado === $estado ? 'selected' : '' }} value="{{ $estado}}">
+                                        @foreach($estados as $estado)
+                                        <option @if ($producto->estado == $estado)
+                                            selected
+                                            @endif value="{{$estado}}">
                                             @if ($estado == 1)
-                                            {{"Nuevo"}}
+                                            {{ "nuevo" }} 
                                             @else
                                             {{"En oferta"}}
                                             @endif
                                         </option>
                                         @endforeach
-
                                     </select>
 
                                 </div>
@@ -544,7 +542,7 @@
                                 <!-- checkbox -->
                                 <div class="form-group clearfix">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="activo" name="activo"
+                                        <input type="checkbox" class="custom-control-input" id="activo" name="activo" disabled
                                         @if($producto->activo=='Si')
                                         checked
                                         @endif>
@@ -632,7 +630,6 @@
 <script>
     window.data = {
         editar: 'Si',
-
         datos: {
             "precioanterior": "{{$producto->precio_anterior}}",
             "porcentajededescuento": "{{$producto->porcentaje_descuento}}"

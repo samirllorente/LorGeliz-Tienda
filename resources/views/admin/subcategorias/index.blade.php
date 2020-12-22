@@ -34,8 +34,8 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body table-responsive p-0" style="height: 300px;">
-                <a class=" m-2 float-right btn btn-primary" href="{{ route('subcategory.create') }}">Crear</a>
+            <div class="card-body table-responsive p-0">
+                <a class="m-2 float-right btn btn-primary" href="{{ route('subcategory.create') }}">Crear</a>
                 <table class="table table-head-fixed">
                     <thead>
                         <tr>

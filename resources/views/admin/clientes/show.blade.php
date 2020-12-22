@@ -7,11 +7,9 @@
 <li class="breadcrumb-item active">@yield('titulo')</li>
 @endsection
 
-
 @section('content')
 
-
-<div id="index" class="row">
+<div id="imprimir_pedidos" class="row">
 
     <div class="col-12">
         <div class="card">
@@ -42,6 +40,7 @@
                             <th>Imagen</th>
                             <th>Nombres</th>
                             <th>Apellidos</th>
+                            <th>Cédula</th>
                             <th>Dirección</th>
                             <th>Telefóno</th>
                             <th>Email</th>
@@ -64,6 +63,7 @@
                             </td>
                             <td>{{$cliente->nombres }} </td>
                             <td>{{$cliente->apellidos }} </td>
+                            <td>{{$cliente->identificacion }} </td>
                             <td>{{$cliente->direccion }} </td>
                             <td>{{$cliente->telefono }} </td>
                             <td>{{$cliente->email }} </td>
@@ -102,17 +102,15 @@
                         @foreach ($pedidos as $pedido)
 
                         <tr>
-                            <td>{{ $pedido->venta }}</td>
+                            <td>{{ $pedido->id }}</td>
                             <td>{{ date('d/m/Y', strtotime($pedido->fecha)) }}</td>
                             <td>{{ $pedido->prefijo }}{{ $pedido->consecutivo }}</td>
                             <td>${{ floatval($pedido->valor)}}</td>
-                            <td><a href="{{ route('mostrar.pedido', $pedido->venta)}}" class="btn btn-primary"
+                            <td><a href="{{ route('pedidos.show-id', $pedido->id)}}" class="btn btn-primary"
                             title="ver pedido"><i class="fas fa-eye"></i></a>
                             </td>
-                            <td><a href="" class="btn btn-success"
-                            title="imprimir"><i class="fas fa-print"></i></a>
+                            <td><a class="btn btn-success" href="" v-on:click.prevent="imprimir({{ $pedido->id}})" title="imprimir"><i class="fa fa-print"></i></a>
                             </td>
-
                         </tr>
 
                         @endforeach

@@ -12,11 +12,10 @@
 
 @section('content')
 
-<div class="super_container_inner">
+<div class="super_container_inner" id="inicio">
     <div class="super_overlay"></div>
 
     <!-- Home -->
-
     <div class="home">
         <!-- Home Slider -->
         <div class="home_slider_container">
@@ -25,13 +24,8 @@
                 <!-- Slide -->
                 @foreach ($productoSlider as $producto)
                 <div class="owl-item">
-                    @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                    ->where('imageable_id', $producto->cop)
-                    ->pluck('url', 'id')
-                    ->take(1) as $id => $imagen)
-                    <div class="background_image" style="background-image:url({{ url('storage/' . $imagen) }})">
+                    <div class="background_image" style="background-image:url({{ url('storage/' . $producto->imagen) }})">
                     </div>
-                    @endforeach
                     <div class="container fill_height">
                         <div class="row fill_height">
                             <div class="col fill_height">
@@ -48,21 +42,23 @@
                                                         <div
                                                             class="product_tag d-flex flex-column align-items-center justify-content-center">
                                                             <div>
-                                                                <div>from</div>
-                                                                <div>$3<span>.20</span>
+                                                                <div>desde</div>
+                                                                <div style="font-size: 25px">${{ floatval($producto->precio_actual)}}<span></span>
                                                                 </div>
-                                                                <del class="price-oldslider">$3<span>.20</span></del>
+                                                                <del class="price-oldslider">@if ($producto->precio_anterior > $producto->precio_actual)
+                                                                ${{ floatval($producto->precio_anterior)}} 
+                                                                @endif<span></span></del>
                                                             </div>
                                                         </div>
                                                         <div class="product_image">
                                                             <a href="{{route('producto.show', $producto->slug)}}">
-                                                                @foreach(\App\Imagene::where('imageable_type',
+                                                                {{--@foreach(\App\Imagene::where('imageable_type',
                                                                 'App\ColorProducto')
                                                                 ->where('imageable_id', $producto->cop)
                                                                 ->pluck('url', 'id')
-                                                                ->take(1) as $id => $imagen)
-                                                                <img src="{{ url('storage/' . $imagen) }}" alt="">
-                                                                @endforeach
+                                                                ->take(1) as $id => $imagen)--}}
+                                                                <img src="{{ url('storage/' . $producto->imagen) }}" alt="">
+                                                                {{--@endforeach--}}
                                                             </a>
                                                         </div>
                                                         <div class="product_content">
@@ -153,25 +149,20 @@
                     <div class="product">
                         <div class="product_image">
                             <a href="{{route('producto.show', $nuevo->slug)}}">
-                            @foreach(\App\Imagene::where('imageable_type',
-                            'App\ColorProducto')
-                            ->where('imageable_id', $nuevo->cop)
-                            ->pluck('url', 'id')
-                            ->take(1) as $id => $imagen)
-                            <img src="{{ url('storage/' . $imagen) }}" alt="">
-                            @endforeach
+                            <img src="{{ url('storage/' . $nuevo->imagen) }}" alt="">
+                            
                             </a>
                         </div>
                         <div class="product_content">
                             <div class="product_info d-flex flex-row align-items-start justify-content-start">
                                 <div>
                                     <div>
-                                        <div class="product_name"><a href="{{ route('producto.show', $nuevo->slug)}}">{{ $nuevo->nombre}}</a>
+                                    <div class="product_name"><a href="{{ route('producto.show', $nuevo->slug)}}">{{    $nuevo->nombre}}-{{$nuevo->color}}</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ml-auto text-right">
-                                    <div class="product_category">In <a href="category.html">Category</a></div>
+                                    <div class="product_category">En <a href="{{ route('categorias')}}">{{$nuevo->tipo}}</a></div>
                                     <div class="product_price text-right">${{ floatval($nuevo->precio_actual)}}<span></span></div>
                                 </div>
                             </div>
@@ -180,7 +171,9 @@
                                     <div
                                         class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
                                         <div>
-                                            <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
+                                            <div><a href="{{route('producto.show', $nuevo->slug)}}"><img
+                                                    src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
+                                                </a>
                                                 <div>+</div>
                                             </div>
                                         </div>
@@ -193,179 +186,6 @@
                 </div>
                 @endforeach
                 
-                <!-- Product -->
-                
-
-                <!-- Product -->
-                {{--<div class="col-xl-4 col-md-6">
-                    <div class="product">
-                        <div class="product_image"><img src="{{ asset('asset/images/product_2.jpg') }}" alt=""></div>
-                        <div class="product_content">
-                            <div class="product_info d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div>
-                                        <div class="product_name"><a href="product.html">Cool Clothing with Brown
-                                                Stripes</a></div>
-
-                                    </div>
-                                </div>
-                                <div class="ml-auto text-right">
-                                    <div class="product_category">In <a href="category.html">Category</a></div>
-                                    <div class="product_price text-right">$3<span>.99</span></div>
-                                </div>
-                            </div>
-                            <div class="product_buttons">
-                                <div class="text-right d-flex flex-row align-items-start justify-content-start">
-                                    <div
-                                        class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-                                        <div>
-                                            <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
-                                                <div>+</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product -->
-                <div class="col-xl-4 col-md-6">
-                    <div class="product">
-                        <div class="product_image"><img src="{{ asset('asset/images/product_3.jpg') }}" alt=""></div>
-                        <div class="product_content">
-                            <div class="product_info d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div>
-                                        <div class="product_name"><a href="product.html">Cool Clothing with Brown
-                                                Stripes</a></div>
-
-                                    </div>
-                                </div>
-                                <div class="ml-auto text-right">
-                                    <div class="product_category">In <a href="category.html">Category</a></div>
-                                    <div class="product_price text-right">$3<span>.99</span></div>
-                                </div>
-                            </div>
-                            <div class="product_buttons">
-                                <div class="text-right d-flex flex-row align-items-start justify-content-start">
-                                    <div
-                                        class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-                                        <div>
-                                            <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
-                                                <div>+</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product -->
-                <div class="col-xl-4 col-md-6">
-                    <div class="product">
-                        <div class="product_image"><img src="{{ asset('asset/images/product_4.jpg') }}" alt=""></div>
-                        <div class="product_content">
-                            <div class="product_info d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div>
-                                        <div class="product_name"><a href="product.html">Cool Clothing with Brown
-                                                Stripes</a></div>
-
-                                    </div>
-                                </div>
-                                <div class="ml-auto text-right">
-                                    <div class="product_category">In <a href="category.html">Category</a></div>
-                                    <div class="product_price text-right">$3<span>.99</span></div>
-                                </div>
-                            </div>
-                            <div class="product_buttons">
-                                <div class="text-right d-flex flex-row align-items-start justify-content-start">
-                                    <div
-                                        class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-                                        <div>
-                                            <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
-                                                <div>+</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product -->
-                <div class="col-xl-4 col-md-6">
-                    <div class="product">
-                        <div class="product_image"><img src="{{ asset('asset/images/product_5.jpg') }}" alt=""></div>
-                        <div class="product_content">
-                            <div class="product_info d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div>
-                                        <div class="product_name"><a href="product.html">Cool Clothing with Brown
-                                                Stripes</a></div>
-
-                                    </div>
-                                </div>
-                                <div class="ml-auto text-right">
-                                    <div class="product_category">In <a href="category.html">Category</a></div>
-                                    <div class="product_price text-right">$3<span>.99</span></div>
-                                </div>
-                            </div>
-                            <div class="product_buttons">
-                                <div class="text-right d-flex flex-row align-items-start justify-content-start">
-                                    <div
-                                        class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-                                        <div>
-                                            <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
-                                                <div>+</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product -->
-                <div class="col-xl-4 col-md-6">
-                    <div class="product">
-                        <div class="product_image"><img src="{{ asset('asset/images/product_6.jpg') }}" alt=""></div>
-                        <div class="product_content">
-                            <div class="product_info d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div>
-                                        <div class="product_name"><a href="product.html">Cool Clothing with Brown
-                                                Stripes</a></div>
-
-                                    </div>
-                                </div>
-                                <div class="ml-auto text-right">
-                                    <div class="product_category">In <a href="category.html">Category</a></div>
-                                    <div class="product_price text-right">$3<span>.99</span></div>
-                                </div>
-                            </div>
-                            <div class="product_buttons">
-                                <div class="text-right d-flex flex-row align-items-start justify-content-start">
-                                    <div
-                                        class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-                                        <div>
-                                            <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
-                                                <div>+</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>--}}
-
             </div>
             <div class="row load_more_row">
                 <div class="col">
@@ -375,10 +195,7 @@
         </div>
     </div>
 
-
-
     <!-- Lo mas visto -->
-
 
     <div class="lomasvendidocontenedor">
         <div class="section_title text-center">Lo más Visto</div>
@@ -391,25 +208,19 @@
                 <div class="product">
                     <div class="product_image">
                         <a href="{{route('producto.show', $producto->slug)}}">
-                        @foreach(\App\Imagene::where('imageable_type',
-                        'App\ColorProducto')
-                        ->where('imageable_id', $producto->cop)
-                        ->pluck('url', 'id')
-                        ->take(1) as $id => $imagen)
-                        <img src="{{ url('storage/' . $imagen) }}" alt="">
-                        @endforeach
+                        <img src="{{ url('storage/' . $producto->imagen) }}" alt="">
                         </a>
                     </div>
                     <div class="product_content">
                         <div class="product_info d-flex flex-row align-items-start justify-content-start">
                             <div>
                                 <div>
-                                    <div class="product_name"><a href="{{ route('producto.show', $producto->slug)}}">{{ $producto->nombre}}</a></div>
+                                    <div class="product_name"><a href="{{ route('producto.show', $producto->slug)}}">{{ $producto->nombre}}-{{$producto->color}}</a></div>
 
                                 </div>
                             </div>
                             <div class="ml-auto text-right">
-                                <div class="product_category">In <a href="category.html">Category</a></div>
+                                <div class="product_category">En <a href="{{ route('categorias')}}">{{$producto->tipo}}</a></div>
                                 <div class="product_price text-right">${{ floatval($producto->precio_actual)}}<span></span></div>
                             </div>
                         </div>
@@ -418,7 +229,8 @@
                                 <div
                                     class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
                                     <div>
-                                        <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
+                                        <div><a href="{{ route('producto.show', $producto->slug)}}">
+                                                <img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt=""></a>
                                             <div>+</div>
                                         </div>
                                     </div>
@@ -430,43 +242,6 @@
             </div>
             @endforeach
             
-
-            <!-- item-->
-            {{--<div class="item">
-                <div class="">
-                    <div class="product">
-                        <div class="product_image"><img src="{{ asset('asset/images/product_6.jpg') }}" alt=""></div>
-                        <div class="product_content">
-                            <div class="product_info d-flex flex-row align-items-start justify-content-start">
-                                <div>
-                                    <div>
-                                        <div class="product_name"><a href="product.html">Cool Clothing with Brown
-                                                Stripes</a></div>
-
-                                    </div>
-                                </div>
-                                <div class="ml-auto text-right">
-                                    <div class="product_category">In <a href="category.html">Category</a></div>
-                                    <div class="product_price text-right">$3<span>.99</span></div>
-                                </div>
-                            </div>
-                            <div class="product_buttons">
-                                <div class="text-right d-flex flex-row align-items-start justify-content-start">
-                                    <div
-                                        class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-                                        <div>
-                                            <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
-                                                <div>+</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>--}}
-
         </div>
     </div>
 </div>
@@ -477,9 +252,7 @@
 
 <br>
 
-
 <!-- Lo mas vendido -->
-
 
 <div class="lomasvendidocontenedor">
     <div class="section_title text-center">Lo más Vendido</div>
@@ -492,24 +265,24 @@
                 <div class="product">
                     <div class="product_image">
                         <a href="{{route('producto.show', $producto->slug)}}">
-                        @foreach(\App\Imagene::where('imageable_type',
+                        {{--@foreach(\App\Imagene::where('imageable_type',
                         'App\ColorProducto')
                         ->where('imageable_id', $producto->cop)
                         ->pluck('url', 'id')
-                        ->take(1) as $id => $imagen)
-                        <img src="{{ url('storage/' . $imagen) }}" alt="">
-                        @endforeach
+                        ->take(1) as $id => $imagen)--}}
+                        <img src="{{ url('storage/' . $producto->imagen) }}" alt="">
+                        {{--@endforeach--}}
                         </a>
                     </div>
                     <div class="product_content">
                         <div class="product_info d-flex flex-row align-items-start justify-content-start">
                             <div>
                                 <div>
-                                    <div class="product_name"><a href="{{ route('producto.show', $producto->slug)}}">{{ $producto->nombre}}</a></div>
+                                    <div class="product_name"><a href="{{ route('producto.show', $producto->slug)}}">{{ $producto->nombre}}-{{$producto->color}}</a></div>
                                 </div>
                             </div>
                             <div class="ml-auto text-right">
-                                <div class="product_category">In <a href="category.html">Category</a></div>
+                                <div class="product_category">En <a href="{{ route('categorias')}}">{{$producto->tipo}}</a></div>
                                 <div class="product_price text-right">${{ floatval($producto->precio_actual)}}<span></span></div>
                             </div>
                         </div>
@@ -518,7 +291,7 @@
                                 <div
                                     class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
                                     <div>
-                                        <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
+                                        <div><a href="{{ route('producto.show', $producto->slug)}}"><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt=""></a>
                                             <div>+</div>
                                         </div>
                                     </div>
@@ -531,45 +304,6 @@
 
         @endforeach
         
-        <!-- item-->
-        {{--<div class="item">
-            <div class="">
-                <div class="product">
-                    <div class="product_image"><img src="{{ asset('asset/images/product_6.jpg') }}" alt=""></div>
-                    <div class="product_content">
-                        <div class="product_info d-flex flex-row align-items-start justify-content-start">
-                            <div>
-                                <div>
-                                    <div class="product_name"><a href="product.html">Cool Clothing with Brown
-                                            Stripes</a></div>
-
-                                </div>
-                            </div>
-                            <div class="ml-auto text-right">
-                                <div class="product_category">In <a href="category.html">Category</a></div>
-                                <div class="product_price text-right">$3<span>.99</span></div>
-                            </div>
-                        </div>
-                        <div class="product_buttons">
-                            <div class="text-right d-flex flex-row align-items-start justify-content-start">
-                                <div
-                                    class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-                                    <div>
-                                        <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
-                                            <div>+</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>--}}
-
     </div>
 </div>
 </div>
@@ -580,9 +314,7 @@
 
 <br>
 
-
 <!-- En oferta -->
-
 
 <div class="lomasvendidocontenedor">
     <div class="section_title text-center">En oferta</div>
@@ -597,20 +329,14 @@
             <span class="badge-offer"><b> - {{ $oferta->porcentaje_descuento}}%</b></span>
                 <div class="product_image">
                     <a href="{{route('producto.show', $oferta->slug)}}">
-                    @foreach(\App\Imagene::where('imageable_type',
-                    'App\ColorProducto')
-                    ->where('imageable_id', $oferta->cop)
-                    ->pluck('url', 'id')
-                    ->take(1) as $id => $imagen)
-                    <img src="{{ url('storage/' . $imagen) }}" alt="">
-                    @endforeach
+                    <img src="{{ url('storage/' . $oferta->imagen) }}" alt="">
                     </a>
                 </div>
                 <div class="product_content">
                     <div class="product_info">
                         <div>
                             <div>
-                            <div class="product_name product_namesinwidth text-center"><a href="{{ route('producto.show', $oferta->slug)}}">{{ $oferta->nombre}}</a></div>
+                            <div class="product_name product_namesinwidth text-center"><a href="{{ route('producto.show', $oferta->slug)}}">{{ $oferta->nombre}}-{{$oferta->color}}</a></div>
 
                             </div>
                         </div>
@@ -625,7 +351,9 @@
                             <div
                                 class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
                                 <div>
-                                    <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
+                                    <div><a href="{{ route('producto.show', $oferta->slug)}}">
+                                            <img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
+                                        </a>
                                         <div>+</div>
                                     </div>
                                 </div>
@@ -636,49 +364,6 @@
             </div>
         </div>
         @endforeach
-        
-        <!-- item-->
-        {{--<div class="item">
-            <div class="">
-                <div class="product">
-                    <span class="badge-new"><b> Nuevo</b></span>
-                    <span class="badge-offer"><b> - 50%</b></span>
-
-                    <div class="product_image"><img src="{{ asset('asset/images/product_6.jpg') }}" alt=""></div>
-                    <div class="product_content">
-                        <div class="product_info">
-                            <div>
-                                <div>
-                                    <div class="product_name product_namesinwidth text-center"><a
-                                            href="product.html">Cool Clothing with Brown Stripes</a></div>
-
-                                </div>
-                            </div>
-                            <div class="ml-auto">
-                                <div class="product_price text-center">$3<span>.99</span><del class="price-old">
-                                        $1980.00</del></div>
-
-                            </div>
-                        </div>
-                        <div class="product_buttons">
-                            <div class="text-right d-flex flex-row align-items-start justify-content-start">
-                                <div
-                                    class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-                                    <div>
-                                        <div><img src="{{ asset('asset/images/cart.svg') }}" class="svg" alt="">
-                                            <div>+</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>--}}
-
     </div>
 </div>
 </div>

@@ -14,14 +14,14 @@
         <div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>
         <nav class="main_nav">
             <ul class="d-flex flex-row align-items-start justify-content-start">
-                <li class="active"><a href="#">Mujeres</a></li>
-                <li><a href="#">Hombres</a></li>
-                <li><a href="#">Niños</a></li>					
+                <li class="active"><a href="../categorias?ref=Mujeres">Mujeres</a></li>
+                <li><a href="../categorias?ref=Hombres">Hombres</a></li>
+                <li><a href="../categorias?ref=Niños">Niños</a></li>					
             </ul>
         </nav>
         <div class="header_right d-flex flex-row align-items-center justify-content-start ml-auto">
             <!-- Search -->
-            <div class="header_search">
+            <div class="header_search" id="search" id="search_box">
                 <form action="#" id="header_search_form">
                     <input type="text" class="search_input" placeholder="Buscar" required="required">
                     <button class="header_search_button"><img src="{{ asset('asset/images/search.png') }}" alt=""></button>
@@ -31,11 +31,11 @@
             @include('partials.navigations.logged')
             
             <!-- Cart -->
-            <div class="cart"><a href="{{ route('store.cart')}}"><div><img class="svg" src="{{ asset('asset/images/cart.svg') }}" alt="https://www.flaticon.com/authors/freepik"><div>1</div></div></a></div>
+            <div class="cart" id="user_cart"><a href="{{ route('cart.index')}}" title="ir al carrito"><div><img class="svg" src="{{ asset('asset/images/cart.svg') }}" alt="https://www.flaticon.com/authors/freepik"><div v-text="productos.data"></div></div></a></div>
             <!-- Phone -->
             <div class="header_phone d-flex flex-row align-items-center justify-content-start">
                 <div><div><img src="{{ asset('asset/images/phone.svg') }}" alt="https://www.flaticon.com/authors/freepik"></div></div>
-                <div>+1 912-252-7350</div>
+                <div>+57 313-864-5929</div>
             </div>
         </div>
     </div>

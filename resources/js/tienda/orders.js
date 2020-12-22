@@ -6,29 +6,11 @@ const checkout = new Vue({
         devolucion: ''
     }, 
 
-    
     methods: {
-        getdevolucion(producto, venta){
+      imprimir(id){
+        window.open('/lorgeliz_tienda/public/pedidos/show/pdf/' + id + ',' + '_blank');
 
-
-            let url = '/lorgeliz_tienda/public/devoluciones/producto?producto=' + producto + '&venta=' + venta;
-
-            axios.get(url).then(response => {
-                this.devolucion = response.data.devolucion;
-            }); 
-
-            if (this.devolucion > 0) {
-                swal(
-                    'Acción cancelada!',
-                    'Ya haz solicitado!',
-                    'success'
-                )
-            }
-            else{
-                return false;
-            }
-
-        },
+      }
 
     },
 

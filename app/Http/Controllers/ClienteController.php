@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
+
+
 use App\Cliente;
+use App\Pedido;
 use App\User;
 use App\Venta;
-
-use Illuminate\Support\Facades\Mail;
 use App\Mail\ClientePrivateMail;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 
 class ClienteController extends Controller
 {
@@ -23,34 +25,37 @@ class ClienteController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request){
-
+    public function index(Request $request)
+    {
         $keyword = $request->get('keyword');
 
         $clientes = Cliente::join('users','clientes.user_id', '=', 'users.id')
         ->where('users.nombres','like',"%$keyword%")
         ->orWhere('users.apellidos','like',"%$keyword%")
+        ->orWhere('users.identificacion','like',"%$keyword%")
         ->orWhere('users.direccion','like',"%$keyword%")
         ->orWhere('users.telefono','like',"%$keyword%")
         ->orWhere('users.email','like',"%$keyword%")
-        ->select('clientes.id','users.nombres', 'users.apellidos','users.direccion','users.telefono','users.email')
+        ->select('clientes.id','users.nombres', 'users.apellidos', 'users.identificacion','users.direccion','users.telefono','users.email')
         ->paginate(5);
 
         return view('admin.clientes.index', compact('clientes'));
     }
 
-    public function show($id){
-
+    public function show($id)
+    {
         $cliente = User::with('imagene')
         ->join('clientes','users.id', '=', 'clientes.user_id')
         ->where('clientes.id', $id)
         ->select('clientes.id','users.*')
         ->firstOrFail();
 
-        $pedidos = Venta::join('clientes','ventas.cliente_id','=','clientes.id')
+        $pedidos = Pedido::join('ventas', 'pedidos.venta_id', 'ventas.id')
+        ->join('clientes','ventas.cliente_id','=','clientes.id')
         ->join('facturas','ventas.factura_id', '=', 'facturas.id')
         ->where('clientes.id',$id)
-        ->select('ventas.id as venta','ventas.fecha', 'ventas.valor', 'facturas.prefijo','facturas.consecutivo')
+        ->where('ventas.estado', '!=', '3')
+        ->select('pedidos.id','pedidos.fecha', 'ventas.valor', 'facturas.prefijo','facturas.consecutivo')
         ->paginate(10);
 
         $total = 0;
@@ -63,8 +68,8 @@ class ClienteController extends Controller
 
     }
 
-    public function sendMessage(){
-       
+    public function sendMessage()
+    {
         $info = \request('info');
         $data = [];
         parse_str($info, $data);
@@ -78,6 +83,8 @@ class ClienteController extends Controller
             
             Mail::to($cliente->email)->send(new ClientePrivateMail($cliente->nombres, $data['message']));
             $success = true;
+            return new ClientePrivateMail($cliente->nombres, $data['message']);
+
 
         } catch (\Exception $exception) {
             $success = false;
@@ -85,6 +92,24 @@ class ClienteController extends Controller
 
         return response()->json(['response' => $success]);
     
+    }
+
+    public function pdfListadoClientes()
+    {
+        $clientes = Cliente::join('users','clientes.user_id', '=', 'users.id')
+        ->select('clientes.id','users.nombres', 'users.apellidos','users.direccion','users.telefono','users.email')
+        ->paginate(10);
+
+        $count = 0;
+        foreach ($clientes as $cliente) {
+            $count = $count + 1;
+        }
+
+        $pdf = \PDF::loadView('admin.pdf.listadoclientes',['clientes'=>$clientes, 'count'=>$count])
+        ->setPaper('a4', 'landscape');
+        
+        return $pdf->download('listadoclientes.pdf');
+
     }
     
 }

@@ -36,6 +36,24 @@
                 <div class="col-md-6">
                     <div class="card card-chart">
                         <div class="card-header">
+                            <h4>Pagos</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="ct-chart">
+                                <canvas id="pagoschart">                                                
+                                </canvas>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <p>Pagos recibidos en los últimos meses.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
                             <h4>Pedidos</h4>
                         </div>
                         <div class="card-content">
@@ -49,8 +67,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-6">
                     <div class="card card-chart">
                         <div class="card-header">
@@ -67,6 +83,9 @@
                         </div>
                     </div>
                 </div>
+               
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="card card-chart">
                         <div class="card-header">
@@ -129,6 +148,13 @@
         let varTotalProductos = [];
         let varMesProducto = [];
 
+        let varPago = null;
+        let charPago = null;
+
+        let pagos = [];
+        let varTotalPagos = [];
+        let varMesPago = [];
+
         $.ajaxSetup({
 
         headers: {
@@ -147,6 +173,7 @@
                 let pedidos = response.pedidos;
                 let clientes = response.clientes;
                 let productos = response.productos;
+                let pagos = response.pagos;
 
                 let meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
@@ -170,11 +197,17 @@
                    varTotalProductos.push(x.total);
                 });
 
+                pagos.map(function(x){
+                   varMesPago.push(meses[x.mes-1]);
+                   varTotalPagos.push(x.total);
+                });
+
 
                varVenta=document.getElementById('ventas').getContext('2d');
                varPedido=document.getElementById('pedidoschart').getContext('2d');
                varCliente=document.getElementById('clientes').getContext('2d');
                varProducto=document.getElementById('productoschart').getContext('2d');
+               varPago=document.getElementById('pagoschart').getContext('2d');
 
                charVenta = new Chart(varVenta, {
                     type: 'line',
@@ -252,6 +285,29 @@
                         datasets: [{
                             label: 'Productos',
                             data: varTotalProductos,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 0.2)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                charPago = new Chart(varPago, {
+                    type: 'line',
+                    data: {
+                        labels: varMesPago,
+                        datasets: [{
+                            label: 'Pagos',
+                            data: varTotalPagos,
                             backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             borderColor: 'rgba(255, 99, 132, 0.2)',
                             borderWidth: 1

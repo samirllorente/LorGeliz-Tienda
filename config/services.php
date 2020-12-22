@@ -20,6 +20,13 @@ return [
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
     ],
 
+    'epayco' =>[
+        'base_uri' => env('EPAYCO_BASE_URI'),
+        'api_key' => env('EPAYCO_API_KEY'),
+        'private_key' => env('EPAYCO_PRIVATE_KEY'),
+        'class' => App\Services\EpaycoService::class,
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

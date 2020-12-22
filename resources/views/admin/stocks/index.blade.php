@@ -2,7 +2,7 @@
 @extends('layouts.admin')
 
 
-@section('titulo', 'producto de Productos')
+@section('titulo', 'Inventario de Productos')
 
 @section('breadcrumb')
 <li class="breadcrumb-item active">@yield('titulo')</li>
@@ -10,17 +10,22 @@
 
 @section('content')
 
-<div class="content">
+<div id="inventarios" class="content">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title mb-2">Información de productos</h3>
+                        <h3 class="card-title mb-2">Información de inventario de productos</h3>
 
                         <div class="card-tools">
                             <form>
-                                <div class="input-group input-group-sm" style="width: 150px;">
+                                <div class="input-group input-group-sm" style="width: 160px;">
+                                    <div class="input-group-append">
+                                        <a href="" class="btn btn-success mx-1" v-on:click.prevent="pdfInventarios()">
+                                            <i class="fas fa-print"></i>
+                                        </a>
+                                    </div>
                                     <input type="text" name="keyword" class="form-control float-right"
                                         placeholder="buscar" value="{{ request()->get('keyword') }}">
 

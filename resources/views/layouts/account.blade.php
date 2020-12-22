@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <!-- Id for Channel Notification -->
+  <meta name="clienteId" content="{{ Auth::check() ? Auth::user()->cliente->id : '' }}">
 
   <title>Lorgeliz Tienda</title>
 
@@ -36,10 +38,10 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="{{ route('mi.cuenta')}}" class="nav-link">Mi cuenta</a>
+            <a href="{{ route('users.cuenta')}}" class="nav-link">Mi cuenta</a>
           </li>
           <li class="nav-item">
-          <a href="{{ route('mis.pedidos')}}" class="nav-link">Mis pedidos</a>
+          <a href="{{ route('pedidos.index')}}" class="nav-link">Mis pedidos</a>
           </li>
           <li class="nav-item">
           <a href="{{ route('devolucion.index') }}" class="nav-link">Devoluciones</a>
@@ -156,32 +158,35 @@
           </div>
         </li>
         <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-header">15 Notifications</span>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2"></i> 4 new messages
-              <span class="float-right text-muted text-sm">3 mins</span>
+        <div id="clientNotification">
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="far fa-bell"></i>
+              <span class="badge badge-warning navbar-badge">@{{notifications.length}}</span>
             </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-users mr-2"></i> 8 friend requests
-              <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> 3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-          </div>
-        </li>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-header">15 Notifications</span>
+              <div class="dropdown-divider"></div>
+              {{--<a href="#" class="dropdown-item">
+                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                <span class="float-right text-muted text-sm">3 mins</span>
+              </a>--}}
+              <div v-if="notifications.length">
+                <a href="" class="dropdown-item" v-for="item in notifications" :key="item.id"         
+                  v-on:click.prevent="">
+                  <i class="fas fa-envelope mr-2"></i>
+                  @{{item.data[datos]}}
+                  {{--<span class="float-right text-muted text-sm">3 mins</span>--}}
+                </a>
+              </div>
+              <div v-else>
+                <a href="" class="ml-5" style="color: black"><span>no tienes notificaciones</span></a>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item dropdown-footer">Todas Las Notificaciones</a>
+            </div>
+          </li>
+        </div>
         
         <li class="nav-item dropdown">
           <a id="navbarDropdown"
@@ -195,7 +200,7 @@
           <span class="caret"></span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ route('mi.cuenta') }}">
+        <a class="dropdown-item" href="{{ route('users.cuenta') }}">
           {{ __("Mi cuenta") }}
         </a>
           @auth
@@ -227,7 +232,7 @@
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('mi.cuenta')}}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{{route('users.cuenta')}}">Inicio</a></li>
             @yield('breadcumb')
           </ol>
         </div><!-- /.col -->
@@ -267,7 +272,8 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('asset/plugins/sweetalert/sweetalert.min.js') }}"></script>
-<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="{{ asset('js/app_admin.js') }}" defer></script>
+{{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
 @yield('scripts')
 
 </body>

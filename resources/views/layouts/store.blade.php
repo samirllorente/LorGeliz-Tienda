@@ -41,18 +41,12 @@
         <div class="super_container">
             @include('partials.header')
 
-            <div>
-
                 @yield('content')
-
-            </div>
-
 
             <!-- Footer -->
 
             @include('partials.footer')
-
-
+            </div>
 
         </div>
 
@@ -62,20 +56,20 @@
 	
 	<script src="{{ asset('asset/js/jquery-3.2.1.min.js') }}"></script>
 	{{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
-    {{--<script src="{{ asset('js/all.js') }}" defer></script>--}}
+    <script src="{{ asset('js/all.js') }}" defer></script>
     <script src="{{ asset('js/app_admin.js') }}" defer></script>
 	
 	
 	<script src="{{ asset('asset/styles/bootstrap-4.1.2/popper.js') }}"></script>
 	<script src="{{ asset('asset/styles/bootstrap-4.1.2/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('asset/plugins/greensock/TweenMax.min.js') }}"></script>
-	<script src="{{ asset('asset/plugins/greensock/TimelineMax.min.js') }}"></script>
-	<script src="{{ asset('asset/plugins/scrollmagic/ScrollMagic.min.js') }}"></script>
-	<script src="{{ asset('asset/plugins/greensock/animation.gsap.min.js') }}"></script>
-	<script src="{{ asset('asset/plugins/greensock/ScrollToPlugin.min.js') }}"></script>
-	<script src="{{ asset('asset/plugins/easing/easing.js') }}"></script>
-    <script src="{{ asset('asset/plugins/parallax-js-master/parallax.min.js') }}"></script>
-    <script src="{{ asset('asset/plugins/sweetalert/sweetalert.min.js') }}"></script>
+	{{--<script src="{{ asset('asset/plugins/greensock/TweenMax.min.js') }}"></script>--}}
+	{{--<script src="{{ asset('asset/plugins/greensock/TimelineMax.min.js') }}"></script>--}}
+	{{--<script src="{{ asset('asset/plugins/scrollmagic/ScrollMagic.min.js') }}"></script>--}}
+	{{--<script src="{{ asset('asset/plugins/greensock/animation.gsap.min.js') }}"></script>--}}
+	{{--<script src="{{ asset('asset/plugins/greensock/ScrollToPlugin.min.js') }}"></script>--}}
+	{{--<script src="{{ asset('asset/plugins/easing/easing.js') }}"></script>--}}
+    {{--<script src="{{ asset('asset/plugins/parallax-js-master/parallax.min.js') }}"></script>--}}
+    {{--<script src="{{ asset('asset/plugins/sweetalert/sweetalert.min.js') }}"></script>--}}
     
 	@yield('scripts')
 </body>

@@ -4,7 +4,7 @@
 @section('titulo', 'Administración de productos')
 
 @section('breadcrumb')
-<li class="breadcrumb-item active">@yield('titulo')</li>
+<li class="breadcrumb-item active"><a href="{{ route('product.index') }}">Productos</a></li>
 @endsection
 
 
@@ -37,8 +37,8 @@
 
                     <form>
                         <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="nombre" class="form-control float-right" placeholder="Buscar"
-                                value="{{ request()->get('nombre') }}">
+                            <input type="text" name="busqueda" class="form-control float-right" placeholder="Buscar"
+                                value="{{ request()->get('busqueda') }}">
 
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -50,18 +50,18 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
-            <a class=" m-2 float-right btn btn-primary" href="{{ route('product.create')}}">Crear</a>
+            <a class="m-2 float-right btn btn-primary" href="{{ route('product.create')}}">Crear</a>
                 <table class="table1 table-head-fixed">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Imagen</th>
                             <th>Nombre</th>
-                            {{--<th>Talla</th>--}}
+                            <th>Descripción</th>
                             <th>Marca</th>
-                            <th>Color</th>
+                            {{--<th>Color</th>--}}
                             <th>Slider</th>
-                            <th colspan="4"></th>
+                            <th colspan="3">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,31 +69,34 @@
                         @foreach ($productos as $producto)
                         <tr>
                             <td> {{$producto->id }} </td>
-                            <td>
-                                @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                                    ->where('imageable_id', $producto->cop)->pluck('url', 'id')->take(1) as $id => $imagen)    
-                                    <img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
-                                @endforeach
-                               
+                            <td>@if ($producto->colorproductos->count() > 0)
+                                    @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
+                                        ->where('imageable_id', $producto->colorproductos[0]->id)->pluck('url', 'id')->take(1) as $id => $imagen)    
+                                        <img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
+                                    @endforeach
+                                @endif
+                                
                             </td>
                             <td> {{$producto->nombre }} </td>
+                            <td> {!! Str::limit($producto->descripcion_corta, 30) !!} </td>
                             <td> {{$producto->marca }} </td>
-                            <td> {{$producto->color}}</td>
+                            {{--<td> {{$producto->color}}</td>--}}
                             <td> {{$producto->slider_principal }} </td>
 
-                            <td> <a class="btn btn-default" href="{{ route('product.show', $producto->slug) }}" title="ver producto"><i class="fas fa-eye"></i></a>
-                            </td>
+                            @if ($producto->colorproductos->count() > 0)
 
-                            <td> <a class="btn btn-info" href="{{ route('product.edit', $producto->slug) }}" title="editar"><i class="fas fa-pen"></i></a>
-                            </td>
+                                <td> <a class="btn btn-default" href="{{ route('product.show', $producto->id) }}" title="ver producto"><i class="fas fa-eye"></i></a>
+                                </td>
 
-                            <td> <a href="{{ route('product.color', $producto->slug) }}" class="btn btn-success" title="nuevo color"><i class="fas fa-plus"></i></a></td>
+                                <td> <a class="btn btn-info" href="{{ route('product.edit', $producto->id) }}" title="editar"><i class="fas fa-pen"></i></a>
+                                </td>
 
-                            <td>@include('admin.productos.delete')</td>
+                                <td> <a href="{{ route('product.colors', $producto->id) }}" class="btn btn-success" title="ver todos los colores"><i class="fas fa-eye"></i></a></td>
+
+                            @endif
 
                         </tr>
                         @endforeach
-
 
                     </tbody>
                 </table>

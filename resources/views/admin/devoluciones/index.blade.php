@@ -11,7 +11,7 @@
 
 @section('content')
 
-    <div class="content">
+    <div id="listdevolucion" class="content">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -21,7 +21,12 @@
 
                             <div class="card-tools">
                                 <form>
-                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                    <div class="input-group input-group-sm" style="width: 160px;">
+                                        <div class="input-group-append">
+                                            <a href="" class="btn btn-success mx-1" v-on:click.prevent="pdfListadoVentas()">
+                                                <i class="fas fa-print"></i>
+                                            </a>
+                                        </div>
                                         <input type="text" name="keyword" class="form-control float-right"
                                             placeholder="buscar" value="{{ request()->get('keyword') }}">
 
@@ -41,7 +46,7 @@
                                     <tr>
                                         <th scope="col">Id</th>
                                         <th scope="col">Fecha</th>
-                                        <th scope="col">Pedido</th>
+                                        <th scope="col">Venta</th>
                                         <th scope="col">Cliente</th>
                                         <th scope="col">Estado de la solicitud</th>
                                         <th scope="col" colspan="2">Acciones</th>
@@ -54,7 +59,7 @@
                                     <tr>
                                         <td>{{ $devolucion->id}}</td>
                                         <td>{{ date('d/m/Y', strtotime($devolucion->fecha)) }}</td>
-                                        <td><a href="{{ route('show.pedido', $devolucion->venta)}}"
+                                        <td><a href="{{ route('venta.show', $devolucion->venta)}}"
                                                 class="">{{ $devolucion->venta }}</a>
                                         </td>
                                         <td><a href="{{ route('cliente.show', $devolucion->cliente)}}"

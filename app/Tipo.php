@@ -13,7 +13,7 @@ class Tipo extends Model
         'subcategoria_id',
     ];
 
-    public $timestamps = false;
+    //public $timestamps = false;
 
     public static function boot () {
         parent::boot();

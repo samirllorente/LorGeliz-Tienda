@@ -58,8 +58,10 @@
                                         </td>
                                         <td>${{ floatval($venta->valor) }}</td>
                                         <td>{{ $venta->cantidad }}</td>
-                                        <td><a href="" class="btn btn-primary" title="ver venta">
-                                            <i class="fas fa-eye"></i></a>
+                                        <td><a href="{{ route('venta.show',$venta->id)}}" class="btn btn-primary"
+                                                title="ver venta">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     @endforeach

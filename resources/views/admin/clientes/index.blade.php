@@ -10,18 +10,20 @@
 
 @section('content')
 
-
-<div id="index" class="row">
+<div id="listclientes" class="row">
 
     <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Sección de clientes</h3>
-
                 <div class="card-tools">
-
                     <form>
-                        <div class="input-group input-group-sm" style="width: 150px;">
+                        <div class="input-group input-group-sm" style="width: 160px;">
+                            <div class="input-group-append">
+                                <a href="" class="btn btn-success mx-1" v-on:click.prevent="pdfListadoClientes()">
+                                    <i class="fas fa-print"></i>
+                                </a>
+                            </div>
                             <input type="text" name="keyword" class="form-control float-right" placeholder="Buscar"
                             value="{{ request()->get('keyword') }}">
 
@@ -30,7 +32,6 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
             <!-- /.card-header -->
@@ -41,6 +42,7 @@
                             <th>ID</th>
                             <th>Nombres</th>
                             <th>Apellidos</th>
+                            <th>Cédula</th>
                             <th>Dirección</th>
                             <th>Telefóno</th>
                             <th>Email</th>
@@ -55,6 +57,7 @@
                             <td> {{$cliente->id }} </td>
                             <td> {{$cliente->nombres }} </td>
                             <td> {{$cliente->apellidos }} </td>
+                            <td> {{$cliente->identificacion }} </td>
                             <td> {{$cliente->direccion }} </td>
                             <td> {{$cliente->telefono }} </td>
                             <td> {{$cliente->email }} </td>
@@ -63,7 +66,6 @@
                             <td><a href="" class="btn btn-success" title="enviar mensaje" data-toggle="modal"
                                 data-target="#modalMensaje" data-id="{{$cliente['id']}}"><i class="fa fa-envelope-square"></i></a>
                             </td>
-
                         </tr>
                         @endforeach
 

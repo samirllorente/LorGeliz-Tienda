@@ -1,27 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Producto;
 use App\ProductoReferencia;
 use App\Talla;
-
 use Illuminate\Http\Request;
 
 class TallaController extends Controller
 {
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function getTalla(Request $request)
     {
-        $this->middleware('auth');
-    }
-
-    public function getTalla(Request $request){
-
         if (!$request->ajax()) return redirect('/');
 
         $id  = $request->producto;
@@ -36,9 +26,9 @@ class TallaController extends Controller
 
     }
 
-    public function getProductoTallas(Request $request, $id){
+    public function getProductoTallas(Request $request, $id)
+    {
 
-        
         if (!$request->ajax()) return redirect('/');
 
         $tallas = Talla::join('producto_referencia', 'tallas.id', '=', 'producto_referencia.talla_id')

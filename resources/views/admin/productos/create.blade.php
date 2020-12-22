@@ -19,7 +19,6 @@
 
 @section('content')
 
-
 <div id="productos">
 
     <form action="{{ route('product.store')}}" method="POST" enctype="multipart/form-data" novalidate>
@@ -570,6 +569,9 @@
         });
     });
 
+    window.data = {
+        editar: 'No',
+    }
 </script>
 
 <script>

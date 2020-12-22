@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Subcategoria;
 
-use Illuminate\Http\Request;
+use App\Subcategoria;
 use App\Http\Requests\SubcategoriaRequest;
+use Illuminate\Http\Request;
+
 
 class SubcategoryController extends Controller
 {
@@ -122,14 +123,14 @@ class SubcategoryController extends Controller
 
         catch (\Exception $exception){
 
-            session()->flash('message', ['warning', ("Ha ocurrido un error al eliminar la subcategoría")]);
+            session()->flash('message', ['warning', ("No es posible eliminar la subcategoría porque está en uso")]);
 
             return redirect()->route('subcategory.index');
         }
     }
 
-    public function getSubcategoria(Request $request){
-
+    public function getSubcategoria(Request $request)
+    {
         if (!$request->ajax()) return redirect('/');
 
         $id  = $request->categoria;

@@ -1,14 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+
+
+use App\Color;
 use App\ColorProducto;
+use App\Imagene;
 use App\Producto;
 use App\ProductoReferencia;
-use App\Imagene;
-use Illuminate\Support\Facades\Storage;
-
-use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+
 
 class ProductController extends Controller
 {
@@ -19,23 +23,33 @@ class ProductController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
     
     public function index(Request $request)
     {
-        $nombre = $request->get('nombre');
-       
-        $productos = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
-        ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
-        ->where('productos.nombre','like',"%$nombre%")
-        ->select('productos.*', 'color_producto.id as cop', 'colores.nombre as color', 'color_producto.slug as slug')
-        ->orderBy('productos.created_at')->paginate(5);
-
-       // return $productos;
+        $productos = Producto::paginate(10);
 
         return view('admin.productos.index',compact('productos'));
+
     }
+
+    public function product(Request $request, $id)
+    {
+       
+        $busqueda = $request->get('busqueda');
+       
+        $productos = Producto::where('productos.nombre','like',"%$busqueda%")
+        //->orWhere('productos.id','like',"%$busqueda%")
+        ->join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
+        ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
+        ->select('productos.*','color_producto.id as cop','color_producto.slug as slug','colores.nombre as color', 'color_producto.activo')
+        ->where('productos.id', $id)
+        ->orderBy('productos.created_at')->paginate(5);
+        
+        return view('admin.productos.coloresproducto',compact('productos'));
+
+    }   
 
     public function create()
     {
@@ -50,10 +64,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
         
-        $producto = new Producto;
+        $color = Color::where('id', $request->color)->first();
+        
+        $producto = new Producto();
 
+        //$producto->nombre = $request->nombre." ".$color['nombre'];
         $producto->nombre = $request->nombre;
         $producto->tipo_id = $request->tipo_id;
         $producto->marca = $request->marca;
@@ -64,14 +80,6 @@ class ProductController extends Controller
         $producto->descripcion_larga = $request->descripcion_larga;
         $producto->especificaciones = $request->especificaciones;
         $producto->estado = $request->estado;
-
-
-        if ($request->activo) {
-            $producto->activo = 'Si';    
-        }
-        else {
-            $producto->activo = 'No';    
-        }
 
         if ($request->sliderprincipal) {
             $producto->slider_principal = 'Si';    
@@ -83,6 +91,7 @@ class ProductController extends Controller
 
         $producto->save();
 
+
         $url_imagenes = [];
 
         if ($request->hasFile('imagenes')) {
@@ -98,6 +107,17 @@ class ProductController extends Controller
                 $url_imagenes[]['url'] = $path;
 
 
+                /*$image = Image::make($imagen)->encode('jpg', 75);
+                $image->resize(530, 591, function ($constraint){
+                    $constraint->upsize();
+                });
+                
+                Storage::disk('dropbox')->put("imagenes/productos/producto".$nombre, $image->stream()->__toString());
+                $dropbox = Storage::disk('dropbox')->getDriver()->getAdapter()->getClient();
+                $response = $dropbox->createSharedLinkWithSettings("imagenes/productos/producto" . $nombre, ["requested_visibility" => "public"]);
+
+                $url_imagenes[]['url'] = str_replace('dl=0', 'raw=1', $response['url']);*/
+
             }
 
         }
@@ -105,6 +125,13 @@ class ProductController extends Controller
         $colorproducto = new ColorProducto();
         $colorproducto->producto_id = $producto->id;
         $colorproducto->color_id = $request->color;
+
+        if ($request->activo) {
+            $colorproducto->activo = 'Si';    
+        }
+        else {
+            $colorproducto->activo = 'No';    
+        }
 
         $colorproducto->save();
 
@@ -114,8 +141,6 @@ class ProductController extends Controller
         session()->flash('message', ['success', ("Se ha creado el producto exitosamente")]);
 
         return redirect()->route('product.index');
-
-    
     }
 
     /**
@@ -124,16 +149,27 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
         $producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
-        ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
-        ->select('productos.*', 'color_producto.id as cop', 'colores.id as color', 'color_producto.slug as slug')
+        //->join('colores', 'color_producto.color_id', '=', 'colores.id') 
+        ->select('productos.*', 'color_producto.id as cop', 'color_producto.activo')
+        ->where('productos.id',$id)->firstOrFail();
+
+        $estados = $this->estado_productos();
+
+        return view('admin.productos.show',compact('producto','estados'));
+    }
+
+    public function showColor($slug)
+    {
+        $producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
+        ->select('productos.*', 'color_producto.id as cop', 'color_producto.activo', 'color_producto.color_id as color', 'color_producto.slug')
         ->where('color_producto.slug',$slug)->firstOrFail();
 
-        //return $producto;
-        
-        return view('admin.productos.show',compact('producto'));
+        $estados = $this->estado_productos();
+
+        return view('admin.productos.showcolor',compact('producto','estados'));
     }
 
     /**
@@ -142,14 +178,27 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit($id)
     {
-        $producto = $producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
-        ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
-        ->select('productos.*', 'color_producto.id as cop', 'colores.id as color')
-        ->where('color_producto.slug',$slug)->firstOrFail();
+        $producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
+        //->join('colores', 'color_producto.color_id', '=', 'colores.id') 
+        ->select('productos.*', 'color_producto.id as cop', 'color_producto.activo')
+        ->where('productos.id',$id)->firstOrFail();
         
-        return view('admin.productos.edit',compact('producto'));
+        $estados = $this->estado_productos();
+
+        return view('admin.productos.edit',compact('producto', 'estados'));
+    }
+
+    public function editColor($slug)
+    {
+        $producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
+        ->select('productos.*', 'color_producto.id as cop', 'color_producto.activo', 'color_producto.color_id as color', 'color_producto.slug')
+        ->where('color_producto.slug',$slug)->firstOrFail();
+
+        $estados = $this->estado_productos();
+
+        return view('admin.productos.editcolor',compact('producto','estados'));
     }
 
     /**
@@ -161,7 +210,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //dd($request);
+        //$color = Color::where('id', $request->color)->first();
+
+        //$producto->nombre = $request->nombre." ".$color['nombre'];
         $producto->nombre = $request->nombre;
         $producto->tipo_id = $request->tipo_id;
         $producto->marca = $request->marca;
@@ -173,13 +224,6 @@ class ProductController extends Controller
         $producto->especificaciones = $request->especificaciones;
         $producto->estado = $request->estado;
 
-        if ($request->activo) {
-            $producto->activo= 'Si';    
-        }
-        else {
-            $producto->activo= 'No';    
-        }
-
         if ($request->sliderprincipal) {
             $producto->slider_principal= 'Si';    
         }
@@ -190,7 +234,7 @@ class ProductController extends Controller
 
         $producto->save();
 
-        $url_imagenes = [];
+        /*$url_imagenes = [];
 
         if ($request->hasFile('imagenes')) {
 
@@ -209,13 +253,60 @@ class ProductController extends Controller
 
         }
 
-
         $colorproducto = ColorProducto::where('producto_id', $producto->id)
         ->where('color_id', $request->color)
         ->firstOrFail();
 
-        $colorproducto->imagenes()->createMany($url_imagenes);
+        if ($request->activo) {
+            $colorproducto->activo= 'Si';    
+        }
+        else {
+            $colorproducto->activo= 'No';    
+        }
+
+        $colorproducto->save();
+
+        $colorproducto->imagenes()->createMany($url_imagenes);*/
         
+        session()->flash('message', ['success', ("Se ha actualizado el producto exitosamente")]);
+
+        return redirect()->route('product.index');
+    }
+
+    public function updateColor(Request $request, $slug)
+    {
+
+        $producto = ColorProducto::where('slug',$slug)->firstOrFail();
+
+        if ($request->activo) {
+            $producto->activo = 'Si';    
+        }
+        else {
+            $producto->activo = 'No';    
+        }
+
+        $producto->color_id = $request->color;
+
+        $url_imagenes = [];
+
+        if ($request->hasFile('imagenes')) {
+
+            $imagenes = $request->file('imagenes');
+            foreach ($imagenes as $imagen) {
+
+                $nombre = time().'_'.$imagen->getClientOriginalName();
+
+                $path = Storage::disk('public')->putFileAs("imagenes/productos/producto" . $producto->producto_id, $imagen, $nombre);
+
+                $url_imagenes[]['url'] = $path;
+            }
+
+        }   
+
+        $producto->save();
+
+        $producto->imagenes()->createMany($url_imagenes);
+
         session()->flash('message', ['success', ("Se ha actualizado el producto exitosamente")]);
 
         return redirect()->route('product.index');
@@ -227,41 +318,82 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Producto $producto)
+    public function destroy($id)
     {
-        try{
+       try{
 
-            $producto->delete();
+            $numventas = ProductoReferencia::join('producto_venta', 'producto_referencia.id', 'producto_venta.producto_referencia_id')
+            ->join('color_producto', 'producto_referencia.color_producto_id',  'color_producto.id')
+            ->where('color_producto.id',$id)
+            ->count();
 
-            session()->flash('message', ['success', ("Se ha eliminado el producto")]);
+            $color = ColorProducto::where('id', $id)->first();
 
-            return redirect()->route('product.index');
+            $productos = ColorProducto::where('producto_id', $color->producto_id)->count();
+
+            if ($numventas == 0) {
+
+                if ($productos == 1) {
+                    Producto::where('id', $color->producto_id)->delete();
+                }
+
+                $color->delete();
+
+                $imagenes = Imagene::where('imageable_id', $id)->get();
+
+                foreach ($imagenes as $imagen) {
+                    $imagen->delete();
+                }
+
+            }
+
+            else{
+                
+                $color->activo = 'No';
+
+                $color->save();
+            }
+
+            session()->flash('message', ['success', ("Se ha desactivado o eliminado el producto")]);
+
+            if ($productos > 1) {
+                return back();
+            } else {
+                return redirect()->route('product.index');
+            }
+            
         }
 
         catch (\Exception $exception){
 
             session()->flash('message', ['warning', ("Ha ocurrido un error al eliminar el producto")]);
 
-            return redirect()->route('product.index');
+            return back();
         }
     }
 
-    public function addColor($slug)
+    public function activate($id)
     {
-        $producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
-        ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
-        ->select('productos.*', 'color_producto.id as cop', 'colores.id as color', 'color_producto.slug as slug')
-        ->where('color_producto.slug',$slug)->firstOrFail();
+        $color = ColorProducto::where('id', $id)->first();
+        $color->activo = 'Si';
 
-        //return $producto;
+        $color->save();
+
+        session()->flash('message', ['success', ("Se ha activado el producto")]);
+
+        return back();
+    }
+
+    public function createColor($id)
+    {
+        $producto = Producto::where('productos.id',$id)->firstOrFail();
         
-        return view('admin.productos.nuevocolor',compact('producto'));
+        $estados = $this->estado_productos();
+        return view('admin.productos.createcolor',compact('producto', 'estados'));
     }
 
     public function storeColor(Request $request)
     {
-        //dd($request);
-
         $producto = $request->producto;
 
         $url_imagenes = [];
@@ -278,7 +410,6 @@ class ProductController extends Controller
 
                 $url_imagenes[]['url'] = $path;
 
-
             }
 
         }
@@ -286,6 +417,7 @@ class ProductController extends Controller
         $colorproducto = new ColorProducto();
         $colorproducto->producto_id = $producto;
         $colorproducto->color_id = $request->color;
+        $colorproducto->activo= 'Si'; 
 
         $colorproducto->save();
 
@@ -321,6 +453,14 @@ class ProductController extends Controller
 
         $producto->save();
 
+    }
+
+    public function estado_productos()
+    {
+        return [
+            1,
+            2
+        ];
     }
 
 }

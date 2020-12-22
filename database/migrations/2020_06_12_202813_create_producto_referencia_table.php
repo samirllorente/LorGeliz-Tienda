@@ -16,7 +16,7 @@ class CreateProductoReferenciaTable extends Migration
         Schema::create('producto_referencia', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('color_producto_id');
-            $table->foreign('color_producto_id')->references('id')->on('color_producto');
+            $table->foreign('color_producto_id')->references('id')->on('color_producto')->onDelete('cascade');
             $table->unsignedInteger('talla_id');
             $table->foreign('talla_id')->references('id')->on('talla');
             $table->integer('stock');

@@ -14,21 +14,6 @@ class Producto extends Model
 
     protected $fillable = ['nombre', 'tipo_id', 'marca', 'talla', 'precioanterior', 'precioactual', 'porcentajededescuento', 'descripcion_corta', 'descripcion_larga', 'especificaciones','slug'];
 
-    //public static function boot () {
-      //  parent::boot();
-        
-       // static::creating(function(Producto $producto) {
-          
-         // $slug = \Str::slug($producto->nombre);
-          
-         // $count = static::whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")->count();
-          
-         // $producto->slug = $count ? "{$slug}-{$count}" : $slug;
-          
-        //});
-
-   // }
-
     public function tipo (){
         return $this->belongsTo(Tipo::class);
     }

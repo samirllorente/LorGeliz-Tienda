@@ -3,7 +3,7 @@
 
 {{ $message }}
 
-@component('mail::button', ['url' => url('/')])
+@component('mail::button', ['url' => url('/cuenta')])
 Ir a mi cuenta
 @endcomponent
 

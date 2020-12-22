@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Tipo;
 
-use Illuminate\Http\Request;
+use App\Tipo;
 use App\Http\Requests\TipoRequest;
+use Illuminate\Http\Request;
+
 
 class TipoProductoController extends Controller
 {
@@ -119,15 +120,15 @@ class TipoProductoController extends Controller
 
         catch (\Exception $exception){
 
-            session()->flash('message', ['warning', ("Ha ocurrido un error al eliminar el tipo")]);
+            session()->flash('message', ['warning', ("No se puede eliminar la subcategoría porque está en uso")]);
 
             return redirect()->route('tipo.index');
         }
     }
 
 
-    public function getTipo(Request $request){
-
+    public function getTipo(Request $request)
+    {
         if (!$request->ajax()) return redirect('/');
 
         $id  = $request->subcategoria;

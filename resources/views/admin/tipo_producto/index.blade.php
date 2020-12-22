@@ -34,7 +34,7 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body table-responsive p-0" style="height: 300px;">
+            <div class="card-body table-responsive p-0">
             <a class=" m-2 float-right btn btn-primary" href="{{ route('tipo.create') }}">Crear</a>
                 <table class="table table-head-fixed">
                     <thead>
