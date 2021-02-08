@@ -83,7 +83,7 @@
 <body>
 
     <div>
-        <p>Id del pedido: {{ $users[0]->pedido}}. Fecha del pedido: {{  date('d/m/Y', strtotime($users[0]->fecha)) }}</p>
+        <p>Id del pedido: {{ $users[0]->pedido}}. Fecha del pedido: {{ date('d/m/Y h:i:s A', strtotime($users[0]->fecha)) }}</p>
     </div>
 
     <div>

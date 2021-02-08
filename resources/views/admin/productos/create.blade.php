@@ -125,13 +125,18 @@
                                         </option>
                                         @foreach(\App\Categoria::pluck('nombre', 'id') as $id => $categoria)
 
-                                        <option value="{{ $id }}">
+                                        <option {{ (int) old('category_id') === $id ? 'selected' : '' }} value="{{ $id }}">
                                             {{ $categoria }}
                                         </option>
 
                                         @endforeach
 
                                     </select>
+                                    @if($errors->has('category_id'))
+                                    <small class="form-text text-danger">
+                                        {{ $errors->first('category_id') }}
+                                    </small>
+                                    @endif
                                 </div>
                                 <!-- /.form-group -->
 
@@ -145,6 +150,11 @@
                                         style="width: 100%;" required>
                                        
                                     </select>
+                                    @if($errors->has('subcategory_id'))
+                                    <small class="form-text text-danger">
+                                        {{ $errors->first('subcategory_id') }}
+                                    </small>
+                                    @endif
 
                                 </div>
                             </div>
@@ -159,6 +169,11 @@
                                     style="width: 100%;" required>
                                    
                                     </select>
+                                    @if($errors->has('tipo_id'))
+                                    <small class="form-text text-danger">
+                                        {{ $errors->first('tipo_id') }}
+                                    </small>
+                                    @endif
                                 </div>
 
                             </div>
@@ -170,7 +185,7 @@
                                     <select name="color" id="color" class="form-control">
                                         <option value="">Seleccione uno</option>
                                         @foreach(\App\Color::pluck('nombre', 'id') as $id => $color)
-                                            <option value="{{ $id }}">
+                                            <option {{ (int) old('color') === $id ? 'selected' : '' }} value="{{ $id }}">
                                                 {{ $color }}
                                             </option>
                                         @endforeach
@@ -212,7 +227,7 @@
                                         </div>
                                         <input class="form-control" type="number"
                                         v-model="precioanterior"
-                                        id="precioanterior" name="precioanterior" min="0" value="0" step=".01">
+                                        id="precioanterior" name="precioanterior" min="0" value="0" step=".01" value="">
                                     </div>
 
                                     @if($errors->has('precioanterior'))
@@ -264,7 +279,7 @@
                                     <label>Porcentaje de descuento</label>
                                     <div class="input-group">
                                         <input class="form-control" type="number" id="porcentajededescuento"
-                                        v-model="porcentajededescuento" name="porcentajededescuento" step="any" min="0" max="100" value="0">
+                                        v-model="porcentajededescuento" name="porcentajededescuento" step="any" min="0" max="100" value="0" value="">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">%</span>
                                         </div>
@@ -316,7 +331,7 @@
                                     <label>Descripción corta:</label>
 
                                     <textarea class="form-control ckeditor" name="descripcion_corta"
-                                        id="descripcion_corta" rows="3"></textarea>
+                                        id="descripcion_corta" rows="3">{{ old('descripcion_corta') }}</textarea>
 
                                 </div>
                                 <!-- /.form group -->
@@ -331,7 +346,7 @@
                                     <label>Descripción larga:</label>
 
                                     <textarea class="form-control ckeditor" name="descripcion_larga"
-                                        id="descripcion_larga" rows="5"></textarea>
+                                        id="descripcion_larga" rows="5">{{ old('descripcion_larga') }}</textarea>
 
                                 </div>
 
@@ -361,7 +376,7 @@
                                     <label>Especificaciones:</label>
 
                                     <textarea class="form-control ckeditor" name="especificaciones"
-                                        id="especificaciones" rows="3"></textarea>
+                                        id="especificaciones" rows="3">{{ old('especificaciones') }}</textarea>
 
                                 </div>
                                 <!-- /.form group -->
@@ -376,7 +391,7 @@
                                     <label>Datos de interes:</label>
 
                                     <textarea class="form-control ckeditor" name="datos_de_interes"
-                                        id="datos_de_interes" rows="5"></textarea>
+                                        id="datos_de_interes" rows="5">{{ old('datos_de_interes') }}</textarea>
 
                                 </div>
 

@@ -33,7 +33,7 @@ class VentaController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('epaycoConfirm');
     }
 
     public function index(Request $request)
@@ -46,18 +46,18 @@ class VentaController extends Controller
 
            $ventas = Venta::join('clientes','ventas.cliente_id', '=','clientes.id')
            ->join('users','clientes.user_id', '=','users.id')
-           ->select('ventas.id','ventas.fecha','ventas.valor', 'ventas.estado','users.nombres','clientes.id as cliente')
+           ->select('ventas.id','ventas.fecha','ventas.valor','ventas.estado','users.nombres','users.apellidos','clientes.id as cliente')
            ->orderBy('ventas.id', 'DESC')
            ->orWhere('ventas.valor', 'like',"%$busqueda%")
-           ->orWhere('users.nombres', 'like',"%$busqueda%")
+           ->orWhere('users.nombres', 'like',"%$busqueda%") //buscar ventas por valor a clientes
            ->paginate(5);
 
         } else {
             $ventas = Venta::join('clientes','ventas.cliente_id', '=','clientes.id')
             ->join('users','clientes.user_id', '=','users.id')
-            ->select('ventas.id','ventas.fecha','ventas.valor', 'ventas.estado','users.nombres','clientes.id as cliente')
+            ->select('ventas.id','ventas.fecha','ventas.valor', 'ventas.estado','users.nombres','users.apellidos','clientes.id as cliente')
             ->orderBy('ventas.id', 'DESC')
-            ->orWhere('ventas.estado', $estado)
+            ->orWhere('ventas.estado', $estado) //buscar ventas por estado
             ->paginate(5);
         }
 
@@ -66,7 +66,7 @@ class VentaController extends Controller
 
     public function epayco_register(Request $request)
     {
-
+        //dd($request);
         $p_cust_id_cliente = '71480';
         $p_key = '03311b932a61ca0805ee7f7d5ca7f0dd7faad74c';
         $this->x_ref_payco = $request->x_ref_payco;
@@ -74,19 +74,19 @@ class VentaController extends Controller
         $this->x_amount = $request->x_amount;
         $x_currency_code = $request->x_currency_code;
         $x_signature = $request->x_signature;
-        $signature = hash('sha256', $p_cust_id_cliente. '^' . $p_key . '^' . $this->x_ref_payco . '^' . $x_transaction_id . '^' . $this->x_amount . '^' .$x_currency_code);
+        //$signature = hash('sha256', $p_cust_id_cliente. '^' . $p_key . '^' . $this->x_ref_payco . '^' . $x_transaction_id . '^' . $this->x_amount . '^' .$x_currency_code);
        
         $signature=hash('sha256',
                        $p_cust_id_cliente.'^'
                       .$p_key.'^'
-                      .$x_ref_payco.'^'
+                      .$this->x_ref_payco.'^'
                       .$x_transaction_id.'^'
-                      .$x_amount.'^'
+                      .$this->x_amount.'^'
                       .$x_currency_code
                     );
         //Validamos la firma
-       // if ($x_signature == $signature) {
-        if($this->x_cod_response = $request->x_cod_response) {
+        if ($x_signature == $signature) {
+        //if($this->x_cod_response = $request->x_cod_response) {
         /*Si la firma esta bien podemos verificar los estado de la transacción*/
         //$this->x_cod_response = $request->x_cod_response;
         switch ((int) $this->x_cod_response) {
@@ -110,25 +110,26 @@ class VentaController extends Controller
         }
                 
     }
-
-    public function epaycoPayConfirm(Request $request)
+//esta función es para probar la confirmación por el método post
+    public function epaycoConfirm(Request $request)
     {
         $p_cust_id_cliente = '71480';
         $p_key = '03311b932a61ca0805ee7f7d5ca7f0dd7faad74c';
-        $this->x_ref_payco = $_REQUEST['x_ref_payco'];
-        $x_transaction_id = $_REQUEST['x_transaction_id'];
-        $this->x_amount = $_REQUEST['x_amount'];
-        $x_currency_code = $_REQUEST['x_currency_code'];
-        $x_signature = $_REQUEST['x_signature'];
-        $signature = hash('sha256', $p_cust_id_cliente . '^' . $p_key . '^' . $x_ref_payco . '^' . $x_transaction_id . '^' . $x_amount . '^' . $x_currency_code);
-        $x_response = $_REQUEST['x_response'];
-        $x_motivo = $_REQUEST['x_response_reason_text'];
-        $x_id_invoice = $_REQUEST['x_id_invoice'];
-        $x_autorizacion = $_REQUEST['x_approval_code'];
+        $this->x_ref_payco = $request->x_ref_payco;
+        $x_transaction_id = $request->x_transaction_id;
+        $this->x_amount = $request->x_amount;
+        $x_currency_code = $request->x_currency_code;
+        $x_signature = $request->x_signature;
+        $signature = hash('sha256', $p_cust_id_cliente . '^' . $p_key . '^' . $this->x_ref_payco . '^' . $x_transaction_id . '^' . $this->x_amount . '^' . $x_currency_code);
+        $x_response = $request->x_response;
+        $x_motivo = $request->x_response_reason_text;
+        $x_id_invoice = $request->x_id_invoice;
+        $x_autorizacion = $request->x_approval_code;
         //Validamos la firma
-        if ($x_signature == $signature) {
+        //if ($x_signature == $signature) {
         /*Si la firma esta bien podemos verificar los estado de la transacción*/
-        $this->x_cod_response = $_REQUEST['x_cod_response'];
+        if($this->x_cod_response = $request->x_cod_response){
+        //$this->x_cod_response = $request->x_cod_response;
         switch ((int) $this->x_cod_response) {
         case 1:
         # code transacción aceptada
@@ -172,19 +173,19 @@ class VentaController extends Controller
         $pago = Pago::where('venta_id', $venta->id)->first();
 
         if ($pago) {
-            $pago->estado = 5;
+            $pago->estado = 5; // se anula el pago
             $pago->save();
         }
 
         $productoVenta = ProductoVenta::where('venta_id', $venta->id)->get();
         foreach ($productoVenta as $key => $producto) {
            $prod = $producto->producto_referencia_id;
-           $cantidad = $producto->cantidad;
+           $cantidad = $producto->cantidad; // se obtiene la cantidad del producto vendida
 
            $prof = ProductoReferencia::where('id', $prod)->first();
            $stock = $prof->stock;
 
-           $prof->stock = $stock + $cantidad;
+           $prof->stock = $stock + $cantidad; // se restituye al stock la cantidad vendida
 
            $prof->save();
         }
@@ -206,7 +207,7 @@ class VentaController extends Controller
         $x_cod_response = 1;
 
         $payment =  new PaymentController();
-        $payment->store($x_ref_payco, $total, $venta_id, $x_cod_response);
+        $payment->store($x_ref_payco, $total, $venta_id, $x_cod_response);// se envían las variables al método store de pagos
 
         session()->flash('message', ['success', ("Se ha registrado el pago exitosamente")]);
 
@@ -216,16 +217,16 @@ class VentaController extends Controller
     public function store()
     {
         try {
-            $x_ref_payco = ($this->x_ref_payco) ? $this->x_ref_payco : 0;
+            $x_ref_payco = ($this->x_ref_payco) ? $this->x_ref_payco : 0; // si no viene la ref. se pone 0
             $x_cod_response = ($this->x_cod_response) ? $this->x_cod_response : 3;
             $x_amount = ($this->x_amount) ? $this->x_amount : 0;
         
             DB::beginTransaction();
         
-            if ($x_cod_response == 1 || $x_cod_response == 3) {
+            if ($x_cod_response == 1 || $x_cod_response == 3) {// si la transacción es aceptada o está pendiente
 
                 $facturas = Factura::all('id');
-                $consecutivo = $facturas->last();
+                $consecutivo = $facturas->last();// se obtiene le ultimo id de facturas
                 
                 $id =  $consecutivo->id + 1;
     
@@ -237,7 +238,7 @@ class VentaController extends Controller
                 //$car = Carrito::where('id', $request->carrito)->firstOrFail();
                 $car = Carrito::where('cliente_id', auth()->user()->cliente->id)
                 ->where('estado', 1)
-                ->firstOrFail();
+                ->firstOrFail(); // se busca el carrito del cliente
     
                 //$car->estado = '0';
                 //$car->save();
@@ -248,10 +249,10 @@ class VentaController extends Controller
                 //$venta->valor = $request->total;
                 $venta->valor =  $car->total;
                 $venta->cliente_id = auth()->user()->cliente->id;
-                $venta->saldo = $car->total - $x_amount;
+                $venta->saldo = $car->total - $x_amount; // si el pago no fue por epayco o está pendiente, la venta queda con saldo
 
                 if ($x_cod_response == 1) {
-                    $venta->estado = 1;
+                    $venta->estado = 1; // si el pago fue exitoso, la venta queda pagada
                     $venta->save();
 
                     $total = $car->total;

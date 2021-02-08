@@ -20,16 +20,18 @@
                             <h3 class="card-title mb-2">Productos más vendidos</h3>
 
                             <div class="card-tools">
-                                <form>
+                                <form novalidate>
                                     <div class="input-group input-group-sm">
-                                        <input type="date" name="fecha_de" id="fecha_de" required class="form-control mx-1">
-                                        <input type="date" name="fecha_a" id="fecha_a" required class="form-control mx-1">
+                                        {{--<input type="date" name="fecha_de" id="fecha_de" required class="form-control mx-1">
+                                        <input type="date" name="fecha_a" id="fecha_a" required class="form-control mx-1">--}}
+                                        <input type="text" name="busqueda" class="form-control float-right" placeholder="Buscar"
+                                        value="{{ request()->get('busqueda') }}">
 
                                         <div class="input-group-append">
-                                            <a href="" class="btn btn-warning mx-1" v-on:click.prevent="pdfInformeProductos()"><i class="fas fa-print"></i></a>
                                             <button type="submit" class="btn btn-success">
                                                 <i class="fas fa-search"></i>
                                             </button>
+                                            <a href="" class="btn btn-warning mx-1" v-on:click.prevent="pdfInformeProductos()"><i class="fas fa-print"></i></a>
                                         </div>
                                     </div>
                                 </form>

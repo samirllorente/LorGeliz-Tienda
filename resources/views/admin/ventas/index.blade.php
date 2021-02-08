@@ -21,14 +21,14 @@
 
                     <form>
                         
-                        <div class="input-group input-group-sm" style="width: 270px;">
+                        <div class="input-group input-group-sm" style="width: 290px;">
                             <div class="input-group-append">
                                 <a href="" class="btn btn-success mx-2" v-on:click.prevent="pdfListadoVentas()">
                                     <i class="fas fa-print"></i>
                                 </a>
                             </div>
 
-                            <select name="estado" id="estado" class="form-control float-right" style="width: 45px;">
+                            <select name="estado" id="estado" class="form-control float-right" style="width: 44px;">
                                 <option value="">estado</option>
                                 <option value="1">pagadas</option>
                                 <option value="2">con saldo</option>
@@ -39,7 +39,7 @@
                             </div>
 
                             <input type="text" name="busqueda" class="form-control float-right" placeholder="Buscar"
-                            value="{{ request()->get('busqueda') }}">
+                            value="{{ request()->get('busqueda') }}" style="width: 60px;">
 
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -69,8 +69,8 @@
 
                         <tr>
                             <td> {{ $venta->id }} </td>
-                            <td> {{ date('d/m/Y', strtotime($venta->fecha)) }} </td>
-                            <td> <a href="{{ route('cliente.show', $venta->cliente)}}">{{ $venta->nombres }}</a></td>
+                            <td> {{ date('d/m/Y h:i:s A', strtotime($venta->fecha)) }} </td>
+                            <td> <a href="{{ route('cliente.show', $venta->cliente)}}" title="ver cliente" style="color: black">{{ $venta->nombres }} {{ $venta->apellidos }}</a></td>
                             <td> ${{ floatval($venta->valor) }}</td>
                             <td>
                                 @if ($venta->estado == 1)

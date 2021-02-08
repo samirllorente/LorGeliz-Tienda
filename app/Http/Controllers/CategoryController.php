@@ -81,7 +81,7 @@ class CategoryController extends Controller
      */
     public function edit($slug)
     {
-        $categoria= Categoria::where('slug',$slug)->firstOrFail();
+        $categoria = Categoria::where('slug',$slug)->firstOrFail();
         return view('admin.categorias.edit',compact('categoria'));
     }
 
@@ -92,8 +92,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoriaRequest $request, Categoria $categoria)
+     //model binding (Categoria $categoria)
+    public function update(CategoriaRequest $request, $id)
     {
+        $categoria = Categoria::where('id', $id)->first();
         $categoria->nombre = $request->nombre;
         $categoria->descripcion = $request->descripcion;
 
@@ -109,10 +111,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categoria $categoria)
+    public function destroy($id)
+    //model binding (Categoria $categoria)
     {
         try{
 
+            //$categoria->delete();
+            $categoria = Categoria::where('id', $id)->first();
             $categoria->delete();
 
             session()->flash('message', ['success', ("Se ha eliminado la categoría")]);

@@ -1,7 +1,7 @@
 @extends('layouts.store')
 
 @section('estilos')
-<link rel="stylesheet" type="text/css" href="{{ asset('asset/plugins/flexslider/flexslider.css') }}">
+{{--<link rel="stylesheet" type="text/css" href="{{ asset('asset/plugins/flexslider/flexslider.css') }}">--}}
 
 <link rel="stylesheet" type="text/css" href="{{ asset('asset/styles/product.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('asset/styles/product_responsive.css') }}">
@@ -23,13 +23,13 @@
                     <div class="breadcrumbs d-flex flex-column align-items-center justify-content-center">
                         <ul class="d-flex flex-row align-items-start justify-content-start text-center">
                         <li><a href="{{ route('home')}}">Inicio</a></li>
-                            <li><a href="../categorias?ref=<?= $producto->tipo->subcategoria->categoria->nombre; ?>">{{ $producto->tipo->subcategoria->categoria->nombre }}</a></li>
-                            <li><a href="../categorias?ref=<?= $producto->tipo->subcategoria->id; ?>">{{ $producto->tipo->subcategoria->nombre }}</a></li>
+                            <li><a href="../categorias?categoria={{strtolower($producto->tipo->subcategoria->categoria->nombre)}}">{{ $producto->tipo->subcategoria->categoria->nombre }}</a></li>
+                            <li><a href="../categorias?categoria={{strtolower($producto->tipo->subcategoria->categoria->nombre)}}&subcategoria={{$producto->tipo->id}}">{{ Str::title($producto->tipo->nombre) }}</a></li>
                             @if ($producto->estado == 1)
-                            <li><a href="../categorias?ref=nuevos">Nuevos Productos</a></li>
+                            <li><a href="../categorias?categoria=nuevos">Nuevos Productos</a></li>
                             @endif 
                             @if ($producto->estado == 2)
-                            <li><a href="../categorias?ref=ofertas">Ofertas</a></li>
+                            <li><a href="../categorias?categoria=ofertas">Ofertas</a></li>
                             @endif 
                         </ul>
                     </div>
@@ -88,7 +88,7 @@
                     <div class="col-lg-6 product_col">
                     <div class="product_info info" id="{{ $producto->id}}">
                             <div class="product_name">{{ $producto->nombre }} - {{ $producto->colores }}</div>
-                            <div class="product_category">En <a href="../categorias?ref=<?= $producto->tipo->id; ?>">{{$producto->tipo->nombre}}</a></div>
+                            <div class="product_category">En <a href="../categorias?categoria={{strtolower($producto->tipo->subcategoria->categoria->nombre)}}&subcategoria={{$producto->tipo->id}}">{{$producto->tipo->nombre}}</a></div>
     
                             <div class="product_price">${{ floatval($producto->precio_actual)}}<del class="price-old"> ${{ floatval($producto->precio_anterior)}}</del></div>
     
@@ -221,8 +221,8 @@
         }
     }
     </script>
-    <script src="{{ asset('asset/plugins/OwlCarousel2-2.2.1/owl.carousel.js') }}"></script>
-    <script src="{{ asset('asset/plugins/flexslider/jquery.flexslider-min.js') }}"></script>
+    {{--<script src="{{ asset('asset/plugins/OwlCarousel2-2.2.1/owl.carousel.js') }}"></script>
+    <script src="{{ asset('asset/plugins/flexslider/jquery.flexslider-min.js') }}"></script>--}}
     <script src="{{ asset('asset/js/product.js') }}"></script>
 @endsection
 

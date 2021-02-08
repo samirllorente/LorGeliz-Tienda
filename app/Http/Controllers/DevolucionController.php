@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Cliente;
 Use App\Devolucione;
 Use App\Producto;
 Use App\ProductoVenta;
 Use App\ProductoReferencia;
+Use App\User;
 Use App\Venta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Mail\AdminDevolucionMail;
 use App\Mail\DevolucionStatusMail;
+use App\Notifications\NotificationDevolution;
+
 use Illuminate\Support\Facades\Mail;
 
 
@@ -34,32 +39,59 @@ class DevolucionController extends Controller
     {
         $busqueda = $request->busqueda;
 
-        $productos = Producto::orWhere('productos.nombre','like',"%$busqueda%")
-       // ->orWhere('pedidos.id','like',"%$busqueda%")
-        ->join('color_producto','productos.id', '=', 'color_producto.producto_id')
-        ->join('imagenes', 'color_producto.id', '=', 'imagenes.imageable_id')
-        ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
-        ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
-        ->join('tallas','producto_referencia.talla_id', '=', 'tallas.id')
-        ->join('devoluciones','producto_referencia.id', '=', 'devoluciones.producto_referencia_id')
-        ->join('ventas', 'devoluciones.venta_id', '=', 'ventas.id')
-        ->join('pedidos', 'ventas.id', '=', 'pedidos.venta_id')
-        ->select('productos.nombre', 'devoluciones.cantidad', 'devoluciones.estado', 'devoluciones.fecha', 'colores.nombre as color', 'tallas.nombre as talla', 'pedidos.id as pedido','color_producto.id as cop', 'color_producto.slug as slug', 'imagenes.url as imagen')
+        $productos = Producto::
+        //orWhere('pedidos.id','like',"%$busqueda%")
+        join('color_producto','productos.id','color_producto.producto_id')
+        ->join('colores','color_producto.color_id','colores.id') 
+        ->join('imagenes','color_producto.id','imagenes.imageable_id')
+        ->join('producto_referencia','color_producto.id','producto_referencia.color_producto_id')
+        ->join('tallas','producto_referencia.talla_id','tallas.id')
+        ->join('devoluciones','producto_referencia.id','devoluciones.producto_referencia_id')
+        ->join('ventas','devoluciones.venta_id','ventas.id')
+        ->join('pedidos','ventas.id','pedidos.venta_id')
+        ->select('productos.nombre','devoluciones.id', 'devoluciones.cantidad', 'devoluciones.fecha', 'colores.nombre as color', 'tallas.nombre as talla', 'pedidos.id as pedido','color_producto.id as cop', 'color_producto.slug as slug', 'imagenes.url as imagen')
         ->where('ventas.cliente_id', auth()->user()->cliente->id)
         ->where('imagenes.imageable_type', 'App\ColorProducto')
-        ->where('pedidos.id','like',"%$busqueda%")
-        ->groupBy('color_producto.id')
+        ->groupBy('devoluciones.id')
         ->orderBy('devoluciones.created_at','DESC')
         ->paginate(5);
+       
 
         return view('user.devoluciones.index',compact('productos'));
     }
 
+    public function showDevolucion(Request $request, $id)
+    {
+        $busqueda = $request->busqueda;
+
+        $productos = Producto::
+        //orWhere('pedidos.id','like',"%$busqueda%")
+        join('color_producto','productos.id','color_producto.producto_id')
+        ->join('colores','color_producto.color_id','colores.id') 
+        ->join('imagenes','color_producto.id','imagenes.imageable_id')
+        ->join('producto_referencia','color_producto.id','producto_referencia.color_producto_id')
+        ->join('tallas','producto_referencia.talla_id','tallas.id')
+        ->join('devoluciones','producto_referencia.id','devoluciones.producto_referencia_id')
+        ->join('ventas','devoluciones.venta_id','ventas.id')
+        ->join('pedidos','ventas.id','pedidos.venta_id')
+        ->select('productos.nombre', 'devoluciones.id', 'devoluciones.cantidad', 'devoluciones.estado', 'devoluciones.fecha', 'colores.nombre as color', 'tallas.nombre as talla', 'pedidos.id as pedido','color_producto.id as cop', 'color_producto.slug as slug', 'imagenes.url as imagen')
+        ->where('devoluciones.id', $id)
+        ->where('ventas.cliente_id', auth()->user()->cliente->id)
+        ->where('imagenes.imageable_type', 'App\ColorProducto')
+        ->groupBy('devoluciones.id')
+        ->orderBy('devoluciones.created_at','DESC')
+        ->paginate(5);
+       
+
+        return view('user.devoluciones.show',compact('productos'));
+    }
+
     public function listarDevolucion()
     {
-        $devoluciones = Devolucione::join('ventas', 'devoluciones.venta_id', '=', 'ventas.id')
-        ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
-        ->join('users', 'clientes.user_id', '=', 'users.id')
+        //devoluciones en panel de admin
+        $devoluciones = Devolucione::join('ventas','devoluciones.venta_id','ventas.id')
+        ->join('clientes','ventas.cliente_id','clientes.id')
+        ->join('users','clientes.user_id','users.id')
         ->select('devoluciones.id','devoluciones.estado', 'devoluciones.fecha', 'ventas.id as venta', 'users.nombres', 'users.apellidos'
         ,'clientes.id as cliente')
         ->orderBy('devoluciones.created_at','DESC')
@@ -86,7 +118,7 @@ class DevolucionController extends Controller
 
         $devoluciones = Devolucione::where('producto_referencia_id', $ref)
         ->where('venta_id', $venta)
-        ->count();
+        ->count(); // verificamos que no se haya solicitado la devolución anteriormente
 
         if ($devoluciones == 0) {
             $devolucion = new Devolucione();
@@ -96,6 +128,19 @@ class DevolucionController extends Controller
             $devolucion->venta_id = $venta;
 
             $devolucion->save();
+
+            $admin = User::where('role_id', 2)->get();
+            $user = auth()->user();
+        
+            $details = [
+                'title' => 'Se ha solicitado una nueva devolucion',
+                'user' => $admin[0]->nombres,
+                'cliente' => $user->nombres.' '.$user->apellidos,
+                'url' => url('/admin/devoluciones/'. $devolucion->id),
+            ];
+
+            //return new AdminDevolucionMail($details);
+            //Mail::to($admin[0]->email)->send(new AdminDevolucionMail($details));
 
         } 
 
@@ -113,15 +158,15 @@ class DevolucionController extends Controller
      */
     public function show($id)
     {
-        $producto_devolucion = Producto::join('color_producto','productos.id', '=', 'color_producto.producto_id')
-        ->join('imagenes', 'color_producto.id', '=', 'imagenes.imageable_id')
-        ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
-        ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
-        ->join('tallas','producto_referencia.talla_id', '=', 'tallas.id')
-        ->join('devoluciones','producto_referencia.id', '=', 'devoluciones.producto_referencia_id')
-        ->join('ventas', 'devoluciones.venta_id', '=', 'ventas.id')
-        ->join('clientes', 'ventas.cliente_id', '=', 'clientes.id')
-        ->join('users', 'clientes.user_id', '=', 'users.id')
+        $producto_devolucion = Producto::join('color_producto','productos.id','color_producto.producto_id')
+        ->join('imagenes','color_producto.id','imagenes.imageable_id')
+        ->join('colores','color_producto.color_id','colores.id') 
+        ->join('producto_referencia','color_producto.id','producto_referencia.color_producto_id')
+        ->join('tallas','producto_referencia.talla_id','tallas.id')
+        ->join('devoluciones','producto_referencia.id','devoluciones.producto_referencia_id')
+        ->join('ventas','devoluciones.venta_id','ventas.id')
+        ->join('clientes','ventas.cliente_id','clientes.id')
+        ->join('users','clientes.user_id','users.id')
         ->select('productos.id', 'productos.nombre', 'colores.nombre as color', 'tallas.nombre as talla', 'color_producto.id as cop', 'color_producto.slug as slug', 'imagenes.url as imagen', 'devoluciones.id as devolucion','devoluciones.estado', 'devoluciones.cantidad', 'devoluciones.fecha', 'ventas.id as venta', 'users.nombres', 'users.apellidos'
         ,'clientes.id as cliente')
         ->where('devoluciones.id', $id)
@@ -151,10 +196,10 @@ class DevolucionController extends Controller
             'cliente' => $devolucion->venta->cliente->user->nombres,
             'fecha' => date('d/m/Y', strtotime($devolucion->fecha)),
             'estado' => $devolucion->estado,
-            'url' => url('/devoluciones'),
+            'url' => url('/devoluciones/'. $devolucion->id),
         ];
 
-        if ($request->estado == 4) {
+        if ($request->estado == 4) { // comprobamos si la devolución ha sido efectuada completamente
 
             try {
 
@@ -162,38 +207,38 @@ class DevolucionController extends Controller
 
                 $producto = ProductoVenta::where('producto_referencia_id', $devolucion->producto_referencia_id)
                 ->where('venta_id', $devolucion->venta_id)
-                ->first();
+                ->first(); //buscamos el producto
 
                 $producto_precio = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
                 ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
                 ->where('producto_referencia.id', $producto->producto_referencia_id)
-                ->get();
+                ->get(); // obtenemos el precio
 
                 $precio = $producto_precio[0]->precio_actual;
 
-                $cantidad = $producto->cantidad;
+                $cantidad = $producto->cantidad; //cantidad del producto vendida
 
-                $totalproducto = $precio * $cantidad;
+                $totalproducto = $precio * $cantidad; // calculamos subtotal
 
                 $venta = Venta::where('id', $producto->venta_id)
                 ->first();
 
                 $valor = $venta->valor;
 
-                $venta->valor = $valor - $totalproducto;
+                $venta->valor = $valor - $totalproducto; // a la venta se resta el subtotal del producto
 
                 $venta->save();
 
                 $prodreferencia = ProductoReferencia::where('id', $producto->producto_referencia_id)
                 ->first();
 
-                $stock = $prodreferencia->stock;
+                $stock = $prodreferencia->stock; // se obtiene el stock actual del producto
 
-                $prodreferencia->stock = $stock + $devolucion->cantidad;
+                $prodreferencia->stock = $stock + $devolucion->cantidad; // al stock se suma la cantidad vendida
 
                 $prodreferencia->save();
 
-                $producto->delete();
+                $producto->delete(); // se borra de la venta el producto
 
                 DB::commit();
 
@@ -202,13 +247,35 @@ class DevolucionController extends Controller
             }
            
         }
-        return new DevolucionStatusMail($details);
+
+        if ($devolucion->estado == 2) {
+            $mensaje = 'La devolución está en estudio';
+         }
+         if ($devolucion->estado == 3) {
+             $mensaje = 'La devolución fue rechazada';
+         }
+         if ($devolucion->estado == 4) {
+             $mensaje = 'La devolución fue aprobada';
+         }
+
+        //notificacion para el cliente
+        $arrayData = [
+            'notificacion' => [
+                'msj' => $mensaje,
+                'url' => url('/devoluciones/'. $devolucion->id)
+            ]
+        ];
+
+        Cliente::findOrFail($devolucion->venta->cliente->id)->notify(new NotificationDevolution($arrayData));
+
+        //return new DevolucionStatusMail($details);
+        //Mail::to($devolucion->venta->cliente->user->email)->send(new DevolucionStatusMail($details));
 
         session()->flash('message', ['success', ("Se ha actualizado el estado de la solicitud")]);
         return back();
     }
 
-
+    // esta función al parecer no se utiliza
     public function devolucionProducto(Request $request)
     {
         if (!$request->ajax()) return redirect('/');

@@ -77,12 +77,13 @@
                                         <td id="cant{{$producto->referencia}}">{{ $producto->cantidad }}</td>
                                         <td>${{ floatval($producto->precio_actual) }}</td>
                                         <td>${{ floatval($producto->precio_actual * $producto->cantidad) }}</td>
-                                        <td><a href="" class="btn btn-success" title="solicitar cambio"
-                                                id="{{$producto->referencia}}"><i class="fas fa-check"></i></a></td>
-                                        <form action="" name="form">
+                                        <td>
+                                            <a href="" class="btn btn-success" title="solicitar cambio"
+                                                id="{{$producto->referencia}}"><i class="fas fa-recycle"></i></a></td>
+                                        {{--<form action="" name="form">--}}
                                             <input type="hidden" name="venta" id="venta{{$producto->referencia}}"
                                                 value="{{ $producto->venta}}" />
-                                        </form>
+                                        {{--</form>--}}
 
                                     </tr>
 
@@ -149,7 +150,7 @@
 
                     if (devolucion > 0) {
                         swal(
-                            'Solicitud denegada!',
+                            'Solicitud rechazada!',
                             'Solicitaste el cambio de este producto antes!',
                             'error'
                         )

@@ -21,7 +21,7 @@ class TallaController extends Controller
         
         $response = ['data' => $tallas];
         
-        return response()->json($response);
+        return response()->json($response); //obtener tallas al actualizar stock en el modal
 
 
     }
@@ -38,6 +38,6 @@ class TallaController extends Controller
         ->select('tallas.*', 'producto_referencia.stock')
         ->get();
 
-        return ['tallas' => $tallas];
+        return ['tallas' => $tallas]; //obtener tallas en la vista productos de la tienda
     }
 }

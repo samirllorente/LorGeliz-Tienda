@@ -49,7 +49,7 @@
                                             <td>{{ $user->pedido }}</td>
                                             <td><a href="{{ route('cliente.show', $user->cliente)}}"
                                                 title="ver cliente">{{ $user->nombres }} {{ $user->apellidos }}</a></td>
-                                            <td>{{  date('d/m/Y', strtotime($user->fecha)) }}</td>
+                                            <td>{{ date('d/m/Y h:i:s A', strtotime($user->fecha)) }}</td>
                                             <td>{{ $user->direccion }}</td>
                                             <td>{{ $user->telefono }}</td>
                                             <td>{{ $user->email }}</td>
@@ -116,7 +116,7 @@
                                         </td>
 
                                         <td><a href="{{ route('producto.show', $producto->slug) }}"
-                                             title="ver producto">{{ $producto->nombre }}
+                                             title="ver producto" style="color: black">{{ $producto->nombre }}
                                             </a>
                                         </td>
                                         <td>{{ $producto->talla }}</td>

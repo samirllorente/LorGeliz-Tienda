@@ -54,7 +54,7 @@
     
                                     <tr>
                                         <td>{{ $pedido->id }}</td>
-                                        <td>{{ date('d/m/Y H:i', strtotime($pedido->fecha)) }}</td>
+                                        <td>{{ date('d/m/Y h:i:s A', strtotime($pedido->fecha)) }}</td>
                                         <td><a href="{{ route('cliente.show', $pedido->cliente)}}"
                                             title="ver cliente">{{ $pedido->nombres }} {{ $pedido->apellidos }}</a>
                                         </td>

@@ -1,6 +1,6 @@
 
 
-const checkout = new Vue({
+const category = new Vue({
     el: '#categoria',
     data: {
         active: '',
@@ -16,10 +16,12 @@ const checkout = new Vue({
             'to' : 0,
         },
         offset : 3,
-        listar: 1,
+        listar: 0,
         value: 0,
         tipo: '',
-        estado: 0
+        estado: 0,
+        categoria: '',
+        subcategoria: ''
     },
 
     computed:{
@@ -168,15 +170,6 @@ const checkout = new Vue({
             }); 
         },
 
-        getQueryParam(param) {
-            location.search.substr(1)
-                .split("&")
-                .some(function (item) { // returns first occurence and stops
-                    return item.split("=")[0] == param && (param = item.split("=")[1])
-                })
-            return param
-        },
-
         cambiarPagina(page){
             //Actualiza la página actual
             
@@ -215,44 +208,38 @@ const checkout = new Vue({
 
     mounted(){
         //this.getproductos();
-        var categoria = this.getQueryParam('ref');
+        //var categoria = this.getQueryParam('ref');
 
-        if (categoria == "Hombres") {
+        if (data.categoria !='') {
+            this.categoria = data.categoria;
+        }
+
+        if (data.subcategoria !='') {
+            this.subcategoria = data.subcategoria;
+        }
+
+        if (this.categoria == "hombres" && this.subcategoria == '') {
             this.getProductByGenre(1,1);
         } 
         
-        if (categoria == "Mujeres") {
+        if (this.categoria == "mujeres" && this.subcategoria == '') {
             this.getProductByGenre(1,2);
         } 
 
-        if (categoria == "Niños") {
+        if (this.categoria == "niños" && this.subcategoria == '') {
             this.getProductByGenre(1,3);
         } 
 
-        if (categoria == "nuevos") {
+        if (this.categoria == "nuevos" && this.subcategoria == '') {
             this.getProductByState(1,1);
         } 
 
-        if (categoria == "ofertas") {
+        if (this.categoria == "ofertas" && this.subcategoria == '') {
             this.getProductByState(1,2);
         } 
         
-        if (!isNaN(categoria)) {
-            if (categoria == 1) {
-                this.getProductByTipo(1,"camisetas")
-            }
-            if (categoria == 2) {
-                this.getProductByTipo(1,"vestidos")
-            }
-            if (categoria == 3) {
-                this.getProductByTipo(1,"zapatos")
-            }
-            if (categoria == 4) {
-                this.getProductByTipo(1,"blusas")
-            }
-            if (categoria == 5) {
-                this.getProductByTipo(1,"abrigos")
-            }
+        if (this.subcategoria != '') {
+            this.getProductByTipo(1,this.subcategoria)
         }
     }
 

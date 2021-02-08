@@ -5,11 +5,13 @@ const menu = new Vue({
     }, 
     
     methods: {
-        redirect(name){
-            this.categoria = name;
-            window.location.href = `/lorgeliz_tienda/public/categorias?ref=` + this.categoria;
+        setCategory(categoria){
+            let url = '/lorgeliz_tienda/public/categorias?categoria=' + categoria;
+
+            axios.get(url).then(response => {
+               
+            }); 
         }
-        
     },
     
 });

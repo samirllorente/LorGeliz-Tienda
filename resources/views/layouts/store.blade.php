@@ -8,6 +8,9 @@
     <meta name="description" content="Lorgeliz Shop template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Id for Channel Notification -->
+    <meta name="clienteId" content="{{ Auth::check() ? Auth::user()->cliente->id : '' }}">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -18,11 +21,13 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('asset/styles/bootstrap-4.1.2/bootstrap.min.css') }}">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
+    {{--<link rel="stylesheet" type="text/css" href="{{ asset('asset/styles/bootstrap-4.1.2/bootstrap.min.css') }}">--}}
     <link rel="stylesheet" type="text/css"
         href="{{asset('asset/plugins/font-awesome-4.7.0/css/font-awesome.min.css') }}">
 
-    <link rel="stylesheet" type="text/css" href="{{asset('asset/styles/comun.css') }}">
+    {{--<link rel="stylesheet" type="text/css" href="{{asset('asset/styles/comun.css') }}">--}}
 
     {{--@stack('styles')--}}
 
@@ -32,11 +37,12 @@
 </head>
 
 <body>
-    <div id="plantilla">
+    <div id="">
 
         <!-- Menu -->
-
+        
         @include('partials.menu')
+       
 
         <div class="super_container">
             @include('partials.header')
@@ -54,10 +60,11 @@
 
 	<!-- Scripts -->
 	
-	<script src="{{ asset('asset/js/jquery-3.2.1.min.js') }}"></script>
-	{{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
+    <script src="{{ asset('asset/js/jquery-3.2.1.min.js') }}"></script>
+    {{--<script src="{{ asset('asset/js/bootbox.min.js') }}"></script>--}}
+	<script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/all.js') }}" defer></script>
-    <script src="{{ asset('js/app_admin.js') }}" defer></script>
+    {{--<script src="{{ asset('js/app_admin.js') }}" defer></script>
 	
 	
 	<script src="{{ asset('asset/styles/bootstrap-4.1.2/popper.js') }}"></script>

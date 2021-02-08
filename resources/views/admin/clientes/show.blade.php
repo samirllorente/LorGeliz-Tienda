@@ -103,7 +103,7 @@
 
                         <tr>
                             <td>{{ $pedido->id }}</td>
-                            <td>{{ date('d/m/Y', strtotime($pedido->fecha)) }}</td>
+                            <td>{{ date('d/m/Y h:i:s A', strtotime($pedido->fecha)) }}</td>
                             <td>{{ $pedido->prefijo }}{{ $pedido->consecutivo }}</td>
                             <td>${{ floatval($pedido->valor)}}</td>
                             <td><a href="{{ route('pedidos.show-id', $pedido->id)}}" class="btn btn-primary"

@@ -24,7 +24,7 @@
                                 <form>
                                     <div class="input-group input-group-sm" style="width: 150px;">
                                         <input type="text" name="busqueda" class="form-control float-right"
-                                            placeholder="buscar" value="{{ request()->get('busqueda') }}">
+                                            placeholder="buscar pedido" value="{{ request()->get('busqueda') }}">
 
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-success">
@@ -47,7 +47,7 @@
                                         <th scope="col">Talla</th>
                                         <th scope="col">Color</th>
                                         <th scope="col">Cantidad</th>
-                                        <th scope="col">Estado de tu solicitud</th>
+                                        <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,9 +55,9 @@
                                     @foreach ($productos as $producto)
 
                                     <tr>
-                                        <td>{{ date('d/m/Y', strtotime($producto->fecha)) }}</td>
+                                        <td>{{ date('d/m/Y h:i A', strtotime($producto->fecha)) }}</td>
                                         <td><a href="{{ route('pedidos.show', $producto->pedido)}}"
-                                                class="">{{ $producto->pedido }}</a>
+                                                class="" title="ver pedido">{{ $producto->pedido }}</a>
                                         </td>
                                         <td>{{ $producto->nombre }}</td>
                                         <td>
@@ -68,21 +68,8 @@
                                         <td>{{ $producto->talla }}</td>
                                         <td>{{ $producto->color  }}</td>
                                         <td>{{ $producto->cantidad }}</td>
-                                        <td><span class="badge badge-success">
-                                            @if ($producto->estado == 1 )
-                                            {{ "pendiente" }}
-                                            @endif
-                                            @if ($producto->estado == 2)
-                                            {{ "en proceso" }}
-                                            @endif
-                                            @if ($producto->estado == 3)
-                                            {{ "rechazada" }}
-                                            @endif
-                                            @if ($producto->estado == 4)
-                                            {{ "completada" }}
-                                            @endif
-                                            </span>
-                                        </td>
+                                       
+                                        <td><a href="{{ route('devolucion.detail', $producto->id) }}" class="btn btn-primary" title="ver solicitud"> <i class="fas fa-eye"></i></a></td>
                                     </tr>
                                         
                                     @endforeach
@@ -98,7 +85,7 @@
             <!-- /.row -->
             @else
             <div class="alert alert-info pt-5 col-md-7 text-center m-auto">
-                <h4 class="alert-heading">{{ __("Aún no has realizado devoluciones de productos") }}</h4>
+                <h4 class="alert-heading">{{ __("No se encontraron resultados") }}</h4>
             </div>
             @endif
         </div>

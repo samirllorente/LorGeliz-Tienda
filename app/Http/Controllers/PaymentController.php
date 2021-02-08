@@ -11,6 +11,15 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index(Request $request)
     {
@@ -39,7 +48,7 @@ class PaymentController extends Controller
         $pago->venta_id = $venta_id;
         $pago->estado =  $x_cod_response;
 
-        $pago->save();
+        $pago->save();//guardar el pago
 
     }
 

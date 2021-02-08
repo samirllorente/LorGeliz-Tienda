@@ -95,7 +95,7 @@ class UserController extends Controller
         $user->direccion = request('direccion');
         $user->telefono = request('telefono');
 
-        if (request('password')) {
+        if (request('password')) { //si se envía el password se somete a la rule
 
             $this->validate(request(), 
              ['password' => ['confirmed', new StrengthPassword]]);

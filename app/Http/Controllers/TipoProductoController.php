@@ -88,8 +88,11 @@ class TipoProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TipoRequest $request, Tipo $tipo)
+    // public function update(TipoRequest $request, Tipo $tipo)
+    public function update(TipoRequest $request, $id)
     {
+        $tipo = Tipo::where('id', $id)->firstOrFail();
+
         $tipo->nombre = $request->nombre;
         $tipo->descripcion = $request->descripcion;
         $tipo->subcategoria_id = $request->subcategory_id;
@@ -107,9 +110,12 @@ class TipoProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tipo $tipo)
+    //public function destroy(Tipo $tipo)
+    public function destroy($id)
     {
         try{
+
+            $tipo = Tipo::where('id', $id)->firstOrFail();
 
             $tipo->delete();
 

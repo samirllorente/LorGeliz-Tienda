@@ -59,6 +59,7 @@
 												<div>
 													<div class="product_image">
 														<img src="{{ url('storage/' . $producto->imagen) }}" alt="">
+														{{--<img src="{{ $imagen }}" alt="">--}}
 													</div>
 												</div>
 												<div class="product_name_container">
@@ -109,6 +110,7 @@
 											</div>
 											@endif
 										@endif
+										
 										@endforeach
 									</ul>
 								</div>
@@ -207,90 +209,96 @@
 @section('scripts')
 <script src="{{ asset('asset/js/cart.js') }}"></script>
 
+
 <script>
 	let producto = [];
 	let unidades = [];
 	let i = 0;
 	let opcion = 0;
+	let operacion = '';
 
 	$(document).ready(function () {
 		$('.qty_add').click(function (e) { 
 			e.preventDefault();
 			
 			id = $(this).attr('id');
-			let cantidad = parseInt($('#prod_' + id).html());
-			let stock = parseInt($('#stock_' + id).val());
-			let precio = parseInt($('#precio_' +id).html());
-			let total = cantidad * precio;
+			//let cantidad = parseInt($('#prod_' + id).html());
+			//let stock = parseInt($('#stock_' + id).val());
+			//let precio = parseInt($('#precio_' +id).html());
+			//let total = cantidad * precio;
+			operacion = 1;
 
-			if (cantidad <= stock) {
+			//if (cantidad <= stock) {
 				
-				$('#total_' + id).html(total);
+				//$('#total_' + id).html(total);
 
-				let neto = parseInt($('#neto').html());
-				let totalneto = neto + precio;
+				//let neto = parseInt($('#neto').html());
+				//let totalneto = neto + precio;
 
-				$('#subtotal').html(totalneto);
+				//$('#subtotal').html(totalneto);
 
-				$('#neto').html(totalneto);
+				//$('#neto').html(totalneto);
 				
-				let count = 0;
-				for (let j = 0; j < producto.length; j++) {
-					if (producto[j] == id) {
-						unidades[j] = cantidad;
-						count++;
-					}
-				}
-				if (count == 0) {
-					producto[i] = id;
-					unidades[i] = cantidad;
-					i++;
-				}
+				//let count = 0;
+				//for (let j = 0; j < producto.length; j++) {
+					//if (producto[j] == id) {
+						//unidades[j] = cantidad;
+						//count++;
+					//}
+				//}
+				//if (count == 0) {
+					//producto[i] = id;
+					//unidades[i] = cantidad;
+					//i++;
+				//}
+				//arrayProductos(id,cantidad);
 
-			} else {
-				swal(
-                    'Stock limitado!',
-                    'Puedes agregar máximo ' + stock + ' unidades de este producto!',
-                    'error'
-				)
-				var newValue = cantidad - (cantidad - stock);
+			//} else {
+				//swal(
+                    //'Stock limitado!',
+                    //'Puedes agregar máximo ' + stock + ' unidades de este producto!',
+                    //'error'
+				//)
+				//var newValue = cantidad - (cantidad - stock);
 				
-				$('#prod_' + id).text(newValue);
-			}
+				//$('#prod_' + id).text(newValue);
+			//}
+			arrayProductos(id,operacion);
 		});
 		
 		$('.qty_sub').click(function (e) { 
 			e.preventDefault();
 
 			let id = $(this).attr('id');
-			let cantidad = parseInt($('#prod_' + id).html());
-			let precio = parseInt($('#precio_' +id).html());
-			let total = cantidad * precio;
+			//let cantidad = parseInt($('#prod_' + id).html());
+			//let precio = parseInt($('#precio_' +id).html());
+			//let total = cantidad * precio;
+			operacion = 2;//
 			
-			$('#total_' + id).html(total);
+			//$('#total_' + id).html(total);
 			
-			let neto = parseInt($('#neto').html());
-			let totalneto = neto - precio;
+			//let neto = parseInt($('#neto').html());
+			//let totalneto = neto - precio;
 
-			$('#subtotal').html(totalneto);
+			//$('#subtotal').html(totalneto);
 
-			$('#neto').html(totalneto);
+			//$('#neto').html(totalneto);
 
-			let count = 0;
+			//let count = 0;
 			
-			for (let j = 0; j < producto.length; j++) {
-				if (producto[j] == id) {
-					unidades[j] = cantidad;
-					count++;
-				}
-			}
+			//for (let j = 0; j < producto.length; j++) {
+				//if (producto[j] == id) {
+					//unidades[j] = cantidad;
+					//count++;
+				//}
+			//}
 			
-			if (count == 0) {
-				producto[i] = id;
-				unidades[i] = cantidad;
-				i++;
-			}
-			
+			//if (count == 0) {
+				//producto[i] = id;
+				//unidades[i] = cantidad;
+				//i++;
+			//}
+			arrayProductos(id,operacion);
 		});
 
 		$('#pago').click(function (e) { 
@@ -308,6 +316,53 @@
 		});
 		
 	});
+
+	function arrayProductos(id,operacion){
+		let cantidad = parseInt($('#prod_' + id).html());
+		let stock = parseInt($('#stock_' + id).val());
+		let precio = parseInt($('#precio_' +id).html());
+		let total = cantidad * precio;
+
+		if (cantidad <= stock) {
+
+			$('#total_' + id).html(total);
+
+			let neto = parseInt($('#neto').html());
+			let totalneto = 0;
+
+			if (operacion == 1) {
+				totalneto = neto + precio;
+			} else {
+				totalneto = neto - precio;
+			}
+			
+			$('#subtotal').html(totalneto);
+
+			$('#neto').html(totalneto);
+
+			let count = 0;
+			for (let j = 0; j < producto.length; j++) {
+				if (producto[j] == id) {
+					unidades[j] = cantidad;
+					count++;
+				}
+			}
+			if (count == 0) {
+				producto[i] = id;
+				unidades[i] = cantidad;
+				i++;
+			}
+		} else {
+			swal(
+				'Stock limitado!',
+				'Puedes agregar máximo ' + stock + ' unidades de este producto!',
+				'error'
+			)
+			var newValue = cantidad - (cantidad - stock);
+			
+			$('#prod_' + id).text(newValue);
+		}
+	}
 
 	function updateCar() {
 		$.ajaxSetup({

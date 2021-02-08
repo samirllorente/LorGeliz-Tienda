@@ -101,7 +101,7 @@
                 <a class="btn btn-danger" href="">Cancelar</a>
 
                 <a class="btn btn-outline-success float-right"
-                    href="">Editar</a>
+                href="{{ route('tipo.edit', $tipo->slug)}}">Editar</a>
 
             </div>
             <!-- /.card-footer-->

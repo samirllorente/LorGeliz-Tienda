@@ -17,4 +17,6 @@ class Pedido extends Model
         return $this->belongsTo(Venta::class);
     }
 
+    //protected $dateFormat = 'U'; establecer formato de almacenamiento de fechas para el modelo
+
 }

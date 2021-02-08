@@ -9,13 +9,15 @@
 		</form>
 	</div>
 	<!-- Navigation -->
-	<div class="menu_nav" id="menu">
+	
+	<div class="menu_nav" id="">
 		<ul>
-			<li><a href="" v-on:click.prevent="redirect('Mujeres')">Mujeres</a></li>
-			<li><a href="" v-on:click.prevent="redirect('Hombres')">Hombres</a></li>
-			<li><a href="" v-on:click.prevent="redirect('Niños')">Niños</a></li>	
+			<li><a href="categorias?categoria=mujeres">Mujeres</a></li>
+			<li><a href="categorias?categoria=hombres">Hombres</a></li>
+			<li><a href="categorias?categoria=niños">Niños</a></li>	
 		</ul>
 	</div>
+
 	<!-- Contact Info -->
 	<div class="menu_contact">
 		<div class="menu_phone d-flex flex-row align-items-center justify-content-start">

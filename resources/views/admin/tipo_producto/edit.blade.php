@@ -12,7 +12,8 @@
 
 
 <div id="update">
-<form action="{{ route('tipo.update', $tipo)}}" method="POST">
+<form action="{{ route('tipo.update', $tipo->id)}}" method="POST">
+    {{-- route('tipo.update', $tipo)--}}
         @csrf
         @method('PUT')
         <!-- Default box -->

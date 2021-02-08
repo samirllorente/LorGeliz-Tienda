@@ -25,7 +25,7 @@
                             <div class="card-tools">
                                 <form>
                                     <div class="input-group input-group-sm" style="width: 150px;">
-                                        <input type="text" name="keyword" class="form-control float-right"
+                                        <input type="text" name="busqueda" class="form-control float-right"
                                             placeholder="buscar por id" value="{{ request()->get('keyword') }}">
 
                                         <div class="input-group-append">
@@ -55,7 +55,7 @@
 
                                     <tr>
                                         <td>{{ $pedido->id }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($pedido->fecha)) }}</td>
+                                        <td>{{ date('d/m/Y h:i:s A', strtotime($pedido->fecha)) }}</td>
                                         <td>{{ $pedido->prefijo }}{{ $pedido->consecutivo }}</td>
                                         <td><span class="badge badge-success">
                                             @if ($pedido->estado == 1 )

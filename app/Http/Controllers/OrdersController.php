@@ -33,9 +33,9 @@ class OrdersController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('keyword');
+        $busqueda = $request->get('busqueda');
 
-        $pedidos = Pedido::orWhere('pedidos.id','like',"%$keyword%")
+        $pedidos = Pedido::orWhere('pedidos.id','like',"%$busqueda%")
        //->orWhere('pedidos.fecha','like',"%$keyword%")
         //orWhere('facturas.id','like',"%$keyword%")
         //->orWhere('ventas.valor','like',"%$keyword%")
@@ -66,7 +66,7 @@ class OrdersController extends Controller
         ->select('pedidos.id','pedidos.fecha', 'ventas.id as venta','ventas.valor','users.nombres','users.apellidos','pedidos.estado', 'clientes.id as cliente')
         ->orderBy('pedidos.created_at', 'DESC')
         ->where('ventas.estado', '!=', '3')
-        ->paginate(5);
+        ->paginate(5); //listado de pedidos admin
 
         $estados = $this->estados_pedido();
 
@@ -81,8 +81,6 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-        //$busqueda = $request->get('busqueda');
-
         $productos = Producto::join('color_producto','productos.id', '=', 'color_producto.producto_id')
         ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
         ->join('imagenes', 'color_producto.id', '=', 'imagenes.imageable_id')
@@ -101,6 +99,13 @@ class OrdersController extends Controller
         return view('user.orders.show',compact('productos'));
     }
 
+    public function getClientOrders() 
+    {
+        
+        //return ['productos' => $productos];
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -113,7 +118,7 @@ class OrdersController extends Controller
         $pedido = Pedido::where('id', $request->pedido_id)->firstOrFail();
         $pedido->estado = $request->estado;
 
-        $pedido->save();
+        $pedido->save(); // se actualiza el estado
 
         $details = [
     		'cliente' => $pedido->venta->cliente->user->nombres,
@@ -132,16 +137,18 @@ class OrdersController extends Controller
             $mensaje = 'Tu pedido ha sido entregado';
         }
 
+        
         $arrayData = [
             'notificacion' => [
                 'msj' => $mensaje,
-                'url' => url('/')
+                'url' => url('/pedidos/'. $pedido->id)
             ]
         ];
 
         Cliente::findOrFail($pedido->venta->cliente->id)->notify(new NotificationClient($arrayData));
 
         //return new OrderStatusMail($details);
+        //Mail::to($pedido->venta->cliente->user->email)->send(new OrderStatusMail($details));
 
         session()->flash('message', ['success', ("Se ha actualizado el estado del pedido")]);
         return back();
@@ -182,7 +189,7 @@ class OrdersController extends Controller
         ->where('pedidos.id', '=', $id)->get();
 
         $pdf = \PDF::loadView('user.pdf.factura',['productos'=>$productos,'users'=>$users]);
-        return $pdf->download('factura-'.$users[0]->consecutivo.'.pdf');
+        return $pdf->download('factura-'.$users[0]->consecutivo.'.pdf'); // imprimir factura de cliente
 
     }
 
@@ -204,7 +211,7 @@ class OrdersController extends Controller
         $pdf = \PDF::loadView('admin.pdf.listadopedidos',['pedidos'=>$pedidos, 'count'=>$count])
         ->setPaper('a4', 'landscape');
         
-        return $pdf->download('listadopedidos.pdf');
+        return $pdf->download('listadopedidos.pdf'); //listado de pedidos en pdf
     }
 
     public function imprimirPedido(Request $request, $id)
@@ -216,7 +223,7 @@ class OrdersController extends Controller
         $pdf = \PDF::loadView('admin.pdf.pedido',['productos'=>$productos, 'users'=>$users])
         ->setPaper('a4', 'landscape');
         
-        return $pdf->download('pedido-'.$users[0]->pedido.'.pdf');
+        return $pdf->download('pedido-'.$users[0]->pedido.'.pdf'); //imprimir pedido en pdf
     }
 
     public function productosOrder($id)

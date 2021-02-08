@@ -40,7 +40,7 @@
     
                                 <tbody>
                                     <tr>
-                                        <td>{{ date('d/m/Y', strtotime($producto_devolucion[0]->fecha)) }}</td>
+                                        <td>{{ date('d/m/Y h:i:s A', strtotime($producto_devolucion[0]->fecha)) }}</td>
                                         <td><a href="{{ route('venta.show', $producto_devolucion[0]->venta)}}"
                                                 class="">{{ $producto_devolucion[0]->venta }}</a>
                                         </td>

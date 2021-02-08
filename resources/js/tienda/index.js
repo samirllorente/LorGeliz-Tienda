@@ -15,11 +15,11 @@ const user_cart = new Vue({
             let url = '/lorgeliz_tienda/public/index';
 
             axios.get(url).then(response => {
-                this.productoSlider = response.data.slider;
+                //this.productoSlider = response.data.slider;
                 this.productoNuevo = response.data.nuevos;
-                this.productoPopular = response.data.populares;
-                this.productoVendido = response.data.vendidos;
-                this.productoOferta = response.data.ofertas;
+                //this.productoPopular = response.data.populares;
+                //this.productoVendido = response.data.vendidos;
+                //this.productoOferta = response.data.ofertas;
             }); 
             
         },

@@ -19,4 +19,9 @@ Broadcast::channel('App.Cliente.{id}', function ($user, $id) {
     return (int) $user->cliente->id === (int) $id;
 });
 
+Broadcast::channel('cart-updated.{user_id}', function ($user, $user_id) {
+	return (int) $user->id === (int) $user_id; //evento para escuchar cuando se actualiza el carrito
+});
+
+
 

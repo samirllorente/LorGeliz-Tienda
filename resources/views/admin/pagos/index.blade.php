@@ -59,7 +59,7 @@
 
                         <tr>
                             <td> {{ $pago->id }} </td>
-                            <td> {{ date('d/m/Y', strtotime($pago->fecha)) }}</td>
+                            <td> {{ date('d/m/Y h:i:s A', strtotime($pago->fecha)) }}</td>
                             <td> <a href="{{ route('venta.show', $pago->venta_id)}}" title="ver venta">{{$pago->venta_id}}</a></td>
                             <td> {{ $pago->ref_epayco ? : "no aplica"}}</td>
                             <td> ${{ floatval($pago->monto) }}</td>

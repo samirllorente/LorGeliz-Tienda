@@ -72,8 +72,7 @@
                         <div class="form-group">
                             <label for="descripcion">Descripción</label>
                             <textarea class="form-control" name="descripcion" id="descripcion" cols="30" rows="5">
-                            {{ old('descripcion') }}
-                            </textarea>
+                            {{ old('descripcion') }}</textarea>
                 
                             @if($errors->has('descripcion'))
                             <small class="form-text text-danger">

@@ -41,7 +41,7 @@
                                 value="{{ request()->get('busqueda') }}">
 
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
                             </div>
                         </div>
                     </form>

@@ -92,8 +92,11 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SubcategoriaRequest $request, Subcategoria $subcategoria)
+    //public function update(SubcategoriaRequest $request, Subcategoria $subcategoria)
+    public function update(SubcategoriaRequest $request, $id)
     {
+        $subcategoria = Subcategoria::where('id', $id)->first();
+
         $subcategoria->nombre = $request->nombre;
         $subcategoria->descripcion = $request->descripcion;
         $subcategoria->categoria_id = $request->category_id;
@@ -110,10 +113,12 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subcategoria $subcategoria)
+    //public function destroy(Subcategoria $subcategoria)
+    public function destroy($id)
     {
         try{
 
+            $subcategoria = Subcategoria::where('id', $id)->first();
             $subcategoria->delete();
 
             session()->flash('message', ['success', ("Se ha eliminado la subcategoría")]);
@@ -138,7 +143,7 @@ class SubcategoryController extends Controller
         
         $response = ['data' => $subcategorias];
         
-        return response()->json($response);
+        return response()->json($response); //obtener subcategoria al crear un producto en admin
 
     }
 }

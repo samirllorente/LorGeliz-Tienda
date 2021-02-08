@@ -58,7 +58,7 @@
 
                                     <tr>
                                         <td>{{ $devolucion->id}}</td>
-                                        <td>{{ date('d/m/Y', strtotime($devolucion->fecha)) }}</td>
+                                        <td>{{ date('d/m/Y h:i:s A', strtotime($devolucion->fecha)) }}</td>
                                         <td><a href="{{ route('venta.show', $devolucion->venta)}}"
                                                 class="">{{ $devolucion->venta }}</a>
                                         </td>

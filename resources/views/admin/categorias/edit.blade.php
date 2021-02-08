@@ -12,7 +12,8 @@
 
 
 <div id="update">
-<form action="{{ route('category.update', $categoria)}}" method="POST">
+<form action="{{ route('category.update', $categoria->id)}}" method="POST">
+    {{-- route('category.update',  $categoria) --}}
         @csrf
         @method('PUT')
         <!-- Default box -->

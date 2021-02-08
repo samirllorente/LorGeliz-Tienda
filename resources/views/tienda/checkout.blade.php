@@ -273,7 +273,7 @@ $(document).ready(function () {
 						//extra1: "extra1",
 						//extra2: "extra2",
 						//extra3: "extra3",
-						//confirmation: "http://localhost/lorgeliz_tienda/public/epaycoConfirm.php",
+						confirmation: "http://localhost/lorgeliz_tienda/public/ventas/epayco/confirm",
 						response: "http://localhost/lorgeliz_tienda/public/payments/epayco/response",
 						p_confirm_method: "POST",
 

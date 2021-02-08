@@ -47,7 +47,7 @@
           <a href="{{ route('devolucion.index') }}" class="nav-link">Devoluciones</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">Contacto</a>
+            <a href="{{ route('contact') }}" class="nav-link">Contacto</a>
           </li>
           {{--<li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
@@ -165,7 +165,7 @@
               <span class="badge badge-warning navbar-badge">@{{notifications.length}}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-              <span class="dropdown-header">15 Notifications</span>
+              <span class="dropdown-header">@{{notifications.length}}</span>
               <div class="dropdown-divider"></div>
               {{--<a href="#" class="dropdown-item">
                 <i class="fas fa-envelope mr-2"></i> 4 new messages
@@ -173,9 +173,9 @@
               </a>--}}
               <div v-if="notifications.length">
                 <a href="" class="dropdown-item" v-for="item in notifications" :key="item.id"         
-                  v-on:click.prevent="">
-                  <i class="fas fa-envelope mr-2"></i>
-                  @{{item.data[datos]}}
+                v-on:click.prevent="readNotification(item.id, item.data.datos.notificacion.url)">
+                  <i class="fas fa-envelope mr-2" v-show="item.data.datos.notificacion.msj"></i>
+                  @{{item.data.datos.notificacion.msj}}
                   {{--<span class="float-right text-muted text-sm">3 mins</span>--}}
                 </a>
               </div>
@@ -242,14 +242,14 @@
   <!-- /.content-header -->
 
   @if(session('message'))
-<div class="col-md-8 mx-auto">
-    <div class="alert alert-{{ session('message')[0] }} alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <p>{{ session('message')[1] }}</p>
-    </div>
-</div>
+  <div class="col-md-8 mx-auto">
+      <div class="alert alert-{{ session('message')[0] }} alert-dismissible fade show" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          <p>{{ session('message')[1] }}</p>
+      </div>
+  </div>
   @endif
 
     @yield('content')

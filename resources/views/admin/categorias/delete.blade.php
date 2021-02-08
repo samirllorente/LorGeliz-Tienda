@@ -1,4 +1,5 @@
-<form action="{{ route('category.destroy',  $categoria) }}" method="POST">
+<form action="{{ route('category.destroy',  $categoria->id) }}" method="POST"> 
+	{{-- route('category.destroy',  $categoria) --}}
 	@csrf
 	@method('DELETE')
 	<button type="submit" class="btn btn-danger text-white"  title="eliminar categoría">

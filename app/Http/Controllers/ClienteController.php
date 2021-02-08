@@ -45,14 +45,14 @@ class ClienteController extends Controller
     public function show($id)
     {
         $cliente = User::with('imagene')
-        ->join('clientes','users.id', '=', 'clientes.user_id')
+        ->join('clientes','users.id', 'clientes.user_id')
         ->where('clientes.id', $id)
         ->select('clientes.id','users.*')
         ->firstOrFail();
 
-        $pedidos = Pedido::join('ventas', 'pedidos.venta_id', 'ventas.id')
-        ->join('clientes','ventas.cliente_id','=','clientes.id')
-        ->join('facturas','ventas.factura_id', '=', 'facturas.id')
+        $pedidos = Pedido::join('ventas','pedidos.venta_id','ventas.id')
+        ->join('clientes','ventas.cliente_id','clientes.id')
+        ->join('facturas','ventas.factura_id', 'facturas.id')
         ->where('clientes.id',$id)
         ->where('ventas.estado', '!=', '3')
         ->select('pedidos.id','pedidos.fecha', 'ventas.valor', 'facturas.prefijo','facturas.consecutivo')
@@ -83,7 +83,7 @@ class ClienteController extends Controller
             
             Mail::to($cliente->email)->send(new ClientePrivateMail($cliente->nombres, $data['message']));
             $success = true;
-            return new ClientePrivateMail($cliente->nombres, $data['message']);
+            //return new ClientePrivateMail($cliente->nombres, $data['message']);
 
 
         } catch (\Exception $exception) {

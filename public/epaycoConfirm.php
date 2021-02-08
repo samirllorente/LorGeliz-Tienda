@@ -8,6 +8,6 @@ require __DIR__.'/../bootstrap/autoload.php';
 //instancia del controlador
     $test = new App\Http\Controllers\VentaController();
 //acesso a las funciones
-$test->epaycoPayConfirm($_POST);
+$test->epaycoConfirm($_POST);
 
 ?>

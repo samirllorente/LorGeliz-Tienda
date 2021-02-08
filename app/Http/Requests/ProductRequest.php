@@ -29,12 +29,13 @@ class ProductRequest extends FormRequest
     		return [];
     		case 'POST': {
     			return [
-    				'nombre'                => 'required|min:1|max:150',
+                    'nombre'                => 'required|min:1|max:150',
+                    'category_id'           => 'required',
+                    'subcategory_id'        => 'required',
+                    'tipo_id'               => 'required',
                     'descripcion_corta'     => 'required',
                     'descripcion_larga'     => 'required',
                     'marca'                 => 'required',
-                    'subcategory_id'        => 'required',
-                    'tipo_id'               => 'required',
                     'color'                 => 'required',
                     'precioanterior'        => 'required',
                     'precioactual'          => 'required',
@@ -43,26 +44,28 @@ class ProductRequest extends FormRequest
                     'datos_de_interes'      => 'sometimes',
                     'imagenes'              => 'required',
                     'activo'                => 'required',
+                    'estado'                => 'sometimes',
                     'sliderprincipal'       => 'sometimes',
 
     			];
     		}
     		case 'PUT': {
     			return [
-    				'nombre'                => 'required|min:1|max:150',
+                    'nombre'                => 'required|min:1|max:150',
+                    'category_id'           => 'required',
+                    'subcategory_id'        => 'required',
+                    'tipo_id'               => 'required',
                     'descripcion_corta'     => 'required',
                     'descripcion_larga'     => 'required',
                     'marca'                 => 'required',
-                    'subcategory_id'        => 'required',
-                    'tipo_id'               => 'required',
-                    'color'                 => 'required',
                     'precioanterior'        => 'required',
                     'precioactual'          => 'required',
                     'porcentajededescuento' => 'sometimes',
                     'especificaciones'      => 'sometimes',
                     'datos_de_interes'      => 'sometimes',
-                    'imagenes'              => 'required',
-                    'activo'                => 'required',
+                    'imagenes'              => 'sometimes',
+                    'activo'                => 'sometimes',
+                    'estado'                => 'sometimes',
                     'sliderprincipal'       => 'sometimes',    
 
     			];

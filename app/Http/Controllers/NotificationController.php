@@ -20,26 +20,47 @@ class NotificationController extends Controller
         
         $fechaActual = date('Y-m-d');
 
-        foreach ($unreadNotifications as $notification) {
-            if ($fechaActual != $notification->created_at->toDateString()) {
-               $notification->markAsRead();
-            }
-        }
+        //foreach ($unreadNotifications as $notification) {
+            //if ($fechaActual != $notification->created_at->toDateString()) {
+               //$notification->markAsRead();
+            //}
+        //}
 
         return Auth::user()->unreadNotifications;
     }
 
     public function clientNotification()
     {
-        $cliente = Cliente::where('user_id', auth()->user()->id)->firstOrFail();
+        $unreadNotifications = Auth::user()->cliente->unreadNotifications;
 
-        return Notification::where('notifiable_type', 'App\Cliente')
-        ->where('notifiable_id', $cliente->id)
-        ->get();
+        //$orderNotifications = $unreadNotifications->filter(function ($value, $key){
+            //return $value->type == 'App\Notifications\NotificationClient';
+        //});
+        
+        return $unreadNotifications;
         
     }
 
+    public function cartNotification()
+    {
+        $cliente = Cliente::where('user_id', auth()->user()->id)->firstOrFail();
+
+        return Notification::where('type', 'App\Notifications\NotificationCart')
+        ->where('notifiable_id', $cliente->id)
+        ->get();
+    }
+
     public function setRead(Request $request, $id)
+    {
+        if (!$request->ajax()) return redirect('/');
+
+        $notification = Notification::where('id', $request->id)->firstOrFail();
+        $notification->read_at =  \Carbon\Carbon::now();
+
+        $notification->save();
+    }
+
+    public function setClientRead(Request $request, $id)
     {
         if (!$request->ajax()) return redirect('/');
 

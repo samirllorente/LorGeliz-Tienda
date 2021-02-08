@@ -56,14 +56,14 @@ const product = new Vue({
       getCarrito(){
         let url = '/lorgeliz_tienda/public/cart/buscarCarrito';
 
-        if (this.cantidad != '' && this.talla != '') {
+        if ((this.cantidad != '' && this.cantidad != 0) && this.talla != '') {
           axios.get(url).then(response => {
             this.arrayCarrito = response.data.carrito;
   
             if (this.arrayCarrito[0] != null){
               this.carrito = this.arrayCarrito[0].id;
   
-              let url = '/lorgeliz_tienda/public/cart/updateCart';
+              let url = '/lorgeliz_tienda/public/cart/update';
   
               for (let i = 0; i < this.arrayTallas.length; i++) {
                 if (this.arrayTallas[i].id == this.talla) {
@@ -111,6 +111,9 @@ const product = new Vue({
                       console.log(error);
                     }); 
                   } else{
+                    //let datos = 'No se puede agregar el producto al carrito!. La cantidad debe ser máximo ' + this.arrayTallas[i].stock;
+
+                    //bootbox.alert(datos);
                     swal(
                       'No se puede agregar el producto al carrito!',
                       'La cantidad debe ser máximo ' + this.arrayTallas[i].stock,
@@ -146,6 +149,9 @@ const product = new Vue({
                     });
                   }
                   else{
+                    //let datos = 'No se puede agregar el producto al carrito!. La cantidad debe ser máximo ' + this.arrayTallas[i].stock;
+                    
+                    //bootbox.alert(datos);
                     swal(
                       'No se puede agregar el producto al carrito!',
                       'La cantidad debe ser máximo ' + this.arrayTallas[i].stock,
@@ -161,6 +167,13 @@ const product = new Vue({
           }); 
           
         }
+        else{
+          swal(
+            'No se puede agregar este producto al carrito!',
+            'Debes indicar la talla y la cantidad!',
+            'error'
+          )
+        }
 
       },
 
@@ -169,6 +182,13 @@ const product = new Vue({
       this.producto = data.datos.producto;
       this.setVisitas();
       this.getTallas();
+
+      //window.Echo.private(`cart-updated.${this.user_id}`).listen('UserCart', (e) => {
+        
+        //let cart = e.cart;
+       
+     // });
+
     }
 
 });

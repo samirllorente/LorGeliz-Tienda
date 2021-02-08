@@ -2,9 +2,9 @@
 @extends('layouts.store')
 
 @section('estilos')
-<link rel="stylesheet" type="text/css" href="{{ asset('asset/plugins/OwlCarousel2-2.2.1/owl.carousel.css') }}">
+{{--<link rel="stylesheet" type="text/css" href="{{ asset('asset/plugins/OwlCarousel2-2.2.1/owl.carousel.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('asset/plugins/OwlCarousel2-2.2.1/owl.theme.default.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('asset/plugins/OwlCarousel2-2.2.1/animate.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('asset/plugins/OwlCarousel2-2.2.1/animate.css') }}">--}}
 
 
 <link rel="stylesheet" type="text/css" href="{{ asset('asset/styles/category.css') }}">
@@ -13,7 +13,6 @@
 @endsection
 
 @section('content')
-
 <div class="super_container_inner">
 	<div class="super_overlay"></div>
 
@@ -26,7 +25,7 @@
 				<div class="breadcrumbs d-flex flex-column align-items-center justify-content-center">
 					<ul class="d-flex flex-row align-items-start justify-content-start text-center">
 						<li><a href="{{ route('home')}}">Inicio</a></li>
-						<li><a href="category.html">Categorías</a></li>
+						<li><a href="{{ route('categorias')}}">Categorías</a></li>
 						<li>Todos</li>
 					</ul>
 				</div>
@@ -34,9 +33,13 @@
 		</div>
 	</div>
 
+	<div id="app">
+		<category categoria="{{$categoria}}" subcategoria="{{$subcategoria}}"></category>
+		
+	</div>
 	<!-- Products -->
 
-	<div class="products" id="categoria">
+	{{--<div class="products" id="categoria">
 		<div class="container">
 			<div class="row products_bar_row">
 				<div class="col">
@@ -103,7 +106,7 @@
 										</div>
 									</div>
 									<div class="ml-auto text-right">
-										<div class="product_category">En <a href="" v-text="producto.tipo"  v-on:click.prevent="getProductByTipo(1,producto.tipo)"></a></div>
+										<div class="product_category">En <a href="" v-text="producto.tipo"  v-on:click.prevent="getProductByTipo(1,producto.tipo_id)"></a></div>
 										<div class="product_price text-right" v-text="'$'+producto.precio_actual"><span></span></div>
 										<del class="price-old text-right" v-show="producto.precio_actual<producto.precio_anterior" v-text="'$'+producto.precio_anterior" style="font-size: 17px"></del>
 									</div>
@@ -133,7 +136,7 @@
 							<li><a href="#">04</a></li>
 						</ul>--}}
 						
-						<ul class="d-flex flex-row align-items-start justify-content-center">
+						{{--<ul class="d-flex flex-row align-items-start justify-content-center">
 							<li class="" v-if="pagination.current_page > 1">
 								<a href="#" @click.prevent="cambiarPagina(pagination.current_page - 1)">Ant</a>
 							</li>
@@ -149,15 +152,19 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	
-	
-
+	</div>--}}
 @endsection
 
 @section('scripts')
-<script src="{{ asset('asset/plugins/OwlCarousel2-2.2.1/owl.carousel.js') }}"></script>
-<script src="{{ asset('asset/plugins/progressbar/progressbar.min.js') }}"></script>
+
+<script>
+	window.data = {
+		categoria: "{{$categoria}}",
+		subcategoria: "{{$subcategoria}}",
+    }
+</script>
+{{--<script src="{{ asset('asset/plugins/OwlCarousel2-2.2.1/owl.carousel.js') }}"></script>
+<script src="{{ asset('asset/plugins/progressbar/progressbar.min.js') }}"></script>--}}
 {{--<script src="{{ asset('asset/plugins/Isotope/isotope.pkgd.min.js') }}"></script>--}}
 {{--<script src="{{ asset('asset/plugins/Isotope/fitcolumns.js') }}"></script>--}}
 {{--<script src="{{ asset('asset/js/category.js') }}"></script>--}}

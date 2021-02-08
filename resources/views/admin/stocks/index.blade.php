@@ -20,18 +20,18 @@
 
                         <div class="card-tools">
                             <form>
-                                <div class="input-group input-group-sm" style="width: 160px;">
+                                <div class="input-group input-group-sm" style="width: 190px">
+                                    
+                                    <input type="text" name="busqueda" class="form-control float-right"
+                                    placeholder="buscar" value="{{ request()->get('busqueda') }}">
+                                    
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
+                                    </div>
                                     <div class="input-group-append">
                                         <a href="" class="btn btn-success mx-1" v-on:click.prevent="pdfInventarios()">
                                             <i class="fas fa-print"></i>
                                         </a>
-                                    </div>
-                                    <input type="text" name="keyword" class="form-control float-right"
-                                        placeholder="buscar" value="{{ request()->get('keyword') }}">
-
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-success"><i
-                                                class="fas fa-search"></i></button>
                                     </div>
                                 </div>
                             </form>

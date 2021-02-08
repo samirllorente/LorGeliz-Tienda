@@ -47,7 +47,7 @@ class User extends Authenticatable
 			
 		});
 
-
+//implementar con dropbox
 		static::saving(function(User $user) {
 			
 			if( ! \App::runningInConsole() ) {

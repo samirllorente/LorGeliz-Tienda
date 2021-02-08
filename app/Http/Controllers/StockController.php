@@ -23,13 +23,13 @@ class StockController extends Controller
     
     public function index(Request $request)
     {
-        $nombre = $request->get('nombre');
+        $busqueda = $request->get('busqueda');
 
-        $productos = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
+        $productos = Producto::orWhere('productos.nombre','like',"%$busqueda%")
+        ->join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
         ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
         ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
         ->join('tallas','producto_referencia.talla_id', '=', 'tallas.id')
-        ->where('productos.nombre','like',"%$nombre%")
         ->where('producto_referencia.stock', '>', '0')
         ->where('color_producto.activo', 'Si')
         ->select('productos.*', 'producto_referencia.talla_id', 'color_producto.id as cop', 'producto_referencia.stock', 'color_producto.slug as slug', 'colores.nombre as color', 'tallas.nombre as talla')
@@ -37,21 +37,20 @@ class StockController extends Controller
 
         return view('admin.stocks.index',compact('productos'));
 
-        
     }
 
     public function store(StockRequest $request)
     {
         $colorproducto = ColorProducto::where('color_id', $request->color_id)
         ->where('producto_id', $request->producto_id)
-        ->first();
+        ->first(); //obtener el color
 
         $referencia = ProductoReferencia::where('color_producto_id', $colorproducto->id)
         ->where('talla_id', $request->talla_id)
-        ->first();
+        ->first(); // buscar la referencia
 
 
-        if ($referencia == '') {
+        if ($referencia == '') {//si no existe la referencia, se crea
 
             $producto = new ProductoReferencia();
             $producto->color_producto_id = $colorproducto->id;
@@ -62,7 +61,7 @@ class StockController extends Controller
         }
         else{
 
-            $referencia->stock = $referencia->stock + $request->cantidad;
+            $referencia->stock = $referencia->stock + $request->cantidad; //sino, se actualiza el stock
 
             $referencia->save();
         }
@@ -79,7 +78,7 @@ class StockController extends Controller
         ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
         ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
         ->join('tallas','producto_referencia.talla_id', '=', 'tallas.id')
-        ->where('productos.activo', 'Si')
+        ->where('color_producto.activo', 'Si')
         ->where('producto_referencia.stock', '>', '0')
         ->select('productos.*', 'producto_referencia.talla_id', 'color_producto.id as cop', 'producto_referencia.stock', 'color_producto.slug as slug', 'colores.nombre as color', 'tallas.nombre as talla')
         ->orderBy('productos.id')->get();
@@ -99,7 +98,7 @@ class StockController extends Controller
     {
         $carrito = Carrito::where('cliente_id', auth()->user()->cliente->id)
         ->where('carritos.estado', '1')
-        ->first();
+        ->first(); // se obtiene el carrito del cliente
         
         $productos = ProductoReferencia::join('carrito_producto', 'producto_referencia.id', 'carrito_producto.producto_referencia_id')
         ->join('carritos', 'carrito_producto.carrito_id', 'carritos.id')
@@ -109,12 +108,12 @@ class StockController extends Controller
         foreach ($productos as $producto) {
            if ($producto->cantidad > $producto->stock) {
                 $response = ['data' => 'error'];
-                return response()->json($response);
+                return response()->json($response); // si un producto está agotado o la cantidad supera el stock
            }
         }
 
         $response = ['data' => 'success'];
-        return response()->json($response);
+        return response()->json($response);// se ejecuta antes de levantar el formulario de epayco
 
     }
 }

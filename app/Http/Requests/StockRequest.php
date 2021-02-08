@@ -32,7 +32,7 @@ class StockRequest extends FormRequest
     				'producto_id'   => 'required',
                     'talla_id'      => 'required',
                     'color_id'      => 'required',
-    				'cantidad'         => 'required',
+    				'cantidad'      => 'required',
     			];
     		}
     		case 'PUT': {
@@ -40,7 +40,7 @@ class StockRequest extends FormRequest
     				'producto_id'   => 'required',
                     'talla_id'      => 'required',
                     'color_id'      => 'required',
-    				'cantidad'         => 'required',
+    				'cantidad'      => 'required',
     			];
     		}
     	}
