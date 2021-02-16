@@ -196,7 +196,8 @@
           aria-haspopup="true"
           aria-expanded="false"
           >
-          <img src="{{  auth()->user() ? url('storage/' . auth()->user()->imagene->url) : asset('asset/images/user.svg') }}" alt="https://www.flaticon.com/authors/freepik" class="rounded-circle" style="width: 34px">
+          {{--<img src="{{  auth()->user() ? url('storage/' . auth()->user()->imagene->url) : asset('asset/images/user.svg') }}" alt="https://www.flaticon.com/authors/freepik" class="rounded-circle" style="width: 34px">--}}
+          <img src="{{  auth()->user() ? auth()->user()->imagene->url : asset('asset/images/user.svg') }}" alt="" class="rounded-circle" style="width: 34px">
           <span class="caret"></span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">

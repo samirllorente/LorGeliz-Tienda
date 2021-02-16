@@ -68,8 +68,8 @@
 							<span class="badge-offer"><b v-text="'-' + producto.porcentaje_descuento +'%'" v-show="producto.porcentaje_descuento>0"></b></span>
 							<div class="product_image">
 								<a :href="'product/' + producto.slug">
-									<img :src="'storage/' + producto.url" alt="producto">
-									<!--<img src="{{ $imagen }}" alt=""> !-->
+									<!--<img :src="'storage/' + producto.url" alt="producto">!-->
+									<img :src="producto.url" alt="producto">
 								</a>
 							</div>
 							<div class="product_content">

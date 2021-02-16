@@ -44244,10 +44244,7 @@ var render = function() {
                     _c("div", { staticClass: "product_image" }, [
                       _c("a", { attrs: { href: "product/" + producto.slug } }, [
                         _c("img", {
-                          attrs: {
-                            src: "storage/" + producto.url,
-                            alt: "producto"
-                          }
+                          attrs: { src: producto.url, alt: "producto" }
                         })
                       ])
                     ]),
