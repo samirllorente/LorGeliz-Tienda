@@ -54,8 +54,8 @@
                                     @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
                                     ->where('imageable_id', $producto->cop)->pluck('url', 'id') as $id => $imagen) 
                                     <li>
-                                        <img src="{{ url('storage/' . $imagen) }}" alt="" >
-                                        {{--<img src="{{ $imagen }}" alt="">--}}
+                                        {{--<img src="{{ url('storage/' . $imagen) }}" alt="" >--}}
+                                        <img src="{{ $imagen }}" alt="">
                                     </li>   
                                     @endforeach
                                 </ul>
@@ -68,8 +68,8 @@
                                         ->where('imageable_id', $producto->cop)->pluck('url', 'id') as $id => $imagen) 
                                         <li>
                                             <div>
-                                                <img src="{{ url('storage/' . $imagen) }}" alt="" >
-                                                {{--<img src="{{ $imagen }}" alt="">--}}
+                                                {{--<img src="{{ url('storage/' . $imagen) }}" alt="" >--}}
+                                                <img src="{{ $imagen }}" alt="">
                                             </div>     
                                         </li>   
                                         @endforeach

@@ -25,7 +25,8 @@
                 <!-- Slide -->
                @foreach ($productoSlider as $producto)
                 <div class="owl-item">
-                    <div class="background_image" style="background-image:url({{ url('storage/' . $producto->imagen) }})">
+                    {{--<div class="background_image" style="background-image:url({{ url('storage/' . $producto->imagen) }})">--}}
+                        <div class="background_image" style="background-image:url({{ $producto->imagen }})">
                         {{--<img src="{{ $imagen }}" alt="">--}}
                     </div>
                     <div class="container fill_height">
@@ -54,7 +55,8 @@
                                                         </div>
                                                         <div class="product_image">
                                                             <a href="{{route('producto.show', $producto->slug)}}">
-                                                                <img src="{{ url('storage/' . $producto->imagen) }}" alt="">
+                                                                {{--<img src="{{ url('storage/' . $producto->imagen) }}" alt="">--}}
+                                                                <img src="{{ $producto->imagen }}" alt="">
                                                             </a>
                                                         </div>
                                                         <div class="product_content">
@@ -279,7 +281,8 @@
                     <div class="product">
                         <div class="product_image">
                             <a :href="'product/' + nuevo.slug">
-							<img :src="'storage/' + nuevo.imagen" alt="">
+							{{--<img :src="'storage/' + nuevo.imagen" alt="">--}}
+                            <img :src="nuevo.imagen" alt="">
 						</a>
                         </div>
                         <div class="product_content">
@@ -336,7 +339,8 @@
                 <div class="product">
                     <div class="product_image">
                         <a href="{{route('producto.show', $producto->slug)}}">
-                        <img src="{{ url('storage/' . $producto->imagen) }}" alt="">
+                        {{--<img src="{{ url('storage/' . $producto->imagen) }}" alt="">--}}
+                        <img src="{{ $producto->imagen }}" alt="">
                         </a>
                     </div>
                     <div class="product_content">
@@ -398,8 +402,9 @@
                         ->where('imageable_id', $producto->cop)
                         ->pluck('url', 'id')
                         ->take(1) as $id => $imagen)--}}
-                        <img src="{{ url('storage/' . $producto->imagen) }}" alt="">
+                        {{--<img src="{{ url('storage/' . $producto->imagen) }}" alt="">--}}
                         {{--@endforeach--}}
+                        <img src="{{ $producto->imagen }}" alt="">
                         </a>
                     </div>
                     <div class="product_content">
@@ -456,7 +461,8 @@
             <span class="badge-offer"><b> - {{ $oferta->porcentaje_descuento}}%</b></span>
                 <div class="product_image">
                     <a href="{{route('producto.show', $oferta->slug)}}">
-                    <img src="{{ url('storage/' . $oferta->imagen) }}" alt="">
+                    {{--<img src="{{ url('storage/' . $oferta->imagen) }}" alt="">--}}
+                    <img src="{{ $oferta->imagen }}" alt="">
                     </a>
                 </div>
                 <div class="product_content">

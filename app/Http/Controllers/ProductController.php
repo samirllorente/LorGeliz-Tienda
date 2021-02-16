@@ -12,6 +12,7 @@ use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Spatie\Dropbox\Client;
 
 
 class ProductController extends Controller
@@ -105,12 +106,12 @@ class ProductController extends Controller
 
                 $nombre = time().'_'.$imagen->getClientOriginalName();
 
-                $path = Storage::disk('public')->putFileAs("imagenes/productos/producto" . $producto->id, $imagen, $nombre);
+                //$path = Storage::disk('public')->putFileAs("imagenes/productos/producto" . $producto->id, $imagen, $nombre);
 
-                $url_imagenes[]['url'] = $path;
+                //$url_imagenes[]['url'] = $path;
 
 
-                /*$image = Image::make($imagen)->encode('jpg', 75);
+                $image = Image::make($imagen)->encode('jpg', 75);
                 $image->resize(530, 591, function ($constraint){
                     $constraint->upsize();
                 });
@@ -119,7 +120,7 @@ class ProductController extends Controller
                 $dropbox = Storage::disk('dropbox')->getDriver()->getAdapter()->getClient();
                 $response = $dropbox->createSharedLinkWithSettings("imagenes/productos/producto" . $nombre, ["requested_visibility" => "public"]);
 
-                $url_imagenes[]['url'] = str_replace('dl=0', 'raw=1', $response['url']);*/
+                $url_imagenes[]['url'] = str_replace('dl=0', 'raw=1', $response['url']);
 
             }
 
@@ -303,11 +304,11 @@ class ProductController extends Controller
 
                 $nombre = time().'_'.$imagen->getClientOriginalName();
 
-                $path = Storage::disk('public')->putFileAs("imagenes/productos/producto" . $producto->producto_id, $imagen, $nombre);
+                //$path = Storage::disk('public')->putFileAs("imagenes/productos/producto" . $producto->producto_id, $imagen, $nombre);
 
-                $url_imagenes[]['url'] = $path;
+                //$url_imagenes[]['url'] = $path;
 
-                /*$image = Image::make($imagen)->encode('jpg', 75);
+                $image = Image::make($imagen)->encode('jpg', 75);
                 $image->resize(530, 591, function ($constraint){
                     $constraint->upsize();
                 });
@@ -316,7 +317,7 @@ class ProductController extends Controller
                 $dropbox = Storage::disk('dropbox')->getDriver()->getAdapter()->getClient();
                 $response = $dropbox->createSharedLinkWithSettings("imagenes/productos/producto" . $nombre, ["requested_visibility" => "public"]);
 
-                $url_imagenes[]['url'] = str_replace('dl=0', 'raw=1', $response['url']);*/
+                $url_imagenes[]['url'] = str_replace('dl=0', 'raw=1', $response['url']);
             }
 
         }   
@@ -424,11 +425,11 @@ class ProductController extends Controller
 
                 $nombre = time().'_'.$imagen->getClientOriginalName();
 
-                $path = Storage::disk('public')->putFileAs("imagenes/productos/producto" . $producto, $imagen, $nombre);
+                //$path = Storage::disk('public')->putFileAs("imagenes/productos/producto" . $producto, $imagen, $nombre);
 
-                $url_imagenes[]['url'] = $path;
+                //$url_imagenes[]['url'] = $path;
 
-                /*$image = Image::make($imagen)->encode('jpg', 75);
+                $image = Image::make($imagen)->encode('jpg', 75);
                 $image->resize(530, 591, function ($constraint){
                     $constraint->upsize();
                 });
@@ -437,7 +438,7 @@ class ProductController extends Controller
                 $dropbox = Storage::disk('dropbox')->getDriver()->getAdapter()->getClient();
                 $response = $dropbox->createSharedLinkWithSettings("imagenes/productos/producto" . $nombre, ["requested_visibility" => "public"]);
 
-                $url_imagenes[]['url'] = str_replace('dl=0', 'raw=1', $response['url']);*/
+                $url_imagenes[]['url'] = str_replace('dl=0', 'raw=1', $response['url']);
 
             }
 
