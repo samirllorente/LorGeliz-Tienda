@@ -7,10 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ClienteMessageMail extends Mailable
+class ClientToAdminMail extends Mailable
 {
     use Queueable, SerializesModels;
-    
+
     public $details;
 
     /**
@@ -22,7 +22,6 @@ class ClienteMessageMail extends Mailable
     {
         $this->details = $details;
     }
-
     /**
      * Build the message.
      *
@@ -30,8 +29,7 @@ class ClienteMessageMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.clienteMessageMail')
+        return $this->markdown('emails.clientToAdminMail')
         ->with('details', $this->details);
     }
-
 }

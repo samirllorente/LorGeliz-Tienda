@@ -17,7 +17,7 @@ class CreatePagosTable extends Migration
             $table->increments('id');
             $table->string('ref_epayco')->nullable();
             $table->dateTime('fecha');
-            $table->decimal('monto');
+            $table->decimal('monto', 12, 0);
             $table->unsignedInteger('venta_id');
             $table->foreign('venta_id')->references('id')->on('ventas');
             $table->enum('estado',['1','2','3','4','5']);

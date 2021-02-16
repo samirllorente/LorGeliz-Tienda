@@ -84,7 +84,8 @@
                                             class="btn btn-warning" title="cambiar estado"
                                             data-toggle="modal"
                                             data-target="#modalEstado"
-                                            data-id="{{$pedido['id']}}">
+                                            data-id="{{$pedido['id']}}"
+                                            data-status="{{$pedido['estado']}}">
                                             <i class="fas fa-pen"></i></a>
                                         </td>
                                         <td><a class="btn btn-success" href="" v-on:click.prevent="imprimir({{ $pedido->id}})" title="imprimir"><i class="fa fa-print"></i></a>
@@ -132,25 +133,25 @@
                                 <option value="">Seleccione uno</option>
                                 @foreach($estados as $estado)
                                     @if ($estado == 1)
-                                        <option value="{{ $estado }}">
+                                        <option value="{{ $estado }}" class="option">
                                             {{ "pendiente" }}
                                         </option>
                                     @endif
 
                                     @if ($estado == 2)
-                                        <option value="{{ $estado }}">
+                                        <option value="{{ $estado }}" class="option">
                                             {{ "en proceso"}}
                                         </option>
                                     @endif
 
                                     @if ($estado == 3)
-                                        <option value="{{ $estado }}">
+                                        <option value="{{ $estado }}" class="option">
                                             {{ "enviado"}}
                                         </option>
                                     @endif
 
                                     @if ($estado == 4)
-                                        <option value="{{ $estado }}">
+                                        <option value="{{ $estado }}" class="option">
                                         {{ "entregado"}}
                                         </option>
                                     @endif
@@ -191,6 +192,15 @@
     
             const id = jQuery(this).data('id');
             $('#pedido_id').val(id);
+
+            const status = jQuery(this).data('status');
+
+            $(".option").each(function() {
+               const st = $(this).val();
+               if (st == status) {
+                $(this).prop('selected',true);
+               }
+            });
         });
     });
     

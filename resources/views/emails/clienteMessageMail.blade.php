@@ -2,7 +2,7 @@
 # {{ $details['title'] }}
 
 Hola, {{ $details['cliente'] }}. Te enviamos este mensaje porque has solicitado un pedido en nuestra plataforma.
-En breves instantes empezaremos a procesar y enviar tu pedido.
+En breves instantes empezaremos a atender tu pedido.
 
 @component('mail::button', ['url' => $details['url']])
 Ver pedido

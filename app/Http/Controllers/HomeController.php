@@ -113,8 +113,10 @@ class HomeController extends Controller
         return view('tienda.index', compact('productoSlider', 'producto_mas_visto', 'productos_vendidos', 'productosoferta'));
     }
     // función para implementar index con ajax
-    public function productsIndex()
+    public function productsIndex(Request $request)
     {
+        if (!$request->ajax()) return redirect('/');
+
         //$slider = Producto::join('color_producto','productos.id', '=', 'color_producto.producto_id')
         //->join('imagenes', 'color_producto.id', '=', 'imagenes.imageable_id')
         //->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
@@ -125,6 +127,7 @@ class HomeController extends Controller
         //->where('producto_referencia.stock', '>', '0')
         //->groupBy('color_producto.id')
         //->get();
+        $cantidad = 6 * $request->cantidad;
 
         $nuevos = Producto::join('color_producto','productos.id', '=', 'color_producto.producto_id')
         ->join('imagenes', 'color_producto.id', '=', 'imagenes.imageable_id')
@@ -138,7 +141,7 @@ class HomeController extends Controller
         ->where('producto_referencia.stock', '>', '0')
         ->groupBy('color_producto.id')
         ->orderBy('color_producto.producto_id', 'DESC')
-        ->take(6)
+        ->take($cantidad)
         ->get();
 
         //$populares = Producto::join('color_producto','productos.id', '=', 'color_producto.producto_id')

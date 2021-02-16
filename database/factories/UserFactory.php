@@ -17,11 +17,24 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $nombres = 'Lorenzo Antonio';
+    $apellidos = 'Geliz Cotera';
+    $usuario = 'lorgeliz';
+    $direccion = 'Montería';
+    $telefono = '3138645929';
+    $email = 'lorgeliztienda@gmail.com';
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'role_id' => \App\Role::ADMIN,
+        'identificacion' => '1063456009',
+        'nombres' => $nombres,
+        'apellidos' => $apellidos,
+        'direccion' => $direccion,
+        'telefono' => $telefono,
+        'email' => $email,
         'email_verified_at' => now(),
+        'username' => $usuario,
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'slug' => Str::slug( $nombres . " " . $apellidos, '-'),
         'remember_token' => Str::random(10),
     ];
 });

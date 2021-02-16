@@ -13,10 +13,8 @@ class CreateTallaTable extends Migration
      */
     public function up()
     {
-        Schema::create('talla', function (Blueprint $table) {
+        Schema::create('tallas', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('tipo_id');
-            $table->foreign('tipo_id')->references('id')->on('tipo');
             $table->string('nombre');
             $table->text('descripcion');
             $table->timestamps();
@@ -30,6 +28,6 @@ class CreateTallaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('talla');
+        Schema::dropIfExists('tallas');
     }
 }

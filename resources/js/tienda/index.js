@@ -7,12 +7,14 @@ const user_cart = new Vue({
         productoNuevo: [],
         productoPopular: [],
         productoVendido: [],
-        productoOferta: []
+        productoOferta: [],
+        cantidad: 0
     }, 
     
     methods: {
         getProductos(){
-            let url = '/lorgeliz_tienda/public/index';
+            this.cantidad++;
+            let url = '/lorgeliz_tienda/public/index?cantidad=' + this.cantidad;
 
             axios.get(url).then(response => {
                 //this.productoSlider = response.data.slider;

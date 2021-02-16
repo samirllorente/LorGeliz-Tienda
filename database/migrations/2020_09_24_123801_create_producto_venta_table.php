@@ -18,9 +18,9 @@ class CreateProductoVentaTable extends Migration
             $table->unsignedInteger('producto_referencia_id');
             $table->foreign('producto_referencia_id')->references('id')->on('producto_referencia');
             $table->unsignedInteger('venta_id');
-            $table->foreign('venta_id')->references('id')->on('venta');
+            $table->foreign('venta_id')->references('id')->on('ventas');
             $table->integer('cantidad');
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 

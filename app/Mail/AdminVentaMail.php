@@ -9,6 +9,8 @@ use Illuminate\Queue\SerializesModels;
 
 class AdminVentaMail extends Mailable
 {
+    use Queueable, SerializesModels;
+    
     public $details;
 
     /**

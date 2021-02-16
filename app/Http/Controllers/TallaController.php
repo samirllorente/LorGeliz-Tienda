@@ -17,7 +17,9 @@ class TallaController extends Controller
         $id  = $request->producto;
         $tipo = Producto::where('id', $id)->firstOrFail(); 
 
-        $tallas = Talla::where('tipo_id', $tipo->tipo_id)->get();
+        $tallas = Talla::join('talla_tipo', 'tallas.id', 'talla_tipo.talla_id')
+        ->where('talla_tipo.tipo_id', $tipo->tipo_id)
+        ->get();
         
         $response = ['data' => $tallas];
         

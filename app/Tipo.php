@@ -40,7 +40,7 @@ class Tipo extends Model
     }
 
     public function tallas (){
-        return $this->hasMany(Talla::class);
+        return $this->belongsToMany(Talla::class);
     }
 
 

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 
-@section('titulo', 'Administración de Tipos de productos')
+@section('titulo', 'Administración de Colores')
 
 @section('breadcrumb')
 <li class="breadcrumb-item active">@yield('titulo')</li>
@@ -16,7 +16,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Sección de tipos de productos</h3>
+                <h3 class="card-title">Sección de colores</h3>
 
                 <div class="card-tools">
 
@@ -35,7 +35,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
-            <a class=" m-2 float-right btn btn-primary" href="{{ route('tipo.create') }}">Crear</a>
+                <a class=" m-2 float-right btn btn-primary" href="{{ route('color.create') }}">Crear</a>
                 <table class="table table-head-fixed">
                     <thead>
                         <tr>
@@ -47,19 +47,20 @@
                     </thead>
                     <tbody>
 
-                        @foreach ($tipos as $tipo)
+                        @foreach ($colores as $color)
 
                         <tr>
-                            <td> {{$tipo->id }} </td>
-                            <td> {{$tipo->nombre }} </td>
-                            <td> {{$tipo->descripcion }} </td>
+                            <td> {{$color->id }} </td>
+                            <td> {{$color->nombre }} </td>
+                            <td> {{$color->descripcion }} </td>
 
-                            <td> <a class="btn btn-primary" href="{{ route('tipo.show', $tipo->slug)}}" title="ver"><i class="fas fa-eye"></i></a></td>
 
-                            <td> <a class="btn btn-success" href="{{ route('tipo.edit', $tipo->slug)}}" title="editar"><i class="fas fa-pen"></i></a>
+                            <td> <a class="btn btn-primary" href="{{ route('color.show', $color->slug) }}" title="ver"><i class="fas fa-eye"></i></a></td>
+
+                            <td> <a class="btn btn-success" href="{{ route('color.edit', $color->slug) }}" title="editar"><i class="fas fa-pen"></i></a>
                             </td>
 
-                            <td>@include('admin.tipo_producto.delete')</td>
+                            <td>@include('admin.colores.delete')</td>
 
                         </tr>
                         @endforeach
@@ -67,7 +68,7 @@
 
                     </tbody>
                 </table>
-                {{ $tipos->appends($_GET)->links() }}
+                {{ $colores->appends($_GET)->links() }}
             </div>
             <!-- /.card-body -->
         </div>

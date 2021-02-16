@@ -26,6 +26,8 @@ class StockController extends Controller
         $busqueda = $request->get('busqueda');
 
         $productos = Producto::orWhere('productos.nombre','like',"%$busqueda%")
+        //->orWhere('colores.nombre','like',"%$busqueda%")
+        //->orWhere('tallas.nombre','like',"%$busqueda%")
         ->join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
         ->join('colores', 'color_producto.color_id', '=', 'colores.id') 
         ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')

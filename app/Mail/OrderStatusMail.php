@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class OrderStatusMail extends Mailable
 {
     use Queueable, SerializesModels;
+    
     public $details;
 
     /**

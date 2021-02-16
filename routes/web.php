@@ -26,8 +26,10 @@ Route::get('/categorias/productos/genero', 'HomeController@getProductsByGenre')-
 Route::get('/product/{slug}', 'HomeController@product')->name('producto.show');
 
 Route::get('/cuenta', 'UserController@index')->name('users.cuenta');
-Route::get('/contacto', 'ContactoController@contacto')->name('contact');
 Route::put('/update', 'UserController@update')->name('users.update');
+
+Route::get('/contacto', 'ContactoController@contacto')->name('contact');
+Route::get('/contacto/mail', 'ContactoController@sendMail')->name('contact.mail');
 
 Route::get('/tallas/productos/{id}', 'TallaController@getProductoTallas')->name('talla.productos');
 Route::put('/productos/visitas/update/{id}', 'ProductController@setVisitas')->name('product.visitas');
@@ -243,6 +245,9 @@ Route::group(['prefix' => "/admin", "middleware" => [sprintf("role:%s", \App\Rol
     Route::resource('/tipo', 'TipoProductoController');
 
     Route::resource('/category', 'CategoryController');
+
+    Route::get('/colores/get', 'ColorController@getColores')->name('colores.get');
+    Route::resource('/color', 'ColorController');
 
 });
 

@@ -317,7 +317,7 @@
             </div>
             <div class="row load_more_row">
                 <div class="col">
-                    <div class="button load_more ml-auto mr-auto"><a href="#">cargar más</a></div>
+                    <div class="button load_more ml-auto mr-auto"><a href="" v-on:click.prevent="getProductos()">cargar más</a></div>
                 </div>
             </div>
         </div>

@@ -66,18 +66,12 @@
                                         @endforeach
                                         </a>
                                     </td>
-                                    <td>
-                                        {{ $producto->talla }}
-                                    </td>
-                                    <td>
-                                        {{ $producto->color }}
-                                    </td>
+                                    <td>{{ $producto->talla }}</td>
+                                    <td>{{ $producto->color }}</td>
                                     <td>{{ $producto->stock }}</td>
-
                                 </tr>
                                     
                                 @endforeach
-                                
                                 
                             </tbody>
                         </table>
@@ -110,7 +104,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label" for="text-input">Producto</label>
                         <div class="col-md-9">
-                            <select name="producto_id" id="producto_id" class="form-control">
+                            <select name="producto_id" id="producto_id" class="form-control selectpicker" data-live-search="true">
                                 <option value="">Seleccione uno</option>
                                 @foreach(\App\Producto::pluck('nombre', 'id') as $id => $producto)
                                     <option value="{{ $id }}">
@@ -146,12 +140,12 @@
                         <label class="col-md-3 form-control-label" for="text-input">Color</label>
                         <div class="col-md-9">
                             <select name="color_id" id="color_id" class="form-control">
-                                <option value="">Seleccione uno</option>
+                                {{--<option value="">Seleccione uno</option>
                                 @foreach(\App\Color::pluck('nombre', 'id') as $id => $color)
                                     <option value="{{ $id }}">
                                         {{ $color }}
                                     </option>
-                                @endforeach
+                                @endforeach--}}
                             </select>
 
                             @if($errors->has('color_id'))
@@ -229,7 +223,36 @@
 								+ value.id + "'>" + value.nombre + "</option>");
 						});
 
+					}
+
+				});
+
+			}
+
+		});
+
+        $(document).on('change', '#talla_id', function(e) { 
+			e.preventDefault();
+
+			var producto = parseInt($('#producto_id').val());
+
+			if (producto != 0) {
+
+				$.ajax({
+					type: "GET",
+					url: "{{ route('colores.get') }}",
+					data:{producto:producto},
+					dataType: 'json',
+					success: function (response) {
+
+						$('#color_id').html('');
+						$('#color_id').append('<option value="0">Seleccione uno</option>')
 						
+						$.each(response.data, function (key, value) {
+							$('#color_id').append("<option value='" 
+								+ value.id + "'>" + value.nombre + "</option>");
+						});
+
 					}
 
 				});

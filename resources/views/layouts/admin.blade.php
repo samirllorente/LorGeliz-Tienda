@@ -19,6 +19,7 @@
   <!-- overlayScrollbars -->
   @yield('estilos')
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/bootstrap-select.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -280,6 +281,31 @@
                  </li>
              </ul>
          </li>
+
+         <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-list-alt"></i>
+              <p>
+                  Colores
+                  <i class="right fas fa-angle-left"></i>
+              </p>
+          </a>
+          <ul class="nav nav-treeview">
+              <li class="nav-item">
+                  <a href="{{ route('color.index')}}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Listado de colores</p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="{{ route('color.create') }}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Crear color</p>
+                  </a>
+              </li>
+          </ul>
+      </li>
+
 
          <!-- Clientes -->
          <li class="nav-item has-treeview">
@@ -553,6 +579,7 @@
 <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('adminlte/dist/js/demo.js') }}"></script>
+<script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
 <script src="{{ asset('js/app_admin.js') }}" defer></script>
 {{--<script src="{{ asset('js/app.js') }}" defer></script>--}}

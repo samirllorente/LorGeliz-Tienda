@@ -9,6 +9,8 @@ use Illuminate\Queue\SerializesModels;
 
 class DevolucionStatusMail extends Mailable
 {
+    use Queueable, SerializesModels;
+    
     public $details;
 
     /**

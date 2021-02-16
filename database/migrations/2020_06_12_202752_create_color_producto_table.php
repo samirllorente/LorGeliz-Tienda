@@ -15,15 +15,14 @@ class CreateColorProductoTable extends Migration
     {
         Schema::create('color_producto', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('color_id');
-            $table->foreign('color_id')->references('id')->on('color');
-            $table->unsignedInteger('producto_id');
-            $table->foreign('producto_id')->references('id')->on('producto');
             $table->integer('visitas')->default(0);
-            $table->string('slug');
             $table->enum('activo', ['Si','No']);
             $table->string('slug')->nullable();
-            $table->timestamps();
+            $table->unsignedInteger('color_id');
+            $table->foreign('color_id')->references('id')->on('colores');
+            $table->unsignedInteger('producto_id');
+            $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
+            //$table->timestamps();
         });
     }
 
