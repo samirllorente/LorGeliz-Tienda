@@ -81,10 +81,7 @@ class RegisterController extends Controller
 
     }
 
-    protected function registered(Request $request, $user){
-        Cliente::create([
-         'user_id' => $user->id,
-        ]);
-        return redirect('/');
-    }
+    //protected function registered(Request $request, $user){
+        //return redirect('/');
+    //}
 }

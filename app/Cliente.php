@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Cliente extends Model
 {
+    protected $fillable = ['user_id'];
     use Notifiable;
     
     public function user (){

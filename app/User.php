@@ -44,13 +44,17 @@ class User extends Authenticatable
                 $img->imageable_id = $user->id;
 
                 $img->save();
+
+                Cliente::create([
+                    'user_id' => $user->id,
+                ]);
             
             }
 			
 		});
 
 //implementar con dropbox
-		/*static::saving(function(User $user) {
+		static::saving(function(User $user) {
 			
 			if( ! \App::runningInConsole() ) {
 
@@ -77,18 +81,18 @@ class User extends Authenticatable
 
                     $img->save();
 
-                    //$imagen = Imagene::where('imageable_type','App\User')
-                    //->where('imageable_id', auth()->user()->id)->firstOrFail();
+                    $imagen = Imagene::where('imageable_type','App\User')
+                    ->where('imageable_id', auth()->user()->id)->firstOrFail();
 
-                    //$delete = Storage::disk('public')->delete($imagen->url);
+                    $delete = Storage::disk('public')->delete($imagen->url);
 
                     //Storage::delete($imagen->url);
                     
-                    //$imagen->delete();
+                    $imagen->delete();
                    
                 }
 			}
-		});*/
+		});
 
     }
     
