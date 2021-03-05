@@ -117,7 +117,7 @@
                                 <div class="form-group">
 
                                     <label>Categoria</label>
-                                    <select name="category_id" id="category_id" class="form-control "
+                                    <select name="category_id" id="category_id" class="form-control"
                                         style="width: 100%;" disabled>
                                         @foreach(\App\Categoria::pluck('nombre', 'id') as $id => $categoria)
 
@@ -581,15 +581,15 @@
 <script src="{{ asset('adminlte/ckeditor/ckeditor.js') }}"></script>
 
 <script>
-    $(function () {
+    //$(function () {
         //Initialize Select2 Elements
-        $('#category_id').select2()
+        //$('#category_id').select2()
 
         //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        });
-    });
+       // $('.select2bs4').select2({
+            //theme: 'bootstrap4'
+        //});
+    //});
 
 </script>
 

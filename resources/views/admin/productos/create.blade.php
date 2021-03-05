@@ -573,15 +573,15 @@
 <script src="{{ asset('adminlte/ckeditor/ckeditor.js') }}"></script>
 
 <script>
-    $(function () {
+    //$(function () {
         //Initialize Select2 Elements
-        $('#category_id').select2()
+        //$('#category_id').select2()
 
         //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        });
-    });
+        //$('.select2bs4').select2({
+            //theme: 'bootstrap4'
+        //});
+    //});
 
     window.data = {
         editar: 'No',

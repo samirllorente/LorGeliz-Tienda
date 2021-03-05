@@ -134,7 +134,7 @@
                                 <div class="form-group">
 
                                     <label>Categoria</label>
-                                    <select name="category_id" id="category_id" class="form-control "
+                                    <select name="category_id" id="category_id" class="form-control"
                                         style="width: 100%;">
                                         @foreach(\App\Categoria::pluck('nombre', 'id') as $id => $categoria)
 
@@ -638,12 +638,12 @@
     }
     $(function () {
         //Initialize Select2 Elements
-        $('#category_id').select2()
+        //$('#category_id').select2()
 
         //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        });
+        //$('.select2bs4').select2({
+            //theme: 'bootstrap4'
+        //});
 
         //uso de lightbox
         $(document).on('click', '[data-toggle="lightbox"]', function (event) {
