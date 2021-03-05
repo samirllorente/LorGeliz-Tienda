@@ -56861,7 +56861,7 @@ var listsales = new Vue({
   el: '#listdevolucion',
   data: {},
   methods: {
-    pdfListadoVentas: function pdfListadoVentas() {
+    pdfListadoDevoluciones: function pdfListadoDevoluciones() {
       window.open('/lorgeliz_tienda/public/admin/devoluciones/listado');
     }
   },
@@ -56886,6 +56886,26 @@ var payments = new Vue({
     },
     imprimirPago: function imprimirPago(id) {
       window.open('/lorgeliz_tienda/public/admin/payments/payment/' + id + ',' + '_blank');
+    },
+    getResponse: function getResponse(ref_payco) {
+      //let url = "https://secure.epayco.co/validation/v1/reference/" + ref_payco;
+      //axios.get(url).then(response => {
+      //if (response.success) {
+      //this.x_transaction_date = response.data.x_transaction_date;
+      //this.x_amount = response.data.x_amount;
+      //this.x_response = response.data.x_response;
+      //this.x_response_reason_text = response.data.x_response_reason_text;
+      //this.x_cod_response = response.data.x_cod_response;
+      //this.x_transaction_id = response.data.x_transaction_id;
+      //}
+      //}); 
+      this.abrirModal();
+    },
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+    },
+    abrirModal: function abrirModal() {
+      this.modal = 1;
     }
   },
   mounted: function mounted() {}
@@ -57358,10 +57378,24 @@ try {
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**
+ * Next we will register the CSRF Token as a common header with Axios so that
+ * all outgoing HTTP requests automatically have it attached. This is just
+ * a simple convenience so we don't have to attach every token manually.
+ */
+
+var token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
+/**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
+
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js"); //descomentar
@@ -57946,28 +57980,9 @@ var product = new Vue({
 var user_cart = new Vue({
   el: '#user_cart',
   data: {
-    productos: 0 //arrayNotifications: [],
-    //notifications: []
-
+    productos: 0
   },
-  computed: {
-    /*listar : function(){
-        //this.arrayNotifications = Object.values(this.notifications[0]);
-        if (this.notifications == '') {
-            return this.arrayNotifications = [];
-        }
-        else{
-            this.arrayNotifications = Object.values(this.notifications[0]);
-            if (this.arrayNotifications.length > 3) {
-                return this.arrayNotifications[4];
-               
-            } else {
-                return this.arrayNotifications[0];
-            }
-        }
-        
-    }*/
-  },
+  computed: {},
   methods: {
     carritoUser: function carritoUser() {
       var _this = this;
@@ -57980,14 +57995,9 @@ var user_cart = new Vue({
   },
   mounted: function mounted() {
     this.carritoUser();
-    /*axios.get('/lorgeliz_tienda/public/notification/cart/client').then(response => {
-        this.notifications=response.data;
-    }).catch(function(error){
-        console.log(error)
-    });
-          var clienteId = $('meta[name="clienteId"]').attr('content');
-          Echo.private('App.Cliente.' + clienteId).notification((notification) => {
-        $this.notifications.unshift(notification);
+    /*window.Echo.private(`cart-updated.${this.user_id}`).listen('UserCart', (e) => {
+        let cart = e.cart;
+        this.productos = cart;
     });*/
   }
 });

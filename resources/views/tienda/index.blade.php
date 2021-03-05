@@ -27,7 +27,7 @@
                 <div class="owl-item">
                     {{--<div class="background_image" style="background-image:url({{ url('storage/' . $producto->imagen) }})">--}}
                         <div class="background_image" style="background-image:url({{ $producto->imagen }})">
-                        {{--<img src="{{ $imagen }}" alt="">--}}
+                        
                     </div>
                     <div class="container fill_height">
                         <div class="row fill_height">
@@ -282,8 +282,8 @@
                         <div class="product_image">
                             <a :href="'product/' + nuevo.slug">
 							{{--<img :src="'storage/' + nuevo.imagen" alt="">--}}
-                            <img :src="nuevo.imagen" alt="">
-						</a>
+                                <img :src="nuevo.imagen" alt="">
+						    </a>
                         </div>
                         <div class="product_content">
                             <div class="product_info d-flex flex-row align-items-start justify-content-start">

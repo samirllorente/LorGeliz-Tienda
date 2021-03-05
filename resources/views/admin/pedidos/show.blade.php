@@ -106,12 +106,10 @@
                                         <td>{{ $producto->id }}</td>
 
                                         <td> 
-                                            {{--@foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                                                ->where('imageable_id', $producto->cop)->pluck('url', 'id')->take(1) as $id => $imagen)    
-                                                <img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
-                                            @endforeach--}}
+                                           
                                             <a href="{{ route('producto.show', $producto->slug) }}" title="ver producto">
-                                                <img src="{{ url('storage/' . $producto->imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
+                                                {{--<img src="{{ url('storage/' . $producto->imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">--}}
+                                                <img src="{{ $producto->imagen }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
                                             </a>
                                         </td>
 

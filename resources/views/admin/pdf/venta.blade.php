@@ -164,7 +164,7 @@
                     <tbody>
                         <tr>
                             <td>{{ $user->venta}}</td>
-                            <td>{{date('d/m/Y H:i:s', strtotime($user->fecha)) }}</td>
+                            <td>{{date('d/m/Y h:i:s A', strtotime($user->fecha)) }}</td>
                             <td>
                                 @if ($user->saldo == 0)
                                 {{"CANCELADA"}}

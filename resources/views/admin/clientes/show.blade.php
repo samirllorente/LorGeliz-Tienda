@@ -52,8 +52,11 @@
                             <td>{{$cliente->id }} </td>
                             <td>
                                 @if ($cliente->imagene)
-                                <img style="height: 40px; width: 40px;"
+                                {{--<img style="height: 40px; width: 40px;"
                                 src="{{ url('storage/' . $cliente->imagene->url) }}"
+                                class="rounded-circle">--}}
+                                <img style="height: 40px; width: 40px;"
+                                src="{{ $cliente->imagene->url }}"
                                 class="rounded-circle">
                                 @else
                                 <img style="height: 40px; width: 40px;"

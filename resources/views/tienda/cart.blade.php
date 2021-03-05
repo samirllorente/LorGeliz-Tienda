@@ -58,8 +58,8 @@
 											<div><div class="product_number">{{ $producto->codigo}}</div></div>
 												<div>
 													<div class="product_image">
-														<img src="{{ url('storage/' . $producto->imagen) }}" alt="">
-														{{--<img src="{{ $imagen }}" alt="">--}}
+														{{--<img src="{{ url('storage/' . $producto->imagen) }}" alt="">--}}
+														<img src="{{ $producto->imagen }}" alt="">
 													</div>
 												</div>
 												<div class="product_name_container">

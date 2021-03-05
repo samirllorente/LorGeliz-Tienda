@@ -20,6 +20,7 @@
   @yield('estilos')
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/bootstrap-select.min.css') }}">
+  
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -173,7 +174,7 @@
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           {{--<img src="{{ url('storage/' . auth()->user()->imagene->url) }}" class="img-circle elevation-2" alt="User Image">--}}
-          <img src="{{ auth()->user()->imagene->url }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ auth()->user()->imagene ? auth()->user()->imagene->url : ''}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info d-flex">
         <a href="{{ route('users.cuenta')}}" class="d-block mr-2">{{ auth()->user()->nombres}}</a>

@@ -69,7 +69,7 @@
                                 {{ "Anulada" }}
                                 @endif
                             </td>
-                            @if ($venta->estado == 2)
+                            @if ($venta->estado == 2 & !$venta->pago)
                             <td>
                                 <form action="{{ route('venta.pagar', $venta->id)}}" method="post">
                                     @csrf

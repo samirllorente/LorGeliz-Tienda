@@ -57,7 +57,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('admin.productos.create');//vista para crear un producto
+        $estados = $this->estado_productos();
+
+        return view('admin.productos.create', compact('estados'));//vista para crear un producto
     }
 
     /**
@@ -361,6 +363,9 @@ class ProductController extends Controller
                 $imagenes = Imagene::where('imageable_id', $id)->get();
 
                 foreach ($imagenes as $imagen) {
+                    //$delete = $this->dropbox->delete($imagen->nombre);
+                    Storage::disk('dropbox')->delete($imagen->url); // se eliminan del almacenamiento
+
                     $imagen->delete(); // se eliminan las imágenes de la bd
                 }
 
@@ -466,7 +471,9 @@ class ProductController extends Controller
 
         $image = Imagene::find($id);
 
-        $eliminar = Storage::disk('public')->delete($image->url); // se elimina del directorio
+        //$eliminar = Storage::disk('public')->delete($image->url); // se elimina del directorio
+        //$delete = $this->dropbox->delete($imagen->nombre);
+        Storage::disk('public')->delete($imagen->url);
 
         $image->delete(); // se elimina de la bd
 

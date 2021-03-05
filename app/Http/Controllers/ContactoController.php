@@ -36,7 +36,8 @@ class ContactoController extends Controller
             'url' => url('/admin/clientes/'. $user->cliente->id),
         ];
 
-        return new ClientToAdminMail($details);
+        //return new ClientToAdminMail($details);
+        Mail::to($admin[0]->email)->send(new ClientToAdminMail($details));
     }
 
 }

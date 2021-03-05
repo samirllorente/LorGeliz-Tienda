@@ -471,13 +471,12 @@
                             <div class="col-md-6">
                                 <div class="form-group">
 
-
                                     <label>Estado</label>
                                     <select name="estado" id="estado" class="form-control " style="width: 100%;">
-                                        @foreach (\App\Producto::groupBy('estado')->pluck('estado') as $estado)
-                                        <option value="{{ $estado }}">
+                                        @foreach($estados as $estado)
+                                        <option value="{{$estado}}">
                                             @if ($estado == 1)
-                                            {{"Nuevo"}}
+                                            {{ "nuevo" }} 
                                             @else
                                             {{"En oferta"}}
                                             @endif
@@ -485,7 +484,6 @@
                                         @endforeach
 
                                     </select>
-
 
                                 </div>
                                 <!-- /.form-group -->

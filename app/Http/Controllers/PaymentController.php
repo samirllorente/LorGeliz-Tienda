@@ -26,6 +26,7 @@ class PaymentController extends Controller
         $busqueda = $request->get('busqueda');
         
         $pagos = Pago::orWhere('pagos.venta_id','like',"%$busqueda%")
+        ->orWhere('pagos.estado','like',"%$busqueda%")
         ->orWhere('pagos.id', $busqueda)
         ->orWhere('pagos.monto', $busqueda)
         ->orderBy('pagos.fecha', 'DESC')
@@ -56,7 +57,7 @@ class PaymentController extends Controller
     {
         $pagos = Pago::where('pagos.id', $id)
         ->orderBy('pagos.fecha', 'DESC')
-        ->first();
+        ->get();
 
         $pdf = \PDF::loadView('admin.pdf.pago',['pagos'=>$pagos])
         ->setPaper('a4', 'landscape');

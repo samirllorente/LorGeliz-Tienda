@@ -37,16 +37,20 @@ class ColorProducto extends Model
 
     public $timestamps = false;
 
-    public function producto () {
-        return $this->belongsTo(Producto::class);
-    }
+    //public function producto () {
+        //return $this->belongsTo(Producto::class);
+    //}
 
-    public function color (){
-        return $this->belongsTo(Color::class);
-    }
+    //public function color (){
+        //return $this->belongsTo(Color::class);
+    //}
 
-    public function productoReferencias (){
-        return $this->hasMany(ProductoReferencia::class);
+    //public function productoReferencias (){
+        //return $this->hasMany(ProductoReferencia::class);
+    //}
+
+    public function tallas (){
+        return $this->belongsToMany(Talla::class);
     }
 
     public function imagenes (){

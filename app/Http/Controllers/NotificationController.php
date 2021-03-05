@@ -16,6 +16,7 @@ class NotificationController extends Controller
 
     public function getNotification()
     {
+        //notificaciones de ventas para el admin 
         $unreadNotifications = Auth::user()->unreadNotifications;
         
         $fechaActual = date('Y-m-d');
@@ -31,6 +32,7 @@ class NotificationController extends Controller
 
     public function clientNotification()
     {
+        //obtener notificaciones del cliente
         $unreadNotifications = Auth::user()->cliente->unreadNotifications;
 
         //$orderNotifications = $unreadNotifications->filter(function ($value, $key){
@@ -52,6 +54,7 @@ class NotificationController extends Controller
 
     public function setRead(Request $request, $id)
     {
+        //leer notificaciones del admin
         if (!$request->ajax()) return redirect('/');
 
         $notification = Notification::where('id', $request->id)->firstOrFail();
@@ -62,6 +65,7 @@ class NotificationController extends Controller
 
     public function setClientRead(Request $request, $id)
     {
+        //leer notificaciones del cliente
         if (!$request->ajax()) return redirect('/');
 
         $notification = Notification::where('id', $request->id)->firstOrFail();

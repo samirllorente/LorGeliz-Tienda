@@ -72,7 +72,7 @@ Route::group(['prefix' => '/devoluciones'], function () {
 
 Route::group(['prefix' => '/ventas'], function () {
     Route::post('/epayco', 'VentaController@epayco_register')->name('venta.epayco');
-    Route::post('/epayco/confirm', 'VentaController@epaycoConfirm')->name('venta.confirmation'); //ruta para confirmación, de prueba
+    //Route::post('/epayco/confirm', 'VentaController@epaycoConfirm')->name('venta.confirmation'); //ruta para confirmación, de prueba
     Route::post('/store', 'VentaController@store')->name('venta.store');
 });
 
@@ -166,7 +166,9 @@ Route::group(['prefix' => "/admin", "middleware" => [sprintf("role:%s", \App\Rol
     });
 
     Route::group(['prefix' => '/tallas'], function (){
-        Route::get('/', 'TallaController@getTalla')->name('talla.get')->middleware('auth');
+        Route::get('/', 'TallaController@getTalla')->name('talla.get');
+        Route::get('/tipos', 'TallaController@tallasTipoId')->name('talla.tipos');
+        Route::post('/', 'TallaController@store')->name('talla.store');
     });
 
     Route::group(['prefix' => '/ventas'], function () {

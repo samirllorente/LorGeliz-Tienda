@@ -7,7 +7,6 @@ use App\CarritoProducto;
 use App\Cliente;
 use App\ColorProducto;
 use App\Events\UserCart;
-use App\Notifications\NotificationCart;
 use App\Producto;
 use App\ProductoReferencia;
 use Illuminate\Http\Request;
@@ -96,7 +95,7 @@ class CarController extends Controller
 
             $carritoProducto->save();
 
-           $cart =  $this->productsCount(); //calcular número de productos en el carrito
+           //$cart =  $this->userCart(); //calcular número de productos en el carrito
 
             //broadcast(new UserCart($cart)); // notificar el evento
             
@@ -166,7 +165,7 @@ class CarController extends Controller
 
             DB::commit();
 
-            $cart =  $this->productsCount(); //calcular número de productos en el carrito
+            //$cart =  $this->userCart(); //calcular número de productos en el carrito
 
             //broadcast(new UserCart($cart));
 
@@ -199,7 +198,8 @@ class CarController extends Controller
 
             $carrito->delete(); // se borra el carrito
 
-            $this->productsCount(); // contamos los productos, en este caso cero
+            //$this->userCart(); // contamos los productos, en este caso cero
+            //broadcast(new UserCart($cart));
 
             DB::commit();
         }
@@ -259,7 +259,7 @@ class CarController extends Controller
 
             DB::commit();
 
-            $cart =  $this->productsCount(); //calcular número de productos en el carrito
+            //$cart =  $this->userCart(); //calcular número de productos en el carrito
 
             //broadcast(new UserCart($cart)); //evento para actualizar el carrito
 
@@ -325,36 +325,14 @@ class CarController extends Controller
 
             $car_producto->delete();
 
-            $this->productsCount();
+            //$cart =  $this->userCart(); //calcular número de productos en el carrito
+
+            //broadcast(new UserCart($cart)); //evento para actualizar el carrito
 
         } catch (\Exception $exception) {
             
         }
     }
 
-    public function productsCount()
-    {
-        $productos = DB::table('carrito_producto')
-        ->join('carritos','carritos.id', '=', 'carrito_producto.carrito_id')
-        ->where('carritos.cliente_id', auth()->user()->cliente->id)
-        ->where('carritos.estado', 1)
-        ->select( DB::raw('SUM(carrito_producto.cantidad) as cantidad'))
-        ->get();
-
-        if ($productos) {
-            $cantidad = $productos[0]->cantidad;
-        } else {
-            $cantidad = 0;
-        }
-        
-        //$arrayData = [
-            //'notificacion' => [
-                //'productos' => $cantidad,
-            //]
-        //];
-
-        //Cliente::findOrFail(auth()->user()->cliente->id)->notify(new NotificationCart($arrayData));
-
-        return $cantidad;
-    }
+   
 }

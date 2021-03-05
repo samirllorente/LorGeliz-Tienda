@@ -16,12 +16,12 @@ class Venta extends Model
         return $this->hasOne(Devolucione::class);
     }
 
-    public function productos (){
-        return $this->belongsToMany(Producto::class);
-    }
+    //public function productos (){
+        //return $this->belongsToMany(Producto::class);
+    //}
 
-    public function metodoPago (){
-        return $this->belongsTo(MetodoPago::class);
+    public function productoReferencias (){
+        return $this->belongsToMany(ProductoReferencia::class);
     }
 
     public function cliente (){

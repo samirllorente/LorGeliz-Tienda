@@ -99,7 +99,7 @@
                 @foreach ($pedidos as $pedido)
                 <tr>
                     <td> {{ $pedido->id }} </td>
-                    <td> {{ date('d/m/Y', strtotime($pedido->fecha)) }}</td>
+                    <td> {{ date('d/m/Y h:i:s A', strtotime($pedido->fecha)) }}</td>
                     <td> {{ $pedido->nombres }} {{ $pedido->apellidos }}</td>
                     <td>
                         @if ($pedido->estado == 1)

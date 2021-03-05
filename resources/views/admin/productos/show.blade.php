@@ -439,13 +439,18 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach ($producto->colorproductos as $product)
+                            @foreach ($producto->colors as $product)
                                 @foreach (\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                                ->where('imageable_id', $product->id)->pluck('url', 'id')->take(1) as $id => $imagen)
+                                ->where('imageable_id', $product->pivot->id)->pluck('url', 'id')->take(1) as $id => $imagen)
                                 <div id="idimagen-{{$id}}" class="col-sm-2">
-                                    <a href="{{ url('storage/' . $imagen)}}" data-toggle="lightbox" data-title="Id:{{ $id }}"
+                                    {{--<a href="{{ url('storage/' . $imagen)}}" data-toggle="lightbox" data-title="Id:{{ $id }}"
                                         data-gallery="gallery">
                                         <img style="width:150px; height:150px;" src="{{ url('storage/' . $imagen) }}"
+                                        class="img-fluid mb-2" />
+                                    </a>--}}
+                                    <a href="{{ $imagen}}" data-toggle="lightbox" data-title="Id:{{ $id }}"
+                                        data-gallery="gallery">
+                                        <img style="width:150px; height:150px;" src="{{ $imagen }}"
                                         class="img-fluid mb-2" />
                                     </a>
                                     <br>

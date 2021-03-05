@@ -258,6 +258,8 @@ class InformesController extends Controller
 
     public function pdfVentaShow(Request $request)
     {
+        $mes = date('m', strtotime($request->mes));
+
         $ventas=DB::table('ventas')
         ->join('producto_venta', 'ventas.id', '=', 'producto_venta.venta_id')
         ->join('facturas', 'ventas.factura_id', '=', 'facturas.id')
@@ -265,7 +267,7 @@ class InformesController extends Controller
         ->join('users', 'clientes.user_id', '=', 'users.id')
         ->select('ventas.*','users.nombres', 'clientes.id as cliente', 'facturas.prefijo', 'facturas.consecutivo',
         DB::raw('SUM(producto_venta.cantidad) as cantidad'))
-        ->whereMonth('ventas.fecha',$request->mes)
+        ->whereMonth('ventas.fecha',$mes)
         ->groupBy('ventas.id')
         ->get();
 

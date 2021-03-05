@@ -19,15 +19,24 @@ class ProductoReferencia extends Model
    //     return $this->belongsTo(Color::class);
     //}
 
-    public function ColorProducto (){
-       return $this->belongsTo(ColorProducto::class);
-    }
+    //public function ColorProducto (){
+       //return $this->belongsTo(ColorProducto::class);
+    //}
 
-    public function talla (){
-        return $this->belongsTo(Talla::class);
-    }
+    //public function talla (){
+        //return $this->belongsTo(Talla::class);
+    //}
 
     public function devoluciones (){
         return $this->hasMany(Devolucione::class);
     }
+
+    public function carritos (){
+        return $this->belongsToMany(Carrito::class);
+    }
+
+    public function ventas (){
+        return $this->belongsToMany(Venta::class);
+    }
+
 }

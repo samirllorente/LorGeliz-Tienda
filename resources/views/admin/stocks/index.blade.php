@@ -63,6 +63,7 @@
                                         @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
                                         ->where('imageable_id', $producto->cop)->pluck('url', 'id')->take(1) as $id => $imagen)    
                                         <img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
+                                        {{--<img src="{{ $imagen }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">--}}
                                         @endforeach
                                         </a>
                                     </td>
@@ -104,7 +105,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label" for="text-input">Producto</label>
                         <div class="col-md-9">
-                            <select name="producto_id" id="producto_id" class="form-control">
+                            <select name="producto_id" id="producto_id" class="form-control selectpicker" data-live-search="true">
                                 <option value="">Seleccione uno</option>
                                 @foreach(\App\Producto::pluck('nombre', 'id') as $id => $producto)
                                     <option value="{{ $id }}">
@@ -141,11 +142,11 @@
                         <div class="col-md-9">
                             <select name="color_id" id="color_id" class="form-control">
                                 <option value="">Seleccione uno</option>
-                                @foreach(\App\Color::pluck('nombre', 'id') as $id => $color)
+                                {{--@foreach(\App\Color::pluck('nombre', 'id') as $id => $color)
                                     <option value="{{ $id }}">
                                         {{ $color }}
                                     </option>
-                                @endforeach
+                                @endforeach--}}
                             </select>
 
                             @if($errors->has('color_id'))
@@ -220,7 +221,7 @@
 						
 						$.each(response.data, function (key, value) {
 							$('#talla_id').append("<option value='" 
-								+ value.id + "'>" + value.nombre + "</option>");
+								+ value.talla_id + "'>" + value.nombre + "</option>");
 						});
 
 					}
@@ -231,7 +232,7 @@
 
 		});
 
-        /*$(document).on('change', '#talla_id', function(e) { 
+        $(document).on('change', '#talla_id', function(e) { 
 			e.preventDefault();
 
 			var producto = parseInt($('#producto_id').val());
@@ -250,7 +251,7 @@
 						
 						$.each(response.data, function (key, value) {
 							$('#color_id').append("<option value='" 
-								+ value.id + "'>" + value.nombre + "</option>");
+								+ value.color_id + "'>" + value.nombre + "</option>");
 						});
 
 					}
@@ -259,7 +260,7 @@
 
 			}
 
-		});*/
+		});
 
 	});
 </script>

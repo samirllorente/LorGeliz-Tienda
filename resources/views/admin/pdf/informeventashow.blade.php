@@ -100,10 +100,10 @@
                 @foreach ($ventas as $venta)
                 <tr>
                     <td>{{$venta->id}}</td>
-                    <td>{{$venta->fecha}}</td>
+                    <td>{{date('d/m/Y h:i:s A', strtotime($venta->fecha))}}</td>
                     <td>{{$venta->prefijo}}{{$venta->consecutivo}}</td>
                     <td>{{$venta->nombres}}</td>
-                    <td>{{ floatval($venta->valor)}}</td>
+                    <td>${{ floatval($venta->valor)}}</td>
                     <td>{{$venta->cantidad}}</td>
                 </tr>
                 @endforeach                                

@@ -99,12 +99,6 @@ class OrdersController extends Controller
         return view('user.orders.show',compact('productos'));
     }
 
-    public function getClientOrders() 
-    {
-        
-        //return ['productos' => $productos];
-
-    }
 
     /**
      * Update the specified resource in storage.
@@ -148,7 +142,7 @@ class OrdersController extends Controller
         Cliente::findOrFail($pedido->venta->cliente->id)->notify(new NotificationClient($arrayData));
 
         //return new OrderStatusMail($details);
-        //Mail::to($pedido->venta->cliente->user->email)->send(new OrderStatusMail($details));
+        Mail::to($pedido->venta->cliente->user->email)->send(new OrderStatusMail($details));
 
         session()->flash('message', ['success', ("Se ha actualizado el estado del pedido")]);
         return back();

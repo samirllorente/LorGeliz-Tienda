@@ -51,7 +51,7 @@
                                     @foreach ($pagos as $pago)
                                     <tr>
                                         <td>{{ $pago->id }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($pago->fecha)) }}</td>
+                                        <td>{{ date('d/m/Y h:i:s A', strtotime($pago->fecha)) }}</td>
                                         <td>{{ $pago->ref_epayco }}</td>
                                         <td><a href="{{ route('venta.show',$pago->venta_id)}}">
                                             {{ $pago->venta_id }}</a>

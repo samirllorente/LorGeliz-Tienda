@@ -136,11 +136,9 @@
                     <td>{{ $producto->id }}</td>
                     <td>{{ $producto->nombre }}</td>
                     <td> 
-                        {{--@foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                        ->where('imageable_id', $producto->cop)->pluck('url', 'id')->take(1) as $id => $imagen)    
-                        <img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
-                        @endforeach--}}
-                        <img src="{{ url('storage/' . $producto->imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
+                        
+                        {{--<img src="{{ url('storage/' . $producto->imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">--}}
+                        <img src="{{ $producto->imagen }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
                     </td>
                     <td>{{ $producto->talla }}</td>
                     <td>{{ $producto->color }}</td>

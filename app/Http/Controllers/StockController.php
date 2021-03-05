@@ -47,12 +47,9 @@ class StockController extends Controller
         ->where('producto_id', $request->producto_id)
         ->first(); //obtener el color
 
-        
         $referencia = ProductoReferencia::where('color_producto_id', $colorproducto->id)
         ->where('talla_id', $request->talla_id)
         ->first(); // buscar la referencia
-
-       
 
         if ($referencia == '') {//si no existe la referencia, se crea
 

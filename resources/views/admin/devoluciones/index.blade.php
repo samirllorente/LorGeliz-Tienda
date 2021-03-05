@@ -23,7 +23,7 @@
                                 <form>
                                     <div class="input-group input-group-sm" style="width: 160px;">
                                         <div class="input-group-append">
-                                            <a href="" class="btn btn-success mx-1" v-on:click.prevent="pdfListadoVentas()">
+                                            <a href="" class="btn btn-success mx-1" v-on:click.prevent="pdfListadoDevoluciones()">
                                                 <i class="fas fa-print"></i>
                                             </a>
                                         </div>

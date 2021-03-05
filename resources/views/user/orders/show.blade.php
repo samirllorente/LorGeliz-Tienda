@@ -68,7 +68,9 @@
                                         </td>
                                         <td>
                                             <a href="{{ route('producto.show',$producto->slug)}}">
-                                                <img src="{{ url('storage/' . $producto->imagen) }}" alt=""
+                                                {{--<img src="{{ url('storage/' . $producto->imagen) }}" alt=""
+                                                    style="height: 50px; width: 50px;" class="rounded-circle">--}}
+                                                    <img src="{{ $producto->imagen }}" alt=""
                                                     style="height: 50px; width: 50px;" class="rounded-circle">
                                             </a>
                                         </td>

@@ -16,7 +16,7 @@ class User extends Authenticatable
 
         parent::boot();
 
-        static::created(function(User $user) {
+        /*static::created(function(User $user) {
 			
 			$slug = \Str::slug($user->nombres. " " . $user->apellidos);
 			
@@ -54,10 +54,10 @@ class User extends Authenticatable
             
             }
 			
-		});
+		});*/
 
-//implementar con dropbox
-		static::updating(function(User $user) {
+       //implementar con dropbox
+		static::saved(function(User $user) {
 			
 			if( ! \App::runningInConsole() ) {
 
@@ -85,14 +85,21 @@ class User extends Authenticatable
 
                     $img->save();
 
-                    $imagen = Imagene::where('imageable_type','App\User')
-                    ->where('imageable_id', auth()->user()->id)->firstOrFail();
+                    if ($user->cliente) {
+                        $imagen = Imagene::where('imageable_type','App\User')
+                        ->where('imageable_id', auth()->user()->id)->first();
 
-                    $delete = $this->dropbox->delete($imagen->nombre);
+                        if ($imagen != '') {
+                            $delete = $this->dropbox->delete($imagen->nombre);
+                            //$delete = $this->dropbox->delete($imagen->url);
+                            $imagen->delete();
+                        }
 
-                    //Storage::delete($imagen->url);
-                    
-                    $imagen->delete();
+                    } else {
+                        Cliente::create([
+                            'user_id' => $user->id,
+                        ]);
+                    }
                    
                 }
 			}

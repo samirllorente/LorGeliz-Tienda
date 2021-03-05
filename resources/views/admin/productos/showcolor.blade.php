@@ -443,9 +443,14 @@
                             @foreach (\App\Imagene::where('imageable_type', 'App\ColorProducto')
                             ->where('imageable_id', $producto->cop)->pluck('url', 'id') as $id => $imagen)
                             <div id="idimagen-{{$id}}" class="col-sm-2">
-                                <a href="{{ url('storage/' . $imagen)}}" data-toggle="lightbox" data-title="Id:{{ $id }}"
+                                {{--<a href="{{ url('storage/' . $imagen)}}" data-toggle="lightbox" data-title="Id:{{ $id }}"
                                     data-gallery="gallery">
                                     <img style="width:150px; height:150px;" src="{{ url('storage/' . $imagen) }}"
+                                    class="img-fluid mb-2" />
+                                </a>--}}
+                                <a href="{{ $imagen}}" data-toggle="lightbox" data-title="Id:{{ $id }}"
+                                    data-gallery="gallery">
+                                    <img style="width:150px; height:150px;" src="{{ $imagen }}"
                                     class="img-fluid mb-2" />
                                 </a>
                                 <br>

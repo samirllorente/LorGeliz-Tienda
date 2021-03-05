@@ -140,7 +140,7 @@ class DevolucionController extends Controller
             ];
 
             //return new AdminDevolucionMail($details);
-            //Mail::to($admin[0]->email)->send(new AdminDevolucionMail($details));
+            Mail::to($admin[0]->email)->send(new AdminDevolucionMail($details));
 
         } 
 
@@ -269,7 +269,7 @@ class DevolucionController extends Controller
         Cliente::findOrFail($devolucion->venta->cliente->id)->notify(new NotificationDevolution($arrayData));
 
         //return new DevolucionStatusMail($details);
-        //Mail::to($devolucion->venta->cliente->user->email)->send(new DevolucionStatusMail($details));
+        Mail::to($devolucion->venta->cliente->user->email)->send(new DevolucionStatusMail($details));
 
         session()->flash('message', ['success', ("Se ha actualizado el estado de la solicitud")]);
         return back();
@@ -297,9 +297,9 @@ class DevolucionController extends Controller
         ];
     }
 
-    public function pdfListarDevoluciones()
+    public function pdfListarDevoluciones(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
+        //if (!$request->ajax()) return redirect('/');
         
         $devoluciones = Devolucione::join('ventas', 'devoluciones.venta_id', '=', 'ventas.id')
         ->join('pedidos', 'ventas.id', '=', 'pedidos.venta_id')

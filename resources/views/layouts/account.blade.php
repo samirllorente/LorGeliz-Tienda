@@ -7,6 +7,8 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <!-- Id for Channel Notification -->
   <meta name="clienteId" content="{{ Auth::check() ? Auth::user()->cliente->id : '' }}">
+  <!-- CSRF Token -->
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>Lorgeliz Tienda</title>
 
@@ -197,7 +199,7 @@
           aria-expanded="false"
           >
           {{--<img src="{{  auth()->user() ? url('storage/' . auth()->user()->imagene->url) : asset('asset/images/user.svg') }}" alt="https://www.flaticon.com/authors/freepik" class="rounded-circle" style="width: 34px">--}}
-          <img src="{{  auth()->user() ? auth()->user()->imagene->url : asset('asset/images/user.svg') }}" alt="" class="rounded-circle" style="width: 34px">
+          <img src="{{  auth()->user() ? auth()->user()->imagene ? auth()->user()->imagene->url : asset('asset/images/user.svg') : asset('asset/images/user.svg') }}" alt="" class="rounded-circle" style="width: 34px">
           <span class="caret"></span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">

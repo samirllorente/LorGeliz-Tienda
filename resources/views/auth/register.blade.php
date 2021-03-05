@@ -28,7 +28,7 @@
 							<label for="apellidos" class="col-md-4 col-form-label text-md-right">{{ __('Apellidos') }}</label>
 
 							<div class="col-md-6">
-								<input id="apellidos" type="text" class="form-control @error('apellidos') is-invalid @enderror" name="apellidos" value="{{ old('apellidos') }}" required autocomplete="apellidos" autofocus>
+								<input id="apellidos" type="text" class="form-control @error('apellidos') is-invalid @enderror" name="apellidos" value="{{ old('apellidos') }}" required autocomplete="apellidos">
 
 								@error('apellidos')
 								<span class="invalid-feedback" role="alert">
@@ -42,9 +42,41 @@
 							<label for="identificacion" class="col-md-4 col-form-label text-md-right">{{ __('identificacion') }}</label>
 
 							<div class="col-md-6">
-								<input id="identificacion" type="text" class="form-control @error('identificacion') is-invalid @enderror" name="identificacion" value="{{ old('identificacion') }}" required autocomplete="identificacion" autofocus>
+								<input id="identificacion" type="text" class="form-control @error('identificacion') is-invalid @enderror" name="identificacion" value="{{ old('identificacion') }}" required autocomplete="identificacion">
 
 								@error('identificacion')
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+								@enderror
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="departamento" class="col-md-4 col-form-label text-md-right">{{ __('Departamento') }}</label>
+
+							<div class="col-md-6">
+								<select name="departamento" id="departamento" class="form-control @error('departamento') is-invalid @enderror" required autocomplete="departamento">
+									<option value="0">Seleccione uno</option>
+								</select>
+								
+								@error('departamento')
+								<span class="invalid-feedback" role="alert">
+									<strong>{{ $message }}</strong>
+								</span>
+								@enderror
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="municipio" class="col-md-4 col-form-label text-md-right">{{ __('Municipio') }}</label>
+
+							<div class="col-md-6">
+								<select name="municipio" id="municipio" class="form-control @error('municipio') is-invalid @enderror" required autocomplete="municipio">
+									<option value="0">Seleccione uno</option>
+								</select>
+								
+								@error('municipio')
 								<span class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>
 								</span>
@@ -57,7 +89,7 @@
 							<label for="direccion" class="col-md-4 col-form-label text-md-right">{{ __('Dirección') }}</label>
 
 							<div class="col-md-6">
-								<input id="direccion" type="text" class="form-control @error('direccion') is-invalid @enderror" name="direccion" value="{{ old('direccion') }}" required autocomplete="direccion" autofocus>
+								<input id="direccion" type="text" class="form-control @error('direccion') is-invalid @enderror" name="direccion" value="{{ old('direccion') }}" required autocomplete="direccion">
 
 								@error('direccion')
 								<span class="invalid-feedback" role="alert">
@@ -67,11 +99,12 @@
 							</div>
 						</div>
 
+						
 						<div class="form-group row">
 							<label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
 
 							<div class="col-md-6">
-								<input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono" autofocus>
+								<input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" required autocomplete="telefono">
 
 								@error('telefono')
 								<span class="invalid-feedback" role="alert">

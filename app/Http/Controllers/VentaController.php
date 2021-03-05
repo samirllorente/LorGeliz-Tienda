@@ -275,7 +275,7 @@ class VentaController extends Controller
                     'url' => url('/admin/ventas/'. $venta->id),
                 ];
                 
-                //Mail::to($admin[0]->email)->send(new AdminVentaMail($details));
+                Mail::to($admin[0]->email)->send(new AdminVentaMail($details));
 
                 $numVentas = DB::table('ventas')->where('id', $venta->id)->count();
 

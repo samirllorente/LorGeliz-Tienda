@@ -69,10 +69,11 @@
                         @foreach ($productos as $producto)
                         <tr>
                             <td> {{$producto->id }} </td>
-                            <td>@if ($producto->colorproductos->count() > 0)
+                            <td>@if ($producto->colors->count() > 0)
                                     @foreach(\App\Imagene::where('imageable_type', 'App\ColorProducto')
-                                        ->where('imageable_id', $producto->colorproductos[0]->id)->pluck('url', 'id')->take(1) as $id => $imagen)    
-                                        <img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
+                                        ->where('imageable_id', $producto->colors[0]->pivot->id)->pluck('url', 'id')->take(1) as $id => $imagen)    
+                                        {{--<img src="{{ url('storage/' . $imagen) }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">--}}
+                                        <img src="{{ $imagen }}" alt="" style="height: 50px; width: 50px;" class="rounded-circle">
                                     @endforeach
                                 @endif
                                 
@@ -83,7 +84,7 @@
                             {{--<td> {{$producto->color}}</td>--}}
                             <td> {{$producto->slider_principal }} </td>
 
-                            @if ($producto->colorproductos->count() > 0)
+                            @if ($producto->colors->count() > 0)
 
                                 <td> <a class="btn btn-default" href="{{ route('product.show', $producto->id) }}" title="ver producto"><i class="fas fa-eye"></i></a>
                                 </td>

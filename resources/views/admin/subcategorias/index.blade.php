@@ -42,6 +42,7 @@
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
+                            <th>Categoría</th>
                             <th colspan="3">Acciones</th>
                         </tr>
                     </thead>
@@ -53,7 +54,7 @@
                             <td> {{$subcategoria->id }} </td>
                             <td> {{$subcategoria->nombre }} </td>
                             <td> {{$subcategoria->descripcion }} </td>
-
+                            <td> {{$subcategoria->categoria->nombre }} </td>
 
                             <td> <a class="btn btn-primary" href="{{ route('subcategory.show', $subcategoria->slug) }}"><i class="fas fa-eye"></i></a></td>
 

@@ -51,7 +51,7 @@
                                     @foreach ($ventas as $venta)
                                     <tr>
                                         <td>{{ $venta->id }}</td>
-                                        <td>{{ date('d/m/Y', strtotime($venta->fecha)) }}</td>
+                                        <td>{{ date('d/m/Y h:i:s A', strtotime($venta->fecha)) }}</td>
                                         <td>{{ $venta->prefijo }}{{ $venta->consecutivo }}</td>
                                         <td> <a href="{{ route('cliente.show', $venta->cliente)}}">
                                             {{ $venta->nombres }}</a>
