@@ -118,7 +118,7 @@
                                 <div class="form-group">
 
                                     <label>Categoria</label>
-                                    <select name="category_id" id="category_id" class="form-control "
+                                    <select name="category_id" id="category_id" class="form-control"
                                         style="width: 100%;" required>
                                         <option value="{{ "0" }}">
                                             {{ "Seleccione una categoría" }}
@@ -146,7 +146,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Subcategoria</label>
-                                    <select name="subcategory_id" id="subcategory_id" class="form-control "
+                                    <select name="subcategory_id" id="subcategory_id" class="form-control"
                                         style="width: 100%;" required>
                                        
                                     </select>
@@ -165,7 +165,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tipo de producto</label>
-                                    <select name="tipo_id" id="tipo_id" class="form-control "
+                                    <select name="tipo_id" id="tipo_id" class="form-control"
                                     style="width: 100%;" required>
                                    
                                     </select>
@@ -472,7 +472,7 @@
                                 <div class="form-group">
 
                                     <label>Estado</label>
-                                    <select name="estado" id="estado" class="form-control " style="width: 100%;">
+                                    <select name="estado" id="estado" class="form-control" style="width: 100%;">
                                         @foreach($estados as $estado)
                                         <option value="{{$estado}}">
                                             @if ($estado == 1)
