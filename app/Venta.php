@@ -68,15 +68,15 @@ public static function boot () {
         $pedido->venta_id = $venta->id;
         $pedido->save();
 
-        //$cliente = auth()->user()->cliente->id;
+        $cliente = auth()->user()->cliente->id;
 
-        //$details = [
-            //'title' => 'Hemos recibido tu pedido',
-            //'cliente' => $cliente,
-            //'url' => url('/pedidos/'. $venta->id),
-        //];
+        $details = [
+            'title' => 'Hemos recibido tu pedido',
+            'cliente' => $cliente,
+            'url' => url('/pedidos/'. $venta->id),
+        ];
         
-        //Mail::to(Auth()->user()->email)->send(new ClienteMessageMail($details));
+        Mail::to(Auth()->user()->email)->send(new ClienteMessageMail($details));
         
     });
 
