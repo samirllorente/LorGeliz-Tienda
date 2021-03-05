@@ -9,7 +9,7 @@ class ProductoReferencia extends Model
     protected $fillable = ['color_producto_id', 'talla_id', 'stock'];
     protected $table = 'producto_referencia';
 
-    public $timestamps = false;
+    //public $timestamps = false;
 
    // public function producto () {
    //     return $this->belongsTo(Producto::class);

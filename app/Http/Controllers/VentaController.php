@@ -92,14 +92,16 @@ class VentaController extends Controller
         switch ((int) $this->x_cod_response) {
         case 1:
         # code transacción aceptada
-            $this->store();
+            //$this->store();
+            dd($request);
         break;
         case 2:
         # code transacción rechazada
         break;
         case 3:
         # code transacción pendiente
-            $this->store();
+            //$this->store();
+            dd($request);
         break;
         case 4:
         # code transacción fallida

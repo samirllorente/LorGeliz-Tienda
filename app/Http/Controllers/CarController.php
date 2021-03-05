@@ -261,7 +261,8 @@ class CarController extends Controller
 
             //$cart =  $this->userCart(); //calcular número de productos en el carrito
 
-            //broadcast(new UserCart($cart)); //evento para actualizar el carrito
+            $cart = 6;
+            broadcast(new UserCart($cart)); //evento para actualizar el carrito
 
             $response = ['data' => 'success'];
             

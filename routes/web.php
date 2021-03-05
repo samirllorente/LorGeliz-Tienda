@@ -72,7 +72,7 @@ Route::group(['prefix' => '/devoluciones'], function () {
 
 Route::group(['prefix' => '/ventas'], function () {
     Route::post('/epayco', 'VentaController@epayco_register')->name('venta.epayco');
-    //Route::post('/epayco/confirm', 'VentaController@epaycoConfirm')->name('venta.confirmation'); //ruta para confirmación, de prueba
+    Route::post('/epayco/confirm', 'VentaController@epaycoConfirm')->name('venta.confirmation'); //ruta para confirmación, de prueba
     Route::post('/store', 'VentaController@store')->name('venta.store');
 });
 
