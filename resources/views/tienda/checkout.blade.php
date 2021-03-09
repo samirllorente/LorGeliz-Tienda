@@ -239,7 +239,7 @@ $(document).ready(function () {
 										'Hemos recibido tu pedido. En breve empezaremos a alistarlo y nos pondremos en contacto contigo!',
 										'success'
 									)
-									window.location.href = `/lorgeliz_tienda/public/pedidos/` + pedido;
+									window.location.href = `http://lorgeliz.nathasoft.com/pedidos/` + pedido;
 								}
 							}
 
@@ -274,7 +274,7 @@ $(document).ready(function () {
 						//extra2: "extra2",
 						//extra3: "extra3",
 						confirmation: "http://lorgeliz.nathasoft.com/ventas/epayco/confirm",
-						response: "http://lorgeliz.nathasoft.com/payments/epayco/response",
+						//response: "http://lorgeliz.nathasoft.com/payments/epayco/response",
 						p_confirm_method: "POST",
 
 						//Atributos cliente
@@ -295,7 +295,7 @@ $(document).ready(function () {
 						'error'
 					)
 					setTimeout(() => {
-						window.location.href = `/lorgeliz_tienda/public/cart`;
+						window.location.href = `http://lorgeliz.nathasoft.com/cart`;
 					}, 4000);
 				}
 			}

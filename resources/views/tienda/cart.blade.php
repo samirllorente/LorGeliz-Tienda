@@ -381,9 +381,9 @@
 			success: function (response) {
 				if (response.data == 'success') {
 					if (opcion == 1) {
-						window.location.href = `/lorgeliz_tienda/public/checkout`;
+						window.location.href = `http://lorgeliz.nathasoft.com/checkout`;;
 					} else {
-						window.location.href = `/lorgeliz_tienda/public/`;
+						window.location.href = `http://lorgeliz.nathasoft.com/`;
 					}
 				}
 			}
@@ -394,9 +394,9 @@
 		else{
 
 			if (opcion == 1) {
-				window.location.href = `/lorgeliz_tienda/public/checkout`;
+				window.location.href = `http://lorgeliz.nathasoft.com/checkout`;
 			} else {
-				window.location.href = `/lorgeliz_tienda/public/`;
+				window.location.href = `http://lorgeliz.nathasoft.com/`;
 			}
 		}
 	}
