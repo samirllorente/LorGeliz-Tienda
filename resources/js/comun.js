@@ -4,6 +4,8 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('category', require('./components/Category.vue').default);
+Vue.component('user-cart', require('./components/UserCart.vue').default);
+
 
 
 if (document.getElementById('app')) {
@@ -45,10 +47,6 @@ if (document.getElementById('venta_cliente')) {
 
 if (document.getElementById('carrito')) {
     require('./tienda/cart');
-}
-
-if (document.getElementById('checkout')) {
-    require('./tienda/checkout');
 }
 
 if (document.getElementById('pedidos')) {

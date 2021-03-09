@@ -25,7 +25,10 @@ const user_cart = new Vue({
     mounted() {
         this.carritoUser();
 
-        window.Echo.private(`cart-updated.${this.user_id}`).listen('UserCart', (e) => {
+        var userId = $('meta[name="userId"]').attr('content');
+
+        //window.Echo.private(`cart-updated.${this.user_id}`).listen('UserCart', (e) => {
+        window.Echo.private('cart-updated.' + userId).listen('UserCart', (e) => {
             let cart = e.cart;
             this.productos = cart;
         });

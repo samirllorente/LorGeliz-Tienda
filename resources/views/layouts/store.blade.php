@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Id for Channel Notification -->
+    <meta name="userId" content="{{ Auth::check() ? Auth::user()->id : '' }}">
     <meta name="clienteId" content="{{ Auth::check() ? Auth::user()->cliente->id : '' }}">
 
     <!-- CSRF Token -->
@@ -57,6 +58,22 @@
         </div>
 
 	</div>
+
+    {{--<div id="app">
+        <!-- Menu -->
+        @include('partials.menu')
+        <div class="super_container">
+            @include('partials.header')
+        
+                @yield('content')
+            
+                <!-- Footer -->
+                @include('partials.footer')
+        
+                </div>
+            
+        </div>
+    </div>--}}
 
 	<!-- Scripts -->
 	

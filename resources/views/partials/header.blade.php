@@ -31,7 +31,7 @@
             @include('partials.navigations.logged')
             
             <!-- Cart -->
-            <div class="cart" id="user_cart"><a href="{{ route('cart.index')}}" title="ir al carrito"><div><img class="svg" src="{{ asset('asset/images/cart.svg') }}" alt="https://www.flaticon.com/authors/freepik"><div><div v-text="productos.data"></div></div></div></a></div>
+            <div class="cart" id="user_cart"><a href="{{ route('cart.index')}}" title="ir al carrito"><div><img class="svg" src="{{ asset('asset/images/cart.svg') }}" alt="https://www.flaticon.com/authors/freepik"><div>{{--<user-cart></user-cart>--}}<div v-text="productos.data"></div></div></div></a></div>
 
             {{--<div v-if="notifications.length"><div v-for="item in listar" :key="item.id"><div v-text="item.datos.notificacion.productos"></div></div></div><div v-else><div v-text="0"></div></div>--}}
             <!-- Phone -->

@@ -273,8 +273,8 @@ $(document).ready(function () {
 						//extra1: "extra1",
 						//extra2: "extra2",
 						//extra3: "extra3",
-						confirmation: "http://localhost/lorgeliz_tienda/public/ventas/epayco/confirm",
-						response: "http://localhost/lorgeliz_tienda/public/payments/epayco/response",
+						confirmation: "http://lorgeliz.nathasoft.com/ventas/epayco/confirm",
+						response: "http://lorgeliz.nathasoft.com/payments/epayco/response",
 						p_confirm_method: "POST",
 
 						//Atributos cliente

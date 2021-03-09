@@ -105,7 +105,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label" for="text-input">Producto</label>
                         <div class="col-md-9">
-                            <select name="producto_id" id="producto_id" class="form-control selectpicker" data-live-search="true">
+                            <select name="producto_id" id="producto_id" class="form-control">
                                 <option value="">Seleccione uno</option>
                                 @foreach(\App\Producto::pluck('nombre', 'id') as $id => $producto)
                                     <option value="{{ $id }}">

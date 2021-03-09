@@ -259,9 +259,9 @@ class CarController extends Controller
 
             DB::commit();
 
-            //$cart =  $this->userCart(); //calcular número de productos en el carrito
+            $cart =  $this->userCart(); //calcular número de productos en el carrito
 
-            $cart = 6;
+            //$cart = 6;
             broadcast(new UserCart($cart)); //evento para actualizar el carrito
 
             $response = ['data' => 'success'];
@@ -274,7 +274,8 @@ class CarController extends Controller
         
     }
     //Esta función puede eliminarse al obtener las notificaciones de pusher
-    public function userCart(Request $request)
+    //public function userCart(Request $request)
+    public function userCart()
     {
         if (!$request->ajax()) return redirect('/');
 
@@ -300,6 +301,7 @@ class CarController extends Controller
         $response = ['data' => $cantidad];
         
         return response()->json($response);
+        //return ['cantidad' => $cantidad];
     }
 
     public function remove(Request $request)

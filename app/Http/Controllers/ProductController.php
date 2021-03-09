@@ -70,7 +70,6 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        
         $color = Color::where('id', $request->color)->first(); //se obtiene el color del producto
         
         $producto = new Producto();

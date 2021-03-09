@@ -146,12 +146,15 @@
 
 <script>
 
-$('#tallas_id').select2()
+$('#tallas_id').select2();
 
 //Initialize Select2 Elements
 $('.select2bs4').select2({
     theme: 'bootstrap4'
 });
+
+//$("#tallas_id").select2().val(null).trigger("change");
+
 </script>
 
 <script>
@@ -205,4 +208,5 @@ $(document).ready(function () {
 
 });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endsection
