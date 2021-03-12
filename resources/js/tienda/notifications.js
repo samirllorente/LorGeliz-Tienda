@@ -26,7 +26,7 @@ const app = new Vue({
         var clienteId = $('meta[name="clienteId"]').attr('content');
 
         Echo.private('App.Cliente.' + clienteId).notification((notification) => {
-            $this.notifications.unshift(notification);
+            this.notifications.unshift(notification);
         });
     }
 

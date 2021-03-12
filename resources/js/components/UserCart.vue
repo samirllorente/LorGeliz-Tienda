@@ -37,8 +37,7 @@
 
             window.Echo.private(`cart-updated.${this.user_id}`).listen('UserCart', (e) => {
                 let cart = e.cart;
-                console.log(cart);
-                this.productos = cart;
+                this.productos = cart.cantidad;
             });
         }
     }

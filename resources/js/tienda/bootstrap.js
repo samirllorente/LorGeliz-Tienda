@@ -50,13 +50,14 @@ if (token) {
 
  //descomentar
  window.Echo = new Echo({
+    authEndpoint : 'http://lorgeliz.nathasoft.com/broadcasting/auth',
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    encrypted: true
-    //auth: {
-        //headers: {
-            //Authorization: 'Bearer ' + YourTokenLogin
-        //},
-    //},
- });
+    encrypted: true,
+    auth: {
+        headers: {
+        Authorization: 'Bearer ' + token
+    },
+    },
+});
