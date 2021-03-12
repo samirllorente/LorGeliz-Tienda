@@ -115,6 +115,7 @@ class VentaController extends Controller
 //esta función es para probar la confirmación por el método post
     public function epaycoConfirm(Request $request)
     {
+        dd($request);
         $p_cust_id_cliente = '71480';
         $p_key = '03311b932a61ca0805ee7f7d5ca7f0dd7faad74c';
         $this->x_ref_payco = $request->x_ref_payco;
