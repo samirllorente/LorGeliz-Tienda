@@ -8,7 +8,7 @@ const product = new Vue({
     
     methods: {
         pdfInformeClientes(){
-            window.open('/lorgeliz_tienda/public/admin/informes/pdf/clientes');
+            window.open('http://lorgeliz.nathasoft.com/admin/informes/pdf/clientes');
             
         },
         

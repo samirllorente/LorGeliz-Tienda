@@ -177,7 +177,7 @@
 									<ul class="cart_extra_total_list">
 										<li class="d-flex flex-row align-items-center justify-content-start">
 											<div class="cart_extra_total_title">Subtotal</div>
-											<div class="cart_extra_total_value ml-auto" id="subtotal">{{ floatval($producto->total) }}</div>
+											<div class="cart_extra_total_value ml-auto" id="subtotal">${{ floatval($producto->total) }}</div>
 										</li>
 										<li class="d-flex flex-row align-items-center justify-content-start">
 											<div class="cart_extra_total_title">Envío</div>
@@ -185,7 +185,7 @@
 										</li>
 										<li class="d-flex flex-row align-items-center justify-content-start">
 											<div class="cart_extra_total_title">Total</div>
-											<div class="cart_extra_total_value ml-auto" id="neto">{{ floatval($producto->total) }}</div>
+											<div class="cart_extra_total_value ml-auto" id="neto">${{ floatval($producto->total) }}</div>
 										</li>
 									</ul>
 									<div class="checkout_button trans_200"><a href="" id="pago">proceder al pago</a></div>
@@ -211,157 +211,104 @@
 
 
 <script>
-	let producto = [];
-	let unidades = [];
-	let i = 0;
-	let opcion = 0;
+	//let producto = [];
+	//let producto = 0;
+	let cantidad = 0;
+	//let unidades = [];
+	//let i = 0;
+	//let opcion = 0;
 	let operacion = '';
+	let id;
 
 	$(document).ready(function () {
 		$('.qty_add').click(function (e) { 
 			e.preventDefault();
 			
 			id = $(this).attr('id');
-			//let cantidad = parseInt($('#prod_' + id).html());
-			//let stock = parseInt($('#stock_' + id).val());
-			//let precio = parseInt($('#precio_' +id).html());
-			//let total = cantidad * precio;
+			
 			operacion = 1;
 
-			//if (cantidad <= stock) {
-				
-				//$('#total_' + id).html(total);
-
-				//let neto = parseInt($('#neto').html());
-				//let totalneto = neto + precio;
-
-				//$('#subtotal').html(totalneto);
-
-				//$('#neto').html(totalneto);
-				
-				//let count = 0;
-				//for (let j = 0; j < producto.length; j++) {
-					//if (producto[j] == id) {
-						//unidades[j] = cantidad;
-						//count++;
-					//}
-				//}
-				//if (count == 0) {
-					//producto[i] = id;
-					//unidades[i] = cantidad;
-					//i++;
-				//}
-				//arrayProductos(id,cantidad);
-
-			//} else {
-				//swal(
-                    //'Stock limitado!',
-                    //'Puedes agregar máximo ' + stock + ' unidades de este producto!',
-                    //'error'
-				//)
-				//var newValue = cantidad - (cantidad - stock);
-				
-				//$('#prod_' + id).text(newValue);
-			//}
-			arrayProductos(id,operacion);
+			//arrayProductos(id,operacion);
+			updateCar();
 		});
 		
 		$('.qty_sub').click(function (e) { 
 			e.preventDefault();
 
-			let id = $(this).attr('id');
-			//let cantidad = parseInt($('#prod_' + id).html());
-			//let precio = parseInt($('#precio_' +id).html());
-			//let total = cantidad * precio;
-			operacion = 2;//
+			id = $(this).attr('id');
 			
-			//$('#total_' + id).html(total);
+			operacion = 2;
 			
-			//let neto = parseInt($('#neto').html());
-			//let totalneto = neto - precio;
+			//arrayProductos(id,operacion);
+			updateCar();
+		});
 
-			//$('#subtotal').html(totalneto);
+		$('#pago').click(function (e) { 
+			e.preventDefault();
 
-			//$('#neto').html(totalneto);
+			window.location.href = `/lorgeliz_tienda/public/checkout`;
+			//opcion = 1;
+			//updateCar();
+		});
+
+		$('#continuar').click(function (e) { 
+			e.preventDefault();
+			
+			window.location.href = `/lorgeliz_tienda/public/`;
+			//opcion = 2;
+			//updateCar();
+		});
+		
+	});
+
+	function arrayProductos(id,operacion){
+		//let cantidad = parseInt($('#prod_' + id).html());
+		//let stock = parseInt($('#stock_' + id).val());
+		cantidad = parseInt($('#prod_' + id).html());
+		let precio = parseInt($('#precio_' +id).html());
+		let total = cantidad * precio;
+
+		//producto = id;
+
+		//if (cantidad <= stock) {
+
+		$('#total_' + id).html(total);
+
+		let neto = parseInt($('#neto').html());
+		let totalneto = 0;
+
+		if (operacion == 1) {
+			totalneto = neto + precio;
+		} else {
+			totalneto = neto - precio;
+		}
+		
+		$('#subtotal').html(totalneto);
+
+		$('#neto').html(totalneto);
 
 			//let count = 0;
-			
 			//for (let j = 0; j < producto.length; j++) {
 				//if (producto[j] == id) {
 					//unidades[j] = cantidad;
 					//count++;
 				//}
 			//}
-			
 			//if (count == 0) {
 				//producto[i] = id;
 				//unidades[i] = cantidad;
 				//i++;
 			//}
-			arrayProductos(id,operacion);
-		});
-
-		$('#pago').click(function (e) { 
-			e.preventDefault();
-
-			opcion = 1;
-			updateCar();
-		});
-
-		$('#continuar').click(function (e) { 
-			e.preventDefault();
+		//} else {
+			//swal(
+				//'Stock limitado!',
+				//'Puedes agregar máximo ' + stock + ' unidades de este producto!',
+				//'error'
+			//)
+			//var newValue = cantidad - (cantidad - stock);
 			
-			opcion = 2;
-			updateCar();
-		});
-		
-	});
-
-	function arrayProductos(id,operacion){
-		let cantidad = parseInt($('#prod_' + id).html());
-		let stock = parseInt($('#stock_' + id).val());
-		let precio = parseInt($('#precio_' +id).html());
-		let total = cantidad * precio;
-
-		if (cantidad <= stock) {
-
-			$('#total_' + id).html(total);
-
-			let neto = parseInt($('#neto').html());
-			let totalneto = 0;
-
-			if (operacion == 1) {
-				totalneto = neto + precio;
-			} else {
-				totalneto = neto - precio;
-			}
-			
-			$('#subtotal').html(totalneto);
-
-			$('#neto').html(totalneto);
-
-			let count = 0;
-			for (let j = 0; j < producto.length; j++) {
-				if (producto[j] == id) {
-					unidades[j] = cantidad;
-					count++;
-				}
-			}
-			if (count == 0) {
-				producto[i] = id;
-				unidades[i] = cantidad;
-				i++;
-			}
-		} else {
-			swal(
-				'Stock limitado!',
-				'Puedes agregar máximo ' + stock + ' unidades de este producto!',
-				'error'
-			)
-			var newValue = cantidad - (cantidad - stock);
-			
-			$('#prod_' + id).text(newValue);
-		}
+			//$('#prod_' + id).text(newValue);
+		//}
 	}
 
 	function updateCar() {
@@ -371,34 +318,48 @@
 			}
 		});
 
-		if (producto.length > 0 && unidades.length > 0) {
+		//if (producto.length > 0 && unidades.length > 0) {
+		if (id != '' && operacion != '') {
 			$.ajax({
 			type: "POST",
 			url: "{{ route('cart.updateProduct') }}",
-			data:{producto:producto,
-			unidades: unidades},
+			data:{producto:id,
+			operacion: operacion},
+			//data:{producto:producto,
+			//unidades: unidades},
 			dataType: 'json',
 			success: function (response) {
 				if (response.data == 'success') {
-					if (opcion == 1) {
-						window.location.href = `http://lorgeliz.nathasoft.com/checkout`;;
-					} else {
-						window.location.href = `http://lorgeliz.nathasoft.com/`;
-					}
+					//if (opcion == 1) {
+						//window.location.href = `/lorgeliz_tienda_copia/public/checkout`;
+					//} else {
+						//window.location.href = `/lorgeliz_tienda_copia/public/`;
+					//}
+					arrayProductos(id,operacion);
+				}
+				else{
+					var newValue = parseInt($('#prod_' + id).html()) - 1;
+			
+					$('#prod_' + id).text(newValue);
+					swal(
+						'Stock limitado!',
+						'No puedes añadir más unidades de este producto a tu carrito!',
+						'error'
+					)
 				}
 			}
 
 			});
 		}
 
-		else{
+		//else{
 
-			if (opcion == 1) {
-				window.location.href = `http://lorgeliz.nathasoft.com/checkout`;
-			} else {
-				window.location.href = `http://lorgeliz.nathasoft.com/`;
-			}
-		}
+			//if (opcion == 1) {
+				//window.location.href = `/lorgeliz_tienda_copia/public/checkout`;
+			//} else {
+				//window.location.href = `/lorgeliz_tienda_copia/public/`;
+			//}
+		//}
 	}
 </script>
 @endsection

@@ -6,7 +6,7 @@ const menu = new Vue({
     
     methods: {
         setCategory(categoria){
-            let url = '/lorgeliz_tienda/public/categorias?categoria=' + categoria;
+            let url = 'http://lorgeliz.nathasoft.com/categorias?categoria=' + categoria;
 
             axios.get(url).then(response => {
                

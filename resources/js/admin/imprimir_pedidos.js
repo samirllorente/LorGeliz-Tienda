@@ -8,11 +8,11 @@ const product = new Vue({
     
     methods: {
         pdfInformePedidos(){
-            window.open('/lorgeliz_tienda/public/admin/pedidos/listado/pdf');
+            window.open('http://lorgeliz.nathasoft.com/admin/pedidos/listado/pdf');
         },
 
         imprimir(id){
-            window.open('/lorgeliz_tienda/public/admin/pedidos/pedido/pdf/'+ id + ',' + '_blank');
+            window.open('http://lorgeliz.nathasoft.com/admin/pedidos/pedido/pdf/'+ id + ',' + '_blank');
         },
         
     },

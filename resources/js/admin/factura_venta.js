@@ -8,7 +8,7 @@ const product = new Vue({
     
     methods: {
         facturaVenta(id){
-            window.open('/lorgeliz_tienda/public/admin/ventas/factura/'+ id + ',' + '_blank');
+            window.open('http://lorgeliz.nathasoft.com/admin/ventas/factura/'+ id + ',' + '_blank');
             
         },
         

@@ -184,7 +184,7 @@
             getproductos(page){
 
 				this.listar = 7;
-				let url = '/lorgeliz_tienda/public/categorias/productos?page=' + page;
+				let url = 'http://lorgeliz.nathasoft.com/categorias/productos?page=' + page;
 
 				axios.get(url).then(response => {
 					var respuesta = response.data;
@@ -200,7 +200,7 @@
 				this.listar = 6; 
 				this.estado = estado;
 
-				let url = '/lorgeliz_tienda/public/categorias/productos/estado?page=' + page + '&estado='  + this.estado;
+				let url = 'http://lorgeliz.nathasoft.com/categorias/productos/estado?page=' + page + '&estado='  + this.estado;
 				axios.get(url).then(response => {
 					var respuesta = response.data;
 					this.arrayProductos = respuesta.productos.data;
@@ -213,7 +213,7 @@
 				
 				this.listar = 5;
 
-				let url = '/lorgeliz_tienda/public/categorias/productos/vendidos?page=' + page;
+				let url = 'http://lorgeliz.nathasoft.com/categorias/productos/vendidos?page=' + page;
 
 				axios.get(url).then(response => {
 					var respuesta = response.data;
@@ -227,7 +227,7 @@
 
 				this.listar = 4;
 
-				let url = '/lorgeliz_tienda/public/categorias/productos/vistos?page=' + page;
+				let url = 'http://lorgeliz.nathasoft.com/categorias/productos/vistos?page=' + page;
 
 				axios.get(url).then(response => {
 					var respuesta = response.data;
@@ -248,7 +248,7 @@
 					this.criterio='nombre'; 
 				}
 
-				let url = '/lorgeliz_tienda/public/categorias/productos/orden?page=' + page + '&criterio=' + this.criterio ;
+				let url = 'http://lorgeliz.nathasoft.com/categorias/productos/orden?page=' + page + '&criterio=' + this.criterio ;
 
 				axios.get(url).then(response => {
 					var respuesta = response.data;
@@ -262,7 +262,7 @@
 				this.listar = 2;
 				this.tipo = tipo;
 
-				let url = '/lorgeliz_tienda/public/categorias/productos/tipo?page=' + page + '&tipo=' + this.tipo;
+				let url = 'http://lorgeliz.nathasoft.com/categorias/productos/tipo?page=' + page + '&tipo=' + this.tipo;
 
 				axios.get(url).then(response => {
 					var respuesta = response.data;
@@ -288,7 +288,7 @@
 					this.genero = 'niños';
 				}
 				
-				let url = '/lorgeliz_tienda/public/categorias/productos/genero?page=' + page + '&genero=' + this.genero;
+				let url = 'http://lorgeliz.nathasoft.com/categorias/productos/genero?page=' + page + '&genero=' + this.genero;
 			
 				axios.get(url).then(response => {
 					var respuesta = response.data;

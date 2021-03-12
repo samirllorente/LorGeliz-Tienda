@@ -114,12 +114,12 @@ class OrdersController extends Controller
 
         $pedido->save(); // se actualiza el estado
 
-        $details = [
-    		'cliente' => $pedido->venta->cliente->user->nombres,
-    		'fecha' => date('d/m/Y', strtotime($pedido->fecha)),
-    		'estado' => $pedido->estado,
-    		'url' => url('/pedidos/'. $pedido->id),
-    	];
+        //$details = [
+    		//'cliente' => $pedido->venta->cliente->user->nombres,
+    		//'fecha' => date('d/m/Y', strtotime($pedido->fecha)),
+    		//'estado' => $pedido->estado,
+    		//'url' => url('/pedidos/'. $pedido->id),
+    	//];
 
         if ($pedido->estado == 2) {
            $mensaje = 'Tu pedido está siendo preparado';
@@ -141,8 +141,7 @@ class OrdersController extends Controller
 
         Cliente::findOrFail($pedido->venta->cliente->id)->notify(new NotificationClient($arrayData));
 
-        //return new OrderStatusMail($details);
-        Mail::to($pedido->venta->cliente->user->email)->send(new OrderStatusMail($details));
+        //Mail::to($pedido->venta->cliente->user->email)->send(new OrderStatusMail($details));
 
         session()->flash('message', ['success', ("Se ha actualizado el estado del pedido")]);
         return back();

@@ -8,7 +8,7 @@ const listsales = new Vue({
     
     methods: {
         pdfListadoVentas(){
-            window.open('/lorgeliz_tienda/public/admin/ventas/listado');
+            window.open('http://lorgeliz.nathasoft.com/admin/ventas/listado');
         },
         
     },

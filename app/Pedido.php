@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Mail\OrderStatusMail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Pedido extends Model
 {
@@ -12,6 +14,23 @@ class Pedido extends Model
     const PROCESADO = 2;
     const ENVIADO = 3;
     const ENTREGADO = 4;
+
+    public static function boot () {
+        parent::boot();
+        
+        static::updating(function(Pedido $pedido) {
+
+            $details = [
+                'cliente' => $pedido->venta->cliente->user->nombres,
+                'fecha' => date('d/m/Y', strtotime($pedido->fecha)),
+                'estado' => $pedido->estado,
+                'url' => url('/pedidos/'. $pedido->id),
+            ];
+            
+            Mail::to($pedido->venta->cliente->user->email)->send(new OrderStatusMail($details));
+
+        });
+    }
 
     public function venta (){
         return $this->belongsTo(Venta::class);

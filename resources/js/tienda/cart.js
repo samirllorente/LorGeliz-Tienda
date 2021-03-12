@@ -11,7 +11,7 @@ const product = new Vue({
 
         remove(producto){
            
-            let url = '/lorgeliz_tienda/public/cart/remove/'+producto;
+            let url = 'http://lorgeliz.nathasoft.com/cart/remove/'+producto;
     
             axios.delete(url).then(response => {
                 location.reload();
@@ -20,7 +20,7 @@ const product = new Vue({
         
         limpiarCarrito(carrito){
             this.carrito = carrito;
-            let url = '/lorgeliz_tienda/public/cart/delete/'+carrito;
+            let url = 'http://lorgeliz.nathasoft.com/cart/delete/'+carrito;
     
             axios.delete(url).then(response => {
 
@@ -29,7 +29,7 @@ const product = new Vue({
                     'Tu carrito de compras está vacío!',
                     'success'
                 )
-                window.location.href = `/lorgeliz_tienda/public/`;
+                window.location.href = `http://lorgeliz.nathasoft.com/`;
             });
         }
     },

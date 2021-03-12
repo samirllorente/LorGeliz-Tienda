@@ -71,7 +71,7 @@ const product = new Vue({
     methods: {
         eliminarimagen(imagen) { 
                   
-            let url = '/lorgeliz_tienda/public/admin/productos/eliminarimagen/'+imagen;
+            let url = 'http://lorgeliz.nathasoft.com/admin/productos/eliminarimagen/'+imagen;
             axios.delete(url).then(response => {
                 //console.log(response.data);
             });    

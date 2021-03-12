@@ -50,8 +50,13 @@ if (token) {
 
  //descomentar
  window.Echo = new Echo({
-     broadcaster: 'pusher',
-     key: process.env.MIX_PUSHER_APP_KEY,
-     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     encrypted: true
+    //auth: {
+        //headers: {
+            //Authorization: 'Bearer ' + YourTokenLogin
+        //},
+    //},
  });

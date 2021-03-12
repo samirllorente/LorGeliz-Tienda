@@ -218,41 +218,78 @@ class CarController extends Controller
             DB::beginTransaction();
 
             $productos = $request->producto; // se recibe un array con los productos y cantidades
-            $cantidad = $request->unidades;
+            //$cantidad = $request->unidades;
+            $operacion = $request->operacion;
 
             $carrito = Carrito::where('cliente_id', auth()->user()->cliente->id)
             ->where('estado', 1)
             ->first();
 
             $total = 0;
+
+            
+            //$producto_ref = $carrito->productoReferencias->find($productos);
         
-            foreach ($productos as $key => $value) { // se recorre el array
-
+            //$precio = $producto_ref->colorProducto->producto->precio_actual;
+            
+            //foreach ($productos as $key => $value) { // se recorre el array
                
-                $carrito_productos = CarritoProducto::where('carrito_id', $carrito->id)
-                ->where('producto_referencia_id', $value) // se obtienen los producto del carrito en el array
-                ->first();
-                
-                $cnt = $carrito_productos->cantidad; // se obtiene la cantidad actual
+            $carrito_productos = CarritoProducto::where('carrito_id', $carrito->id)
+            ->where('producto_referencia_id', $productos)
+            //->where('producto_referencia_id', $value) // se obtienen los productos del carrito en el array
+            ->first();
+            
+            $cnt = $carrito_productos->cantidad; // se obtiene la cantidad actual
 
-                $carrito_productos->cantidad = $cantidad[$key]; // se modifica la cantidad
+            //$carrito_productos->cantidad = $cantidad[$key]; // se modifica la cantidad
 
-                if ($cantidad[$key] == 0) {
-                    $carrito_productos->delete(); // si la cantidad es cero se borra el producto del carrito
-                } else {
+            $producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
+            ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
+            ->where('producto_referencia.id', $productos)
+            ->select('productos.precio_actual', 'producto_referencia.stock') // se obtiene el precio del producto que se envío
+            ->first();
+
+            if ($operacion == 1) {
+                if (($cnt + 1) <= $producto->stock) {
+                    $carrito_productos->cantidad = $cnt + 1;
                     $carrito_productos->save();
+
+                    $total = $producto->precio_actual;
+
+                }else {
+                    $response = ['data' => 'error'];
+                    return response()->json($response); 
                 }
                 
-                $producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
-                ->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
-                ->where('producto_referencia.id', $value)
-                ->select('productos.precio_actual') // se obtiene el precio del producto que se envío
-                ->first();
-            
-                $tproduct = $producto->precio_actual * ($cantidad[$key] - $cnt);// a la nueva cantidad se le resta la anterior
-                $total = $total + $tproduct; // en total se suma el acumula el total de cada producto
-               
+            } else {
+                if ($cnt == 1) {
+                    $carrito_productos->delete();
+                }else{
+                    $carrito_productos->cantidad = $cnt - 1;
+                    $carrito_productos->save();
+
+                }
+                $total = $producto->precio_actual * (-1);
             }
+            
+
+            //if ($cantidad[$key] == 0) {
+                //$carrito_productos->delete(); // si la cantidad es cero se borra el producto del carrito
+            //} else {
+                //$carrito_productos->save();
+            //}
+            
+            //$producto = Producto::join('color_producto', 'productos.id', '=', 'color_producto.producto_id')
+            //->join('producto_referencia', 'color_producto.id', '=', 'producto_referencia.color_producto_id')
+            //->where('producto_referencia.id', $value)
+            //->select('productos.precio_actual') // se obtiene el precio del producto que se envío
+            //->first();
+        
+            //$tproduct = $producto->precio_actual * ($cantidad[$key] - $cnt);// a la nueva cantidad se le resta la anterior
+            //$tproduct = $producto->precio_actual * ($cantidad[$key] - $cnt);
+            //$total = $total + $tproduct; // en total el acumula el total de cada producto
+               
+            //}
 
             $carrito->total = $carrito->total + $total; // se actualiza el total del carrito
             $carrito->save();
@@ -260,9 +297,8 @@ class CarController extends Controller
             DB::commit();
 
             $cart =  $this->userCart(); //calcular número de productos en el carrito
-
-            //$cart = 6;
-            broadcast(new UserCart($cart)); //evento para actualizar el carrito
+            
+            broadcast(new UserCart($cart)); // notificar el evento
 
             $response = ['data' => 'success'];
             
@@ -277,7 +313,7 @@ class CarController extends Controller
     //public function userCart(Request $request)
     public function userCart()
     {
-        if (!$request->ajax()) return redirect('/');
+        //if (!$request->ajax()) return redirect('/');
 
         if (auth()->user()) { // se obtiene el número de productos del carrito del usuario autenticado
 

@@ -12,7 +12,7 @@ const user_cart = new Vue({
     
     methods: {
         carritoUser(){
-            let url = '/lorgeliz_tienda/public/cart/products';
+            let url = 'http://lorgeliz.nathasoft.com/cart/products';
 
             axios.get(url).then(response => {
                 this.productos = response.data;
@@ -28,10 +28,10 @@ const user_cart = new Vue({
         var userId = $('meta[name="userId"]').attr('content');
 
         //window.Echo.private(`cart-updated.${this.user_id}`).listen('UserCart', (e) => {
-        window.Echo.private('cart-updated.' + userId).listen('UserCart', (e) => {
-            let cart = e.cart;
-            this.productos = cart;
-        });
+        //window.Echo.private('cart-updated.' + userId).listen('UserCart', (e) => {
+            //let cart = e.cart;
+            //this.productos = cart;
+        //});
 
     }
 });

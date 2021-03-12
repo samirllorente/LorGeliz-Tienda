@@ -8,7 +8,7 @@ const inventarios = new Vue({
     
     methods: {
         pdfInventarios(){
-            window.open('/lorgeliz_tienda/public/admin/stock/listado');
+            window.open('http://lorgeliz.nathasoft.com/admin/stock/listado');
         },
         
     },

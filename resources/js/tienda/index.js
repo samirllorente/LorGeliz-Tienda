@@ -14,7 +14,7 @@ const user_cart = new Vue({
     methods: {
         getProductos(){
             this.cantidad++;
-            let url = '/lorgeliz_tienda/public/index?cantidad=' + this.cantidad;
+            let url = 'http://lorgeliz.nathasoft.com/index?cantidad=' + this.cantidad;
 
             axios.get(url).then(response => {
                 //this.productoSlider = response.data.slider;

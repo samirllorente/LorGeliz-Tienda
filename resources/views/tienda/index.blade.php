@@ -296,7 +296,7 @@
                                 </div>
                                 <div class="ml-auto text-right">
                                     <div class="product_category">En <a href="">@{{ nuevo.tipo}}</a></div>
-                                    <div class="product_price text-right">@{{ nuevo.precio_actual}}<span></span></div>
+                                    <div class="product_price text-right">@{{'$' + nuevo.precio_actual}}<span></span></div>
                                 </div>
                             </div>
                             <div class="product_buttons">

@@ -8,7 +8,7 @@ const checkout = new Vue({
 
     methods: {
       imprimir(id){
-        window.open('/lorgeliz_tienda/public/pedidos/show/pdf/' + id + ',' + '_blank');
+        window.open('http://lorgeliz.nathasoft.com/pedidos/show/pdf/' + id + ',' + '_blank');
 
       }
 

@@ -8,11 +8,11 @@ const payments = new Vue({
     
     methods: {
         pdfListPagos(){
-            window.open('/lorgeliz_tienda/public/admin/payments/list');
+            window.open('http://lorgeliz.nathasoft.com/admin/payments/list');
         },
 
         imprimirPago(id){
-            window.open('/lorgeliz_tienda/public/admin/payments/payment/'+ id + ',' + '_blank');
+            window.open('http://lorgeliz.nathasoft.com/admin/payments/payment/'+ id + ',' + '_blank');
             
         },
 

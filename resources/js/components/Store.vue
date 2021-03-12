@@ -235,7 +235,7 @@
 		
         methods : {
             getProductos(){
-				let url = '/lorgeliz_tienda/public/index';
+				let url = 'http://lorgeliz.nathasoft.com/index';
 
 				axios.get(url).then(response => {
 					this.productoSlider = response.data.slider;

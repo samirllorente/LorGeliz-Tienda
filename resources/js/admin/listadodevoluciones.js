@@ -8,7 +8,7 @@ const listsales = new Vue({
     
     methods: {
         pdfListadoDevoluciones(){
-            window.open('/lorgeliz_tienda/public/admin/devoluciones/listado');
+            window.open('http://lorgeliz.nathasoft.com/admin/devoluciones/listado');
         },
         
     },

@@ -18,7 +18,7 @@
 
         methods : {
             carritoUser(){
-                let url = '/lorgeliz_tienda/public/cart/products';
+                let url = 'http://lorgeliz.nathasoft.com/cart/products';
 
                 axios.get(url).then(response => {
                     this.productos = response.data.cantidad;
@@ -29,7 +29,7 @@
 
         mounted() {
             
-            let url = '/lorgeliz_tienda/public/cart/products';
+            let url = 'http://lorgeliz.nathasoft.com/cart/products';
 
             axios.get(url).then(response => {
                 this.productos = response.data.cantidad;

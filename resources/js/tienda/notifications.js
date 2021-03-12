@@ -10,14 +10,14 @@ const app = new Vue({
     },
     methods:{
         readNotification(id,ruta){
-            let url = '/lorgeliz_tienda/public/notification/client/read/'+id;
+            let url = 'http://lorgeliz.nathasoft.com/notification/client/read/'+id;
             axios.put(url).then(response => {
                 window.location.href = ruta;
             });   
         }
     },
     created() {
-        axios.get('/lorgeliz_tienda/public/notification/client').then(response => {
+        axios.get('http://lorgeliz.nathasoft.com/notification/client').then(response => {
           this.notifications=response.data;
         }).catch(function(error){
            console.log(error)
